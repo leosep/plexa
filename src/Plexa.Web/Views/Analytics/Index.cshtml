@@ -1,0 +1,283 @@
+@model AnalyticsDto
+@{
+    ViewData["Title"] = L["Analytics.Title"].Value;
+    ViewData["Section"] = L["Nav.Menu"].Value;
+    var flow = Model.CumulativeFlow;
+    var loadMax = Model.LoadPerMember.Count == 0 ? 1 : Math.Max(1, Model.LoadPerMember.Max(l => l.ActiveTasks));
+}
+<div class="space-y-6">
+    <header>
+        <h1 class="text-3xl font-semibold tracking-tight">@L["Analytics.Title"]</h1>
+        <p class="mt-1 text-sm text-ink-600">@L["Analytics.Subtitle"]</p>
+    </header>
+
+    <section aria-label="@L["Analytics.Kpis"]" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        @foreach (var kpi in Model.Kpis)
+        {
+            <article class="plx-card p-5">
+                <p class="text-xs font-medium uppercase tracking-wide text-ink-400">@kpi.Label</p>
+                <p class="mt-2 text-3xl font-semibold tabular-nums">@kpi.Value</p>
+                <p class="mt-1 text-xs font-medium @(kpi.Positive ? "text-brand-700" : "text-ink-600")">@kpi.Delta</p>
+                @if (!string.IsNullOrWhiteSpace(kpi.Hint))
+                {
+                    <p class="mt-1 text-[11px] text-ink-400">@kpi.Hint</p>
+                }
+            </article>
+        }
+    </section>
+
+    <div class="grid gap-4 xl:grid-cols-3">
+        <section class="plx-card p-5 xl:col-span-2" aria-labelledby="flow-title">
+            <h2 id="flow-title" class="text-lg font-semibold">@L["Analytics.CumulativeFlow"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@string.Format(L["Analytics.CumulativeFlowHint"].Value, flow.TrackedTasks)</p>
+            <ul class="mt-3 flex flex-wrap gap-3 text-xs">
+                @foreach (var share in flow.Shares)
+                {
+                    var dot = share.Status switch
+                    {
+                        WorkTaskStatus.ToDo => "bg-status-todo",
+                        WorkTaskStatus.InProgress => "bg-status-progress",
+                        WorkTaskStatus.Review => "bg-status-review",
+                        _ => "bg-status-done"
+                    };
+                    <li class="flex items-center gap-1.5">
+                        <span class="size-2 rounded-full @dot" aria-hidden="true"></span>
+                        <span class="text-ink-600">@share.Label</span>
+                        <span class="font-semibold tabular-nums">@share.Percent%</span>
+                    </li>
+                }
+            </ul>
+            <div class="mt-4 h-56">
+                <canvas id="flow-chart" role="img" aria-label="@L["Analytics.CumulativeFlow"]"></canvas>
+            </div>
+            <div class="mt-3 flex h-3 overflow-hidden rounded-full" role="img" aria-label="@L["Analytics.CumulativeFlow"]">
+                @foreach (var share in flow.Shares)
+                {
+                    var bar = share.Status switch
+                    {
+                        WorkTaskStatus.ToDo => "bg-status-todo",
+                        WorkTaskStatus.InProgress => "bg-status-progress",
+                        WorkTaskStatus.Review => "bg-status-review",
+                        _ => "bg-status-done"
+                    };
+                    <div class="@bar" style="width:@share.Percent%" title="@share.Label @share.Percent%"></div>
+                }
+            </div>
+        </section>
+
+        <section class="plx-card p-5" aria-labelledby="throughput-title">
+            <h2 id="throughput-title" class="text-lg font-semibold">@L["Analytics.Throughput"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Analytics.ThroughputHint"]</p>
+            <div class="mt-4 h-56">
+                <canvas id="throughput-chart" role="img" aria-label="@L["Analytics.Throughput"]"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <div class="grid gap-4 xl:grid-cols-3">
+        <section class="plx-card p-5 xl:col-span-2" aria-labelledby="accuracy-title">
+            <h2 id="accuracy-title" class="text-lg font-semibold">@L["Analytics.EstimateAccuracy"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Analytics.EstimateAccuracyHint"]</p>
+            @if (Model.EstimateAccuracy.IsEmpty)
+            {
+                <p class="mt-6 rounded-xl border border-dashed border-ink-200 px-4 py-10 text-center text-sm text-ink-400">@L["Analytics.EstimateAccuracyEmpty"]</p>
+            }
+            else
+            {
+                <div class="mt-4 h-56">
+                    <canvas id="accuracy-chart" role="img" aria-label="@L["Analytics.EstimateAccuracy"]"></canvas>
+                </div>
+            }
+        </section>
+
+        <section class="plx-card p-5" aria-labelledby="load-title">
+            <h2 id="load-title" class="text-lg font-semibold">@L["Analytics.LoadPerMember"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Analytics.LoadPerMemberHint"]</p>
+            <ul class="mt-4 space-y-3">
+                @foreach (var member in Model.LoadPerMember)
+                {
+                    var size = 28 + (int)Math.Round(member.ActiveTasks * 32d / loadMax);
+                    <li class="flex items-center gap-3">
+                        <span class="grid shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 font-semibold text-white"
+                              style="width:@(size)px;height:@(size)px;font-size:@(Math.Max(10, size / 3))px"
+                              aria-label="@($"{member.Name}: {member.ActiveTasks} active tasks")">@member.Initials</span>
+                        <div class="min-w-0 flex-1">
+                            <p class="truncate text-sm font-medium">@member.Name</p>
+                            <p class="text-xs text-ink-400">@member.ActiveTasks @L["Team.Active"]</p>
+                        </div>
+                    </li>
+                }
+                @if (Model.LoadPerMember.Count == 0)
+                {
+                    <li class="text-sm text-ink-400">@L["Analytics.NoMembers"]</li>
+                }
+            </ul>
+        </section>
+    </div>
+
+    <div class="grid gap-4 xl:grid-cols-2">
+        <section class="plx-card p-5" aria-labelledby="rework-title">
+            <h2 id="rework-title" class="text-lg font-semibold">@L["Analytics.ReworkOrigin"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@string.Format(L["Analytics.ReworkHint"].Value, Model.ReworkOrigin.ReopenedCount)</p>
+            <div class="mt-4 grid grid-cols-[8rem_1fr] items-center gap-4">
+                <div class="relative size-32">
+                    <canvas id="rework-chart" role="img" aria-label="@L["Analytics.ReworkOrigin"]"></canvas>
+                    <div class="pointer-events-none absolute inset-0 grid place-items-center">
+                        <p class="text-2xl font-semibold tabular-nums">@Model.ReworkOrigin.ReopenedCount</p>
+                    </div>
+                </div>
+                <ul class="space-y-1.5 text-sm">
+                    @foreach (var origin in Model.ReworkOrigin.Origins)
+                    {
+                        <li class="flex items-center justify-between gap-2">
+                            <span class="truncate text-ink-600">@origin.Label</span>
+                            <span class="tabular-nums font-medium">@origin.Count</span>
+                        </li>
+                    }
+                    @if (Model.ReworkOrigin.Origins.Count == 0)
+                    {
+                        <li class="text-ink-400">@L["Analytics.NoRework"]</li>
+                    }
+                </ul>
+            </div>
+        </section>
+
+        <section class="plx-card p-5" aria-labelledby="velocity-title">
+            <h2 id="velocity-title" class="text-lg font-semibold">@L["Analytics.SprintVelocity"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Analytics.SprintVelocityHint"]</p>
+            @if (Model.SprintVelocity.IsEmpty)
+            {
+                <p class="mt-6 rounded-xl border border-dashed border-ink-200 px-4 py-10 text-center text-sm text-ink-400">@L["Analytics.SprintVelocityEmpty"]</p>
+            }
+            else
+            {
+                <div class="mt-4 h-52">
+                    <canvas id="velocity-chart" role="img" aria-label="@L["Analytics.SprintVelocity"]"></canvas>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            if (typeof Chart === "undefined") return;
+            const palette = window.plexaCharts ? window.plexaCharts.palette : {};
+            const flow = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                labels = Model.CumulativeFlow.Labels,
+                series = Model.CumulativeFlow.Series.Select(s => new { label = s.Label, values = s.Values }),
+                colors = Model.CumulativeFlow.Series.Select(s => s.Label switch
+                {
+                    "To do" => "#C9CED6",
+                    "In progress" => "#7FD6E0",
+                    "Review" => "#F6B98A",
+                    _ => "#8FD9C5"
+                })
+            }));
+            const throughput = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                labels = Model.Throughput.Labels,
+                values = Model.Throughput.Counts
+            }));
+            const accuracy = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                labels = Model.EstimateAccuracy.Labels,
+                estimated = Model.EstimateAccuracy.Estimated,
+                logged = Model.EstimateAccuracy.Logged
+            }));
+            const rework = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                labels = Model.ReworkOrigin.Origins.Select(o => o.Label),
+                values = Model.ReworkOrigin.Origins.Select(o => o.Count)
+            }));
+            const velocity = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                labels = Model.SprintVelocity.Labels,
+                committed = Model.SprintVelocity.Committed,
+                delivered = Model.SprintVelocity.Delivered
+            }));
+
+            const base = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { boxWidth: 10, usePointStyle: true } } }
+            };
+
+            const flowEl = document.getElementById("flow-chart");
+            if (flowEl) {
+                new Chart(flowEl, {
+                    type: "line",
+                    data: {
+                        labels: flow.labels,
+                        datasets: flow.series.map((s, i) => ({
+                            label: s.label,
+                            data: s.values,
+                            borderColor: flow.colors[i],
+                            backgroundColor: flow.colors[i] + "55",
+                            fill: true,
+                            tension: .3,
+                            pointRadius: 2
+                        }))
+                    },
+                    options: Object.assign({}, base, { scales: { y: { beginAtZero: true, stacked: false } } })
+                });
+            }
+
+            const throughputEl = document.getElementById("throughput-chart");
+            if (throughputEl) {
+                new Chart(throughputEl, {
+                    type: "bar",
+                    data: {
+                        labels: throughput.labels,
+                        datasets: [{ label: "@L["Analytics.Completed"]", data: throughput.values, backgroundColor: palette.brand || "#0AA58A", borderRadius: 6 }]
+                    },
+                    options: Object.assign({}, base, { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } })
+                });
+            }
+
+            const accuracyEl = document.getElementById("accuracy-chart");
+            if (accuracyEl) {
+                new Chart(accuracyEl, {
+                    type: "bar",
+                    data: {
+                        labels: accuracy.labels,
+                        datasets: [
+                            { label: "@L["Analytics.Estimated"]", data: accuracy.estimated, backgroundColor: palette.ink400 || "#8696A5", borderRadius: 6 },
+                            { label: "@L["Analytics.Logged"]", data: accuracy.logged, backgroundColor: palette.cyan || "#00AEC0", borderRadius: 6 }
+                        ]
+                    },
+                    options: Object.assign({}, base, { scales: { y: { beginAtZero: true } } })
+                });
+            }
+
+            const reworkEl = document.getElementById("rework-chart");
+            if (reworkEl) {
+                new Chart(reworkEl, {
+                    type: "doughnut",
+                    data: {
+                        labels: rework.labels.length ? rework.labels : ["@L["Analytics.NoRework"]"],
+                        datasets: [{ data: rework.values.length ? rework.values : [1], backgroundColor: ["#D9503F", "#F28C28", "#E9A93B", "#9AA3AF"], borderWidth: 0 }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: "72%", plugins: { legend: { display: false } } }
+                });
+            }
+
+            const velocityEl = document.getElementById("velocity-chart");
+            if (velocityEl) {
+                new Chart(velocityEl, {
+                    type: "bar",
+                    data: {
+                        labels: velocity.labels,
+                        datasets: [
+                            { label: "@L["Analytics.Committed"]", data: velocity.committed, backgroundColor: palette.ink400 || "#8696A5", borderRadius: 6 },
+                            { label: "@L["Analytics.Delivered"]", data: velocity.delivered, backgroundColor: palette.brand || "#0AA58A", borderRadius: 6 }
+                        ]
+                    },
+                    options: Object.assign({}, base, { scales: { y: { beginAtZero: true } } })
+                });
+            }
+        })();
+    </script>
+}

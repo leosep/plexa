@@ -1,0 +1,68 @@
+@{
+    var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var title = ViewData["Title"] as string ?? L["App.Name"].Value;
+}
+<!DOCTYPE html>
+<html lang="@culture" class="h-full">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0AA58A" />
+    <meta name="csrf-token" content="@Html.AntiForgeryToken()" />
+    <title>@title · @L["App.Name"]</title>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/Jost-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+</head>
+<body class="h-full bg-white">
+<a href="#auth-main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white">@L["Common.SkipToContent"]</a>
+<div class="grid min-h-full lg:grid-cols-2">
+    <section class="relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-cyan-500 p-10 text-white lg:flex lg:flex-col">
+        <div class="relative z-10">
+            <div class="flex items-center gap-2">
+                <img src="/img/logo.svg" alt="" class="size-9 brightness-0 invert" />
+                <span class="text-lg font-semibold tracking-tight">@L["App.Name"]</span>
+            </div>
+            <h1 class="mt-16 text-4xl font-semibold leading-tight">@L["Login.Hello"]</h1>
+            <p class="mt-3 max-w-sm text-white/85">@L["Login.Tagline"]</p>
+            <ul class="mt-8 space-y-3 text-sm">
+                @foreach (var item in new[] { "Login.Feature1", "Login.Feature2", "Login.Feature3", "Login.Feature4", "Login.Feature5" })
+                {
+                    <li class="flex items-start gap-2.5">
+                        <span class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-white/20 text-[11px]">✓</span>
+                        <span class="text-white/90">@L[item]</span>
+                    </li>
+                }
+            </ul>
+        </div>
+        <svg viewBox="0 0 400 300" class="pointer-events-none absolute -bottom-10 -right-10 w-[70%] opacity-25" aria-hidden="true">
+            <circle cx="300" cy="220" r="120" fill="#ffffff" opacity=".35" />
+            <circle cx="120" cy="260" r="80" fill="#ffffff" opacity=".25" />
+            <rect x="150" y="150" width="180" height="12" rx="6" fill="#ffffff" opacity=".5" />
+            <rect x="190" y="180" width="140" height="12" rx="6" fill="#ffffff" opacity=".4" />
+        </svg>
+        <p class="relative z-10 mt-auto text-xs text-white/60">© @DateTime.Now.Year @L["App.Name"] · @L["App.Tagline"]</p>
+    </section>
+
+    <section id="auth-main" class="flex flex-col px-5 py-8 sm:px-10">
+        <div class="flex items-center justify-between">
+            <a href="/login" class="flex items-center gap-2 lg:invisible">
+                <img src="/img/logo.svg" alt="" class="size-8" />
+                <span class="font-semibold">@L["App.Name"]</span>
+            </a>
+            <form method="post" action="/culture" class="flex items-center rounded-xl bg-ink-100 p-0.5">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                <button type="submit" name="culture" value="en" class="rounded-lg px-2.5 py-1 text-xs font-medium @(culture == "en" ? "bg-white shadow-sm" : "text-ink-400")">EN</button>
+                <button type="submit" name="culture" value="es" class="rounded-lg px-2.5 py-1 text-xs font-medium @(culture == "es" ? "bg-white shadow-sm" : "text-ink-400")">ES</button>
+            </form>
+        </div>
+
+        <div class="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center py-10">
+            @RenderBody()
+        </div>
+    </section>
+</div>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

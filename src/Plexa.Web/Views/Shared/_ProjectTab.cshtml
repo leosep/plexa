@@ -1,0 +1,34 @@
+@model ProjectDetailDto
+@{
+    var tab = Model.ActiveTab;
+}
+<div id="project-tab">
+    @if (string.Equals(tab, "Dashboard", StringComparison.OrdinalIgnoreCase) && Model.Dashboard is not null)
+    {
+        <partial name="_ProjectDashboardTab" model="Model" />
+    }
+    else if (string.Equals(tab, "Board", StringComparison.OrdinalIgnoreCase) && Model.Board is not null)
+    {
+        <partial name="_ProjectBoardTab" model="Model" />
+    }
+    else if (string.Equals(tab, "Timeline", StringComparison.OrdinalIgnoreCase) && Model.Timeline is not null)
+    {
+        <partial name="_ProjectTimelineTab" model="Model" />
+    }
+    else if (string.Equals(tab, "Calendar", StringComparison.OrdinalIgnoreCase) && Model.Calendar is not null)
+    {
+        <partial name="_ProjectCalendarTab" model="Model" />
+    }
+    else if (string.Equals(tab, "Team", StringComparison.OrdinalIgnoreCase) && Model.Team is not null)
+    {
+        <partial name="_ProjectTeamTab" model="Model" />
+    }
+    else if (string.Equals(tab, "Documents", StringComparison.OrdinalIgnoreCase) && Model.Documents is not null)
+    {
+        <partial name="_ProjectDocumentsTab" model="Model" />
+    }
+    else
+    {
+        <partial name="_ProjectOverviewTab" model="Model" />
+    }
+</div>

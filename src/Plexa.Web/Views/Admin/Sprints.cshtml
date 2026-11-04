@@ -1,0 +1,111 @@
+@model AdminSprintsViewModel
+@{
+    ViewData["Title"] = L["Admin.Sprints"].Value;
+    ViewData["Section"] = L["Nav.Admin"].Value;
+}
+<div class="space-y-6">
+    <header class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight">@L["Admin.Sprints"]</h1>
+            <p class="mt-1 text-sm text-ink-600">@L["Admin.SprintsSubtitle"]</p>
+        </div>
+    </header>
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@success</div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@error</div>
+    }
+
+    <div class="grid gap-4 xl:grid-cols-[1fr_22rem]">
+        <section class="plx-card overflow-hidden" aria-labelledby="sprints-list-title">
+            <h2 id="sprints-list-title" class="border-b border-ink-100 px-5 py-4 text-lg font-semibold">@L["Admin.SprintList"]</h2>
+            @if (Model.Sprints.Count == 0)
+            {
+                <div class="p-5">
+                    <partial name="_EmptyState" model="@(new EmptyStateModel(L["Admin.NoSprints"].Value, L["Admin.NoSprintsBody"].Value, null, null, "activity"))" />
+                </div>
+            }
+            else
+            {
+                <div class="overflow-x-auto">
+                    <table class="plx-table">
+                        <caption class="sr-only">@L["Admin.SprintList"]</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">@L["Admin.Sprint"]</th>
+                                <th scope="col">@L["Admin.Dates"]</th>
+                                <th scope="col" class="text-right">@L["Admin.Capacity"]</th>
+                                <th scope="col" class="text-right">@L["Admin.Committed"]</th>
+                                <th scope="col">@L["Task.Status"]</th>
+                                <th scope="col" class="text-right"><span class="sr-only">@L["Projects.Column.Actions"]</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var sprint in Model.Sprints)
+                            {
+                                <tr>
+                                    <td class="font-medium">@sprint.Name</td>
+                                    <td class="text-ink-600">@sprint.StartDate.ToString("dd MMM") → @sprint.EndDate.ToString("dd MMM")</td>
+                                    <td class="text-right tabular-nums">@sprint.CapacityPoints</td>
+                                    <td class="text-right tabular-nums">@sprint.CommittedPoints</td>
+                                    <td>
+                                        <span class="plx-chip @(sprint.IsActive ? "bg-brand-50 text-brand-700" : "bg-ink-100 text-ink-600")">@sprint.StatusLabel</span>
+                                    </td>
+                                    <td class="text-right">
+                                        @if (sprint.IsActive)
+                                        {
+                                            <form method="post" action="/admin/sprints/@sprint.Id/close" class="inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="plx-btn-ghost px-2 py-1 text-xs" onclick="return confirm('@L["Admin.CloseSprintConfirm"]')">@L["Admin.CloseSprint"]</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+
+        <section class="plx-card h-fit p-5" aria-labelledby="new-sprint-title">
+            <h2 id="new-sprint-title" class="text-lg font-semibold">@L["Admin.NewSprint"]</h2>
+            <form method="post" action="/admin/sprints" class="mt-4 space-y-3">
+                @Html.AntiForgeryToken()
+                <div>
+                    <label for="sprint-name" class="plx-label">@L["Admin.Sprint"]</label>
+                    <input id="sprint-name" name="name" class="plx-input" required maxlength="80" placeholder="Sprint 1" />
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="sprint-start" class="plx-label">@L["Admin.Start"]</label>
+                        <input id="sprint-start" name="start" type="date" class="plx-input" required />
+                    </div>
+                    <div>
+                        <label for="sprint-end" class="plx-label">@L["Admin.End"]</label>
+                        <input id="sprint-end" name="end" type="date" class="plx-input" required />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="sprint-capacity" class="plx-label">@L["Admin.Capacity"]</label>
+                        <input id="sprint-capacity" name="capacityPoints" type="number" min="0" value="40" class="plx-input tabular-nums" />
+                    </div>
+                    <div>
+                        <label for="sprint-committed" class="plx-label">@L["Admin.Committed"]</label>
+                        <input id="sprint-committed" name="committedPoints" type="number" min="0" value="0" class="plx-input tabular-nums" />
+                    </div>
+                </div>
+                <label class="flex items-center gap-2 text-sm text-ink-600">
+                    <input type="checkbox" name="activate" value="true" class="size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+                    @L["Admin.Activate"]
+                </label>
+                <button type="submit" class="plx-btn-primary w-full">@L["Admin.CreateSprint"]</button>
+            </form>
+        </section>
+    </div>
+</div>

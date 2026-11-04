@@ -1,0 +1,247 @@
+@model TaskDetailDto
+@{
+    var statuses = Enum.GetValues<WorkTaskStatus>();
+    var loggedPct = Model.EstimateHours <= 0 ? 0 : (int)Math.Min(100, Math.Round(Model.Logged.TotalHours * 100d / (double)Model.EstimateHours));
+}
+<div class="space-y-6">
+    @if (Model.Blocked)
+    {
+        <div class="flex items-start gap-3 rounded-xl bg-danger-100 px-4 py-3 text-sm text-danger-500" role="alert">
+            <span aria-hidden="true" class="mt-0.5 font-semibold">⛔</span>
+            <div>
+                <p class="font-semibold">@L["Task.BlockedTitle"]</p>
+                <p class="mt-0.5 text-danger-500/90">@(Model.BlockerMessage ?? string.Join(" · ", Model.BlockedBy))</p>
+            </div>
+        </div>
+    }
+
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div>
+            <p class="plx-label">@L["Task.Status"]</p>
+            <p class="text-sm font-medium">@Model.StatusLabel</p>
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.Priority"]</p>
+            <p class="text-sm font-medium">@Model.PriorityLabel</p>
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.Estimate"]</p>
+            <p class="text-sm font-medium tabular-nums">@Model.EstimateHours.ToString("0.##")h</p>
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.Logged"]</p>
+            <p class="text-sm font-medium tabular-nums">@Plexa.Domain.Rules.DurationFormatter.Format(Model.Logged)</p>
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.StoryPoints"]</p>
+            <p class="text-sm font-medium tabular-nums">@Model.StoryPoints</p>
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.StartDate"]</p>
+            <p class="text-sm font-medium">@(Model.StartDate?.ToString("dd MMM yyyy") ?? "—")</p>
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.DueDate"]</p>
+            <p class="text-sm font-medium">@(Model.DueDate?.ToString("dd MMM yyyy") ?? "—")</p>
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.ProgressMode"]</p>
+            <p class="text-sm font-medium">@(Model.ProgressMode == TaskProgressMode.Hours ? L["Task.ByHours"].Value : L["Task.ByPercentage"].Value)</p>
+        </div>
+    </div>
+
+    <div>
+        <div class="mb-1.5 flex items-center justify-between text-sm">
+            <span class="font-medium">@L["Task.Progress"]</span>
+            <span class="tabular-nums text-ink-600">@Model.ProgressPct%</span>
+        </div>
+        <div class="h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{Model.ProgressPct}% complete")">
+            <div class="h-full rounded-full bg-brand-500" style="width:@Model.ProgressPct%"></div>
+        </div>
+        @if (Model.EstimateHours > 0)
+        {
+            <p class="mt-1.5 text-xs text-ink-400">@loggedPct% @L["Task.OfEstimate"] · @Plexa.Domain.Rules.DurationFormatter.Format(Model.Logged) / @Model.EstimateHours.ToString("0.##")h</p>
+        }
+    </div>
+
+    <div class="flex flex-wrap items-center gap-6">
+        <div>
+            <p class="plx-label">@L["Task.Owner"]</p>
+            @if (Model.Owner is not null)
+            {
+                <div class="flex items-center gap-2">
+                    @await Component.InvokeAsync("Avatar", new { name = Model.Owner.FullName, path = Model.Owner.AvatarPath, size = 26 })
+                    <span class="text-sm font-medium">@Model.Owner.FullName</span>
+                </div>
+            }
+            else
+            {
+                <p class="text-sm text-ink-400">@L["Task.Unassigned"]</p>
+            }
+        </div>
+        <div>
+            <p class="plx-label">@L["Task.AssignedTeam"]</p>
+            @if (Model.AssignedTeam.Count > 0)
+            {
+                <div class="flex items-center -space-x-1.5">
+                    @foreach (var person in Model.AssignedTeam)
+                    {
+                        <span class="rounded-full ring-2 ring-white">@await Component.InvokeAsync("Avatar", new { name = person.FullName, path = person.AvatarPath, size = 26 })</span>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-sm text-ink-400">@L["Task.NoTeam"]</p>
+            }
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Tag))
+        {
+            <div>
+                <p class="plx-label">@L["Task.Tag"]</p>
+                <plx-chip tone="info">@Model.Tag</plx-chip>
+            </div>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Description))
+    {
+        <div>
+            <h3 class="text-sm font-semibold">@L["Task.Description"]</h3>
+            <p class="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-ink-600">@Model.Description</p>
+        </div>
+    }
+
+    <div>
+        <div class="flex items-center justify-between">
+            <h3 class="text-sm font-semibold">@L["Task.Checklist"]</h3>
+            <span class="text-xs tabular-nums text-ink-400">@Model.ChecklistDone/@Model.ChecklistTotal</span>
+        </div>
+        <div class="mt-2 space-y-1">
+            @foreach (var step in Model.Checklist)
+            {
+                <div class="group flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-ink-100">
+                    <button type="button" role="checkbox" aria-checked="@(step.Done ? "true" : "false")"
+                            class="grid size-4 shrink-0 place-items-center rounded border @(step.Done ? "border-brand-600 bg-brand-600 text-white" : "border-ink-200 bg-white")"
+                            hx-post="/tasks/checklist/@step.Id/toggle" hx-vals='{"taskId":"@Model.Id"}'
+                            hx-target="#task-detail-body" hx-swap="innerHTML"
+                            aria-label="@step.Text">
+                        @if (step.Done)
+                        {
+                            <span aria-hidden="true" class="text-[10px] leading-none">✓</span>
+                        }
+                    </button>
+                    <span class="flex-1 text-sm @(step.Done ? "text-ink-400 line-through" : "")">@step.Text</span>
+                    <button type="button" class="text-xs text-ink-400 opacity-0 transition-opacity hover:text-danger-500 group-hover:opacity-100"
+                            hx-post="/tasks/checklist/@step.Id/delete" hx-vals='{"taskId":"@Model.Id"}'
+                            hx-target="#task-detail-body" hx-swap="innerHTML"
+                            aria-label="@L["Common.Delete"]">✕</button>
+                </div>
+            }
+            @if (Model.Checklist.Count == 0)
+            {
+                <p class="px-2 py-1 text-sm text-ink-400">@L["Task.NoChecklist"]</p>
+            }
+        </div>
+        <form class="mt-2 flex gap-2" hx-post="/tasks/@Model.Id/checklist" hx-target="#task-detail-body" hx-swap="innerHTML"
+              hx-on::after-request="if(event.detail.successful) this.reset()">
+            @Html.AntiForgeryToken()
+            <input name="text" class="plx-input flex-1" placeholder="@L["Task.AddStep"]" aria-label="@L["Task.AddStep"]" required maxlength="200" />
+            <button type="submit" class="plx-btn-secondary px-3">+</button>
+        </form>
+    </div>
+
+    <div>
+        <div class="flex items-center justify-between">
+            <h3 class="text-sm font-semibold">@L["Task.Subtasks"]</h3>
+            <span class="text-xs tabular-nums text-ink-400">@Model.Subtasks.Count</span>
+        </div>
+        <div class="mt-2 overflow-hidden rounded-xl ring-1 ring-ink-100">
+            <table class="plx-table">
+                <caption class="sr-only">@L["Task.Subtasks"]</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">@L["Task.Subtask"]</th>
+                        <th scope="col">@L["Task.Status"]</th>
+                        <th scope="col">@L["Task.Assignee"]</th>
+                        <th scope="col" class="text-right">@L["Task.Estimate"]</th>
+                        <th scope="col" class="text-right">@L["Task.Logged"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subtask in Model.Subtasks)
+                    {
+                        <tr>
+                            <td class="max-w-56">
+                                <p class="truncate font-medium">@subtask.Title</p>
+                                @if (subtask.Overdue)
+                                {
+                                    <p class="text-xs font-medium text-danger-500">@L["Task.Overdue"]</p>
+                                }
+                            </td>
+                            <td>
+                                <form hx-post="/board/move" hx-target="#modal-root" hx-swap="innerHTML" hx-trigger="change from:select">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@subtask.Id" />
+                                    <input type="hidden" name="source" value="detail" />
+                                    <label class="sr-only" for="subtask-move-@subtask.Id">@L["Board.Move"]</label>
+                                    <select id="subtask-move-@subtask.Id" name="status" class="rounded-lg bg-ink-100 px-2 py-1 text-xs font-medium text-ink-600">
+                                        @foreach (var status in statuses)
+                                        {
+                                            <option value="@status" selected="@(status == subtask.Status)">@StatusLabels.Of(status)</option>
+                                        }
+                                    </select>
+                                </form>
+                            </td>
+                            <td>
+                                @if (subtask.Assignee is not null)
+                                {
+                                    <div class="flex items-center gap-1.5">
+                                        @await Component.InvokeAsync("Avatar", new { name = subtask.Assignee.FullName, path = subtask.Assignee.AvatarPath, size = 22 })
+                                        <span class="text-xs">@subtask.Assignee.FullName</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-xs text-ink-400">—</span>
+                                }
+                            </td>
+                            <td class="text-right tabular-nums">@subtask.Hours.ToString("0.##")h</td>
+                            <td class="text-right tabular-nums">@Plexa.Domain.Rules.DurationFormatter.FormatShort(subtask.Logged)</td>
+                        </tr>
+                    }
+                    @if (Model.Subtasks.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-sm text-ink-400">@L["Task.NoSubtasks"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.UnallocatedHours > 0)
+        {
+            <p class="mt-1.5 text-xs text-ink-400">@Model.UnallocatedHours.ToString("0.##")h @L["Task.UnallocatedHours"]</p>
+        }
+
+        @if (!Model.IsSubtask)
+        {
+            <form class="mt-3 grid gap-2 sm:grid-cols-[1fr_6rem_auto]" hx-post="/tasks/@Model.Id/subtasks" hx-target="#task-detail-body" hx-swap="innerHTML"
+                  hx-on::after-request="if(event.detail.successful) this.reset()">
+                @Html.AntiForgeryToken()
+                <input name="title" class="plx-input" placeholder="@L["Task.SubtaskTitle"]" aria-label="@L["Task.SubtaskTitle"]" required maxlength="200" />
+                <input name="hours" type="number" step="0.5" min="0" value="2" class="plx-input tabular-nums" aria-label="@L["Task.Estimate"]" />
+                <button type="submit" class="plx-btn-secondary">@L["Task.AddSubtask"]</button>
+            </form>
+        }
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2 border-t border-ink-100 pt-4 text-xs text-ink-400">
+        <span>@L["Task.CreatedAt"]: @Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</span>
+        @if (!string.IsNullOrWhiteSpace(Model.ProjectName))
+        {
+            <span>·</span>
+            <a href="/projects/@Model.ProjectId" class="font-medium text-brand-700 hover:underline">@Model.ProjectName</a>
+        }
+    </div>
+</div>

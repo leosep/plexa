@@ -1,0 +1,34 @@
+@model Plexa.Web.ViewComponents.UserMenuModel
+<div class="relative" x-data="{ open: false }" @@keydown.escape="open = false">
+    <button type="button" @@click="open = !open" class="flex items-center gap-2 rounded-xl px-1.5 py-1 hover:bg-ink-100" :aria-expanded="open" aria-label="@L["Nav.Account"]">
+        @await Component.InvokeAsync("Avatar", new { name = Model.FullName, path = Model.AvatarPath, size = 32 })
+        <span class="hidden text-left sm:block">
+            <span class="block max-w-40 truncate text-sm font-medium leading-4">@Model.FullName</span>
+            <span class="block text-xs text-ink-400">@(Model.IsAdmin ? L["Role.Admin"] : L["Role.Member"])</span>
+        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-4 text-ink-400" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div x-show="open" x-cloak @@click.outside="open = false" x-transition.opacity
+         class="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-2xl bg-white p-1.5 shadow-card ring-1 ring-ink-200">
+        <div class="px-3 py-2">
+            <p class="truncate text-sm font-semibold">@Model.FullName</p>
+            <p class="truncate text-xs text-ink-400">@Model.Email</p>
+            @if (!string.IsNullOrWhiteSpace(Model.JobTitle))
+            {
+                <p class="mt-1 text-xs text-ink-600">@Model.JobTitle · @(Model.IsAdmin ? L["Role.Admin"] : L["Role.Member"])</p>
+            }
+        </div>
+        <hr class="my-1 border-ink-100" />
+        <a href="/settings?section=profile" class="plx-nav-item">@L["Nav.Profile"]</a>
+        <a href="/settings?section=preferences" class="plx-nav-item">@L["Nav.Preferences"]</a>
+        @if (Model.IsAdmin)
+        {
+            <a href="/admin/members" class="plx-nav-item">@L["Nav.Admin"]</a>
+        }
+        <hr class="my-1 border-ink-100" />
+        <form method="post" action="/logout">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="plx-nav-item w-full text-left">@L["Nav.SignOut"]</button>
+        </form>
+    </div>
+</div>

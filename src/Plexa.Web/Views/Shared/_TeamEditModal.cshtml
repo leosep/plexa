@@ -1,0 +1,64 @@
+@model TeamEditOptionsDto
+@{
+    var projectId = Model.Model.ProjectId;
+}
+<dialog class="plx-modal" aria-labelledby="team-edit-title">
+    <form hx-post="/projects/@projectId/team" hx-target="#modal-root" hx-swap="innerHTML" novalidate>
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ProjectId" value="@projectId" />
+
+        <div class="flex items-start justify-between gap-3 border-b border-ink-200 px-6 py-4">
+            <div>
+                <h2 id="team-edit-title" class="text-xl font-semibold">@L["Projects.EditTeam"]</h2>
+                <p class="mt-0.5 text-xs text-ink-400">@L["Projects.EditTeamHint"]</p>
+            </div>
+            <button type="button" class="plx-btn-ghost -mr-2 -mt-1" onclick="window.plexaCloseModal()" aria-label="@L["Common.Close"]">✕</button>
+        </div>
+
+        <div class="plx-modal-body space-y-4">
+            <div>
+                <label for="team-department" class="plx-label">@L["Projects.Department"]</label>
+                <select id="team-department" name="DepartmentId" class="plx-input">
+                    <option value="">@L["Projects.ChooseDepartment"]</option>
+                    @foreach (var department in Model.Departments)
+                    {
+                        <option value="@department.Id" selected="@(Model.Model.DepartmentId == department.Id)">@department.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label for="team-lead" class="plx-label">@L["Projects.ProjectLead"]</label>
+                <select id="team-lead" name="LeadUserId" class="plx-input">
+                    <option value="">@L["Projects.NoLead"]</option>
+                    @foreach (var person in Model.People)
+                    {
+                        <option value="@person.Id" selected="@(Model.Model.LeadUserId == person.Id)">@person.FullName</option>
+                    }
+                </select>
+            </div>
+
+            <fieldset>
+                <legend class="plx-label">@L["Projects.Collaborators"]</legend>
+                <div class="grid max-h-56 gap-1.5 overflow-y-auto rounded-xl bg-ink-100/60 p-3 sm:grid-cols-2">
+                    @foreach (var person in Model.People)
+                    {
+                        var id = $"collab-{person.Id}";
+                        <label for="@id" class="flex items-center gap-2 rounded-lg px-1 py-1 text-sm hover:bg-white">
+                            <input id="@id" type="checkbox" name="CollaboratorIds" value="@person.Id"
+                                   checked="@Model.Model.CollaboratorIds.Contains(person.Id)"
+                                   class="size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+                            @await Component.InvokeAsync("Avatar", new { name = person.FullName, path = person.AvatarPath, size = 22 })
+                            <span class="truncate">@person.FullName</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 border-t border-ink-200 px-6 py-3">
+            <button type="button" class="plx-btn-secondary" onclick="window.plexaCloseModal()">@L["Common.Cancel"]</button>
+            <button type="submit" class="plx-btn-primary">@L["Projects.SaveTeam"]</button>
+        </div>
+    </form>
+</dialog>

@@ -1,0 +1,45 @@
+@{
+    var section = ViewData["Section"] as string;
+    var title = ViewData["Title"] as string;
+    var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+<header class="plx-topbar sticky top-0 z-40 flex h-16 items-center gap-3 border-b border-ink-200 bg-white/90 px-4 backdrop-blur sm:px-6 lg:px-8">
+    <button type="button" class="plx-btn-ghost lg:hidden" @@click="mobileNav = true" aria-label="@L["Nav.OpenMenu"]">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+    </button>
+
+    <nav aria-label="Breadcrumb" class="hidden min-w-0 items-center gap-2 text-sm md:flex">
+        @if (!string.IsNullOrWhiteSpace(section))
+        {
+            <span class="text-ink-400">@(section)</span>
+            <span class="text-ink-200">/</span>
+        }
+        <span class="truncate font-medium text-ink-900">@title</span>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-1.5">
+        <form action="/board" method="get" role="search" class="relative hidden sm:block">
+            <label for="global-search" class="sr-only">@L["Nav.Search"]</label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-ink-400" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+            <input id="global-search" name="q" type="search" placeholder="@L["Nav.SearchPlaceholder"]" autocomplete="off"
+                   class="w-48 rounded-xl bg-ink-100 py-2 pl-8 pr-3 text-sm ring-1 ring-transparent transition-all placeholder:text-ink-400 focus:w-64 focus:bg-white focus:ring-brand-600 lg:w-56" />
+        </form>
+
+        <a href="/messages" class="plx-btn-ghost relative" aria-label="@L["Nav.Messages"]">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-5" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+
+        @await Component.InvokeAsync("NotificationBell")
+
+        <div class="mx-1 hidden h-6 w-px bg-ink-200 sm:block"></div>
+
+        <form method="post" action="/culture" class="hidden items-center rounded-xl bg-ink-100 p-0.5 sm:flex">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+            <button type="submit" name="culture" value="en" class="rounded-lg px-2 py-1 text-xs font-medium @(culture == "en" ? "bg-white shadow-sm" : "text-ink-400")" aria-pressed="@(culture == "en")">EN</button>
+            <button type="submit" name="culture" value="es" class="rounded-lg px-2 py-1 text-xs font-medium @(culture == "es" ? "bg-white shadow-sm" : "text-ink-400")" aria-pressed="@(culture == "es")">ES</button>
+        </form>
+
+        @await Component.InvokeAsync("UserMenu")
+    </div>
+</header>

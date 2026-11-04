@@ -1,0 +1,50 @@
+@model DashboardDto
+@{
+    var max = Model.Heatmap.SelectMany(w => w.Days).DefaultIfEmpty(0).Max();
+}
+<div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-64 border-separate border-spacing-1 text-xs">
+        <caption class="sr-only">@L["Dashboard.TeamActivity"]</caption>
+        <thead>
+            <tr class="text-ink-400">
+                <th scope="col" class="w-14"></th>
+                @foreach (var day in new[] { "M", "T", "W", "T", "F", "S", "S" })
+                {
+                    <th scope="col" class="text-center font-medium">@day</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var week in Model.Heatmap)
+            {
+                <tr>
+                    <th scope="row" class="pr-1 text-right font-medium text-ink-400">@week.Label</th>
+                    @foreach (var value in week.Days)
+                    {
+                        var level = max == 0 ? 0 : (int)Math.Ceiling(value * 4d / max);
+                        var tone = level switch
+                        {
+                            0 => "bg-ink-100",
+                            1 => "bg-brand-100",
+                            2 => "bg-brand-500/50",
+                            3 => "bg-brand-500/75",
+                            _ => "bg-brand-600"
+                        };
+                        <td class="p-0">
+                            <div class="mx-auto size-6 rounded-md @tone" title="@value @L["Dashboard.Actions"]"></div>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="mt-2 flex items-center justify-end gap-1 text-[11px] text-ink-400">
+        <span>@L["Dashboard.Less"]</span>
+        <span class="size-3 rounded bg-ink-100"></span>
+        <span class="size-3 rounded bg-brand-100"></span>
+        <span class="size-3 rounded bg-brand-500/50"></span>
+        <span class="size-3 rounded bg-brand-500/75"></span>
+        <span class="size-3 rounded bg-brand-600"></span>
+        <span>@L["Dashboard.More"]</span>
+    </div>
+</div>

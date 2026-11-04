@@ -1,0 +1,37 @@
+@model ProjectDetailDto
+@{
+    var calendar = Model.Calendar!;
+}
+<section class="plx-card p-5" aria-labelledby="project-events-title">
+    <div class="flex items-center justify-between">
+        <h2 id="project-events-title" class="text-lg font-semibold">@L["Projects.Events"]</h2>
+        <a href="/calendar" class="text-sm font-medium text-brand-700 hover:underline">@L["Projects.OpenCalendar"]</a>
+    </div>
+
+    @if (calendar.Events.Count == 0)
+    {
+        <p class="mt-4 rounded-xl border border-dashed border-ink-200 px-4 py-10 text-center text-sm text-ink-400">@L["Projects.NoEvents"]</p>
+    }
+    else
+    {
+        <ul class="mt-4 divide-y divide-ink-100">
+            @foreach (var item in calendar.Events)
+            {
+                <li class="flex flex-wrap items-center gap-3 py-3">
+                    <div class="w-28 shrink-0">
+                        <p class="text-sm font-medium">@item.Date.ToString("dd MMM")</p>
+                        <p class="text-xs text-ink-400">@item.TimeLabel</p>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="truncate text-sm font-medium">@item.Title</p>
+                        @if (!string.IsNullOrWhiteSpace(item.Place))
+                        {
+                            <p class="truncate text-xs text-ink-400">@item.Place</p>
+                        }
+                    </div>
+                    <span class="plx-chip bg-cyan-100 text-cyan-500">@item.KindLabel</span>
+                </li>
+            }
+        </ul>
+    }
+</section>

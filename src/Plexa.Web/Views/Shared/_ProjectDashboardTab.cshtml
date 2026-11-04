@@ -1,0 +1,40 @@
+@model ProjectDetailDto
+@{
+    var dashboard = Model.Dashboard!;
+}
+<div class="space-y-4">
+    <section aria-label="@L["Projects.Metrics"]" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @foreach (var kpi in dashboard.Kpis)
+        {
+            <partial name="_KpiCard" model="kpi" />
+        }
+    </section>
+
+    <div class="grid gap-4 xl:grid-cols-3">
+        <section class="plx-card p-5 xl:col-span-2" aria-labelledby="milestones-title">
+            <h2 id="milestones-title" class="text-lg font-semibold">@L["Projects.Milestones"]</h2>
+            @if (dashboard.Milestones.Count == 0)
+            {
+                <p class="mt-4 rounded-xl border border-dashed border-ink-200 px-4 py-6 text-center text-sm text-ink-400">@L["Projects.NoMilestones"]</p>
+            }
+            else
+            {
+                <ul class="mt-4 space-y-2">
+                    @foreach (var milestone in dashboard.Milestones)
+                    {
+                        <li class="flex items-center gap-3 rounded-xl bg-ink-100/60 px-3 py-2">
+                            <span class="grid size-5 place-items-center rounded-full @(milestone.Done ? "bg-brand-600 text-white" : "bg-white ring-1 ring-ink-200")" aria-hidden="true">@(milestone.Done ? "✓" : "")</span>
+                            <span class="flex-1 text-sm @(milestone.Done ? "text-ink-400 line-through" : "")">@milestone.Title</span>
+                            <span class="text-xs text-ink-400">@(milestone.DueDate?.ToString("dd MMM") ?? "—")</span>
+                        </li>
+                    }
+                </ul>
+            }
+        </section>
+
+        <section class="plx-card p-5" aria-labelledby="project-activity-title">
+            <h2 id="project-activity-title" class="text-lg font-semibold">@L["Projects.Activity"]</h2>
+            <partial name="_ProjectActivity" model="dashboard.Activity" />
+        </section>
+    </div>
+</div>

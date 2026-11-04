@@ -1,0 +1,25 @@
+@model Plexa.Web.ViewComponents.NotificationBellViewComponent.BellModel
+@{
+    var total = Model.Unread;
+}
+<div class="relative" x-data="{ open: false }" @@keydown.escape="open = false">
+    <button type="button" @@click="open = !open" class="plx-btn-ghost relative" aria-label="@L["Nav.Notifications"]" :aria-expanded="open">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-5" aria-hidden="true">
+            <path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10.3 21a2 2 0 0 0 3.4 0" stroke-linecap="round"/>
+        </svg>
+        @if (total > 0)
+        {
+            <span id="notification-badge" class="absolute -right-0.5 -top-0.5 grid min-w-4 place-items-center rounded-full bg-danger-500 px-1 text-[10px] font-semibold leading-4 text-white">@(total > 9 ? "9+" : total.ToString())</span>
+        }
+    </button>
+    <div x-show="open" x-cloak @@click.outside="open = false" x-transition.opacity
+         class="absolute right-0 z-50 mt-2 w-96 max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-ink-200">
+        <div hx-get="/notifications/panel" hx-trigger="load, notifications:changed from:body" hx-swap="innerHTML" class="max-h-[70vh] overflow-y-auto">
+            <div class="p-4">
+                <div class="plx-skeleton h-4 w-32"></div>
+                <div class="plx-skeleton mt-3 h-12 w-full"></div>
+            </div>
+        </div>
+    </div>
+</div>

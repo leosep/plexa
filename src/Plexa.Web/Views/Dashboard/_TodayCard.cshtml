@@ -1,0 +1,26 @@
+@model DashboardDto
+@{
+    var tracked = Model.TrackedToday;
+}
+<div class="mt-4">
+    <p class="text-3xl font-semibold tabular-nums">@Plexa.Domain.Rules.DurationFormatter.Format(tracked.Total)</p>
+    <p class="mt-1 text-xs text-ink-400">@Model.TodayLabel</p>
+
+    @if (tracked.Active is not null)
+    {
+        <div class="mt-4 rounded-xl bg-brand-50 p-3" x-data="plexaTimer({ taskId: '@tracked.Active.TaskId', running: true, seconds: @tracked.Active.ElapsedSeconds })" x-init="init()">
+            <p class="text-[11px] font-semibold uppercase tracking-wide text-brand-700">@L["Dashboard.Running"]</p>
+            <p class="mt-1 truncate text-sm font-medium">@tracked.Active.TaskTitle</p>
+            <div class="mt-2 flex items-center justify-between">
+                <span class="font-mono text-lg tabular-nums" x-text="label()">@TimeSpan.FromSeconds(tracked.Active.ElapsedSeconds).ToString(@"mm\:ss")</span>
+                <button type="button" class="plx-btn-secondary px-2.5 py-1 text-xs" @@click="toggle()">@L["Timer.Stop"]</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="mt-4 rounded-xl bg-ink-100 p-3 text-sm text-ink-600">@L["Dashboard.NoTimer"]</p>
+    }
+
+    <a href="/board" class="mt-4 inline-flex text-sm font-medium text-brand-700 hover:underline">@L["Dashboard.GoBoard"]</a>
+</div>

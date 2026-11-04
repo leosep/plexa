@@ -1,0 +1,73 @@
+@model ProjectDetailDto
+@{
+    var team = Model.Team!;
+    var projectId = Model.Header.Id;
+}
+<div class="grid gap-4 xl:grid-cols-3">
+    <section class="plx-card p-5" aria-labelledby="department-title">
+        <h2 id="department-title" class="text-lg font-semibold">@L["Projects.Department"]</h2>
+        @if (!string.IsNullOrWhiteSpace(team.DepartmentName))
+        {
+            <p class="mt-2 text-sm font-medium">@team.DepartmentName</p>
+            @if (team.DepartmentLead is not null)
+            {
+                <p class="mt-1 text-xs text-ink-400">@L["Projects.AreaLead"]: @team.DepartmentLead.FullName</p>
+            }
+        }
+        else
+        {
+            <p class="mt-2 text-sm text-ink-400">@L["Projects.NoDepartment"]</p>
+        }
+
+        <h3 class="mt-6 text-sm font-semibold">@L["Projects.ProjectLead"]</h3>
+        @if (team.ProjectLead is not null)
+        {
+            <div class="mt-2 flex items-center gap-2">
+                @await Component.InvokeAsync("Avatar", new { name = team.ProjectLead.FullName, path = team.ProjectLead.AvatarPath, size = 30 })
+                <div>
+                    <p class="text-sm font-medium">@team.ProjectLead.FullName</p>
+                    <p class="text-xs text-ink-400">@team.ProjectLead.JobTitle</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="mt-2 text-sm text-ink-400">@L["Projects.NoLead"]</p>
+        }
+    </section>
+
+    <section class="plx-card p-5 xl:col-span-2" aria-labelledby="collaborators-title">
+        <div class="flex items-center justify-between">
+            <h2 id="collaborators-title" class="text-lg font-semibold">@L["Projects.Collaborators"]</h2>
+            @if (team.CanEdit)
+            {
+                <button type="button" class="plx-btn-secondary"
+                        hx-get="/projects/@projectId/team/edit" hx-target="#modal-root" hx-swap="innerHTML">
+                    @L["Projects.EditTeam"]
+                </button>
+            }
+        </div>
+
+        @if (team.Collaborators.Count == 0)
+        {
+            <p class="mt-4 rounded-xl border border-dashed border-ink-200 px-4 py-8 text-center text-sm text-ink-400">@L["Projects.NoCollaborators"]</p>
+        }
+        else
+        {
+            <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+                @foreach (var person in team.Collaborators)
+                {
+                    <li class="flex items-center gap-2 rounded-xl bg-ink-100/60 px-3 py-2">
+                        @await Component.InvokeAsync("Avatar", new { name = person.FullName, path = person.AvatarPath, size = 28 })
+                        <div class="min-w-0">
+                            <p class="truncate text-sm font-medium">@person.FullName</p>
+                            <p class="truncate text-xs text-ink-400">@person.JobTitle</p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+
+        <p class="mt-6 rounded-xl bg-brand-50 px-3 py-2 text-xs text-brand-700">@L["Projects.TeamAccessNote"]</p>
+    </section>
+</div>

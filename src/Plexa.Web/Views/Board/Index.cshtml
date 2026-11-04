@@ -1,0 +1,56 @@
+@model BoardPageViewModel
+@{
+    ViewData["Title"] = L["Board.Title"].Value;
+    ViewData["Section"] = L["Nav.Menu"].Value;
+    var board = Model.Board;
+    var filters = board.Filters;
+}
+<div class="space-y-6">
+    <header class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight">@L["Board.Title"]</h1>
+            <p class="mt-1 text-sm text-ink-600">@board.Subtitle</p>
+        </div>
+        <button type="button" class="plx-btn-primary" data-shortcut-new-task
+                hx-get="/tasks/new?project=@filters.ProjectId" hx-target="#modal-root" hx-swap="innerHTML">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-4" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+            @L["Board.NewTask"]
+        </button>
+    </header>
+
+    <form id="board-filters" class="flex flex-wrap items-center gap-2"
+          hx-get="/board" hx-target="#board-results" hx-swap="outerHTML" hx-push-url="true" hx-trigger="change, search delay:400ms from:#board-search">
+        <label class="sr-only" for="project-filter">@L["Board.Project"]</label>
+        <select id="project-filter" name="project" class="plx-input w-auto min-w-44 py-2" onchange="this.form.requestSubmit ? null : null">
+            <option value="" selected="@(filters.ProjectId is null && !filters.LooseOnly)">@L["Board.AllProjects"]</option>
+            <option value="loose" selected="@filters.LooseOnly">@L["Board.LooseTasks"]</option>
+            @foreach (var project in filters.Projects)
+            {
+                <option value="@project.Id" selected="@(filters.ProjectId == project.Id)">@project.Label</option>
+            }
+        </select>
+
+        <label class="sr-only" for="assignee-filter">@L["Board.Person"]</label>
+        <select id="assignee-filter" name="assignee" class="plx-input w-auto min-w-40 py-2">
+            <option value="" selected="@(filters.AssigneeId is null)">@L["Board.Everyone"]</option>
+            @foreach (var person in filters.People)
+            {
+                <option value="@person.Id" selected="@(filters.AssigneeId == person.Id)">@person.FullName</option>
+            }
+        </select>
+
+        <div class="relative">
+            <label class="sr-only" for="board-search">@L["Board.Search"]</label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-ink-400" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+            <input id="board-search" name="q" type="search" value="@filters.Query" placeholder="@L["Board.SearchPlaceholder"]" class="plx-input w-56 py-2 pl-8" />
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(filters.Query))
+        {
+            <a href="/board" class="plx-btn-ghost text-xs">@L["Board.ClearSearch"]</a>
+        }
+        <span class="htmx-indicator ml-auto text-xs text-ink-400">@L["Common.Loading"]</span>
+    </form>
+
+    <partial name="_Board" model="Model" />
+</div>

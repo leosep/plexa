@@ -1,0 +1,73 @@
+@model ProjectDetailDto
+@{
+    var overview = Model.Overview!;
+    var statuses = Enum.GetValues<WorkTaskStatus>();
+}
+<div class="grid gap-4 xl:grid-cols-3">
+    <section class="plx-card p-5 xl:col-span-2" aria-labelledby="timeline-title">
+        <div class="flex items-center justify-between">
+            <h2 id="timeline-title" class="text-lg font-semibold">@L["Projects.Timeline"]</h2>
+            <span class="text-xs text-ink-400">@overview.TimelineRange</span>
+        </div>
+        @if (overview.Phases.Count == 0)
+        {
+            <p class="mt-4 rounded-xl border border-dashed border-ink-200 px-4 py-6 text-center text-sm text-ink-400">@L["Projects.NoPhases"]</p>
+        }
+        else
+        {
+            <ol class="mt-4 space-y-2">
+                @foreach (var phase in overview.Phases)
+                {
+                    <li class="flex items-center gap-3 rounded-xl bg-ink-100/60 px-3 py-2">
+                        <span class="grid size-7 shrink-0 place-items-center rounded-lg bg-white text-xs font-semibold text-brand-700">@(phase.Position + 1)</span>
+                        <div class="min-w-0 flex-1">
+                            <p class="truncate text-sm font-medium">@phase.Name</p>
+                            <p class="text-xs text-ink-400">@phase.StartDate.ToString("dd MMM") → @phase.EndDate.ToString("dd MMM")</p>
+                        </div>
+                    </li>
+                }
+            </ol>
+        }
+    </section>
+
+    <section class="plx-card p-5" aria-labelledby="activity-title">
+        <h2 id="activity-title" class="text-lg font-semibold">@L["Projects.Activity"]</h2>
+        <partial name="_ProjectActivity" model="overview.Activity" />
+    </section>
+
+    <section class="plx-card p-5 xl:col-span-3" aria-labelledby="tasks-title">
+        <div class="flex items-center justify-between">
+            <h2 id="tasks-title" class="text-lg font-semibold">@L["Projects.TasksAndActions"]</h2>
+            <a href="/board?project=@Model.Header.Id" class="text-sm font-medium text-brand-700 hover:underline">@L["Common.SeeAll"]</a>
+        </div>
+        <div class="mt-4 grid gap-3 lg:grid-cols-4">
+            @foreach (var column in overview.Columns)
+            {
+                var accent = column.Status switch
+                {
+                    WorkTaskStatus.ToDo => "bg-status-todo",
+                    WorkTaskStatus.InProgress => "bg-status-progress",
+                    WorkTaskStatus.Review => "bg-status-review",
+                    _ => "bg-status-done"
+                };
+                <div class="rounded-2xl bg-ink-100/70 p-2.5">
+                    <header class="flex items-center gap-2 px-1 pb-2">
+                        <span class="size-2.5 rounded-full @accent" aria-hidden="true"></span>
+                        <h3 class="text-sm font-semibold">@column.Title</h3>
+                        <span class="ml-auto text-xs tabular-nums text-ink-600">@column.Count</span>
+                    </header>
+                    <div class="space-y-2">
+                        @foreach (var card in column.Cards)
+                        {
+                            <partial name="_TaskCard" model="card" />
+                        }
+                        @if (column.Cards.Count == 0)
+                        {
+                            <p class="px-2 py-3 text-center text-xs text-ink-400">@L["Board.EmptyColumn"]</p>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>

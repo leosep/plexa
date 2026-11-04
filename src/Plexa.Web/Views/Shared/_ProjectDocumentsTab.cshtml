@@ -1,0 +1,67 @@
+@model ProjectDetailDto
+@{
+    var documents = Model.Documents!;
+    var projectId = Model.Header.Id;
+    var canManage = Model.Header.CanManageTeam;
+}
+<section class="plx-card p-5" aria-labelledby="documents-title">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+        <div>
+            <h2 id="documents-title" class="text-lg font-semibold">@L["Projects.Documents"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Projects.DocumentsHint"]</p>
+        </div>
+        <label class="plx-btn-primary cursor-pointer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-4" aria-hidden="true"><path d="M21.4 11.05 12.3 20.2a5 5 0 0 1-7.1-7.1l8.5-8.5a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-2.8-2.8l7.8-7.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            @L["Projects.Attach"]
+            <form hx-post="/projects/@projectId/documents" hx-encoding="multipart/form-data"
+                  hx-target="#project-tab" hx-swap="outerHTML" class="hidden" id="documents-form">
+                @Html.AntiForgeryToken()
+                <input type="file" name="files" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.png,.jpg,.jpeg,.gif,.webp,.txt,.md,.csv,.zip"
+                       onchange="if(this.files.length){document.getElementById('documents-form').requestSubmit();}" />
+            </form>
+            <input type="file" multiple class="sr-only" aria-label="@L["Projects.Attach"]"
+                   accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.png,.jpg,.jpeg,.gif,.webp,.txt,.md,.csv,.zip"
+                   onchange="const f=document.getElementById('documents-form').querySelector('input[type=file]');f.files=this.files;f.form.requestSubmit();" />
+        </label>
+    </div>
+
+    @if (documents.Documents.Count == 0)
+    {
+        <div class="mt-4">
+            <partial name="_EmptyState" model="@(new EmptyStateModel(L["Projects.NoDocuments"].Value, L["Projects.NoDocumentsBody"].Value, null, null, "folder"))" />
+        </div>
+    }
+    else
+    {
+        <ul class="mt-4 divide-y divide-ink-100">
+            @foreach (var document in documents.Documents)
+            {
+                <li class="flex flex-wrap items-center gap-3 py-3">
+                    <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-ink-100 text-xs font-semibold uppercase text-ink-600">
+                        @(System.IO.Path.GetExtension(document.FileName).TrimStart('.').ToLowerInvariant() is { Length: > 0 } ext ? ext[..Math.Min(4, ext.Length)] : "file")
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <a href="/media/@document.Id" class="block truncate text-sm font-medium hover:text-brand-700">@document.FileName</a>
+                        <p class="text-xs text-ink-400">
+                            @document.SizeLabel
+                            @if (document.UploadedBy is not null)
+                            {
+                                <span>· @document.UploadedBy.FullName</span>
+                            }
+                            · @document.UploadedAt.ToLocalTime().ToString("dd MMM")
+                        </p>
+                    </div>
+                    <a href="/media/@document.Id" class="plx-btn-ghost px-2 py-1 text-xs">@L["Projects.Download"]</a>
+                    @if (canManage)
+                    {
+                        <button type="button" class="plx-btn-ghost px-2 py-1 text-xs text-danger-500"
+                                hx-post="/projects/@projectId/documents/@document.Id/delete" hx-target="#project-tab" hx-swap="outerHTML"
+                                hx-confirm="@L["Projects.DeleteDocumentConfirm"]">
+                            @L["Common.Delete"]
+                        </button>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</section>

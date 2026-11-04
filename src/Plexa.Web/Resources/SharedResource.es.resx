@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Admin.Activate" xml:space="preserve"><value>Activar este sprint</value></data>
+  <data name="Admin.Archive" xml:space="preserve"><value>Archivar</value></data>
+  <data name="Admin.ArchiveConfirm" xml:space="preserve"><value>¿Archivar este proyecto?</value></data>
+  <data name="Admin.Capacity" xml:space="preserve"><value>Capacidad</value></data>
+  <data name="Admin.CapacityHours" xml:space="preserve"><value>Capacidad (h/semana)</value></data>
+  <data name="Admin.CloseSprint" xml:space="preserve"><value>Cerrar sprint</value></data>
+  <data name="Admin.CloseSprintConfirm" xml:space="preserve"><value>¿Cerrar este sprint?</value></data>
+  <data name="Admin.Committed" xml:space="preserve"><value>Comprometido</value></data>
+  <data name="Admin.CreateProject" xml:space="preserve"><value>Crear proyecto</value></data>
+  <data name="Admin.CreateSprint" xml:space="preserve"><value>Crear sprint</value></data>
+  <data name="Admin.Dates" xml:space="preserve"><value>Fechas</value></data>
+  <data name="Admin.EditMember" xml:space="preserve"><value>Editar miembro</value></data>
+  <data name="Admin.End" xml:space="preserve"><value>Fin</value></data>
+  <data name="Admin.InviteMember" xml:space="preserve"><value>Invitar miembro</value></data>
+  <data name="Admin.Members" xml:space="preserve"><value>Miembros</value></data>
+  <data name="Admin.MembersSubtitle" xml:space="preserve"><value>Roles, puestos y capacidad semanal.</value></data>
+  <data name="Admin.NewProject" xml:space="preserve"><value>Nuevo proyecto</value></data>
+  <data name="Admin.NewSprint" xml:space="preserve"><value>Nuevo sprint</value></data>
+  <data name="Admin.NoProjects" xml:space="preserve"><value>Todavía no hay proyectos.</value></data>
+  <data name="Admin.NoSprints" xml:space="preserve"><value>Todavía no hay sprints</value></data>
+  <data name="Admin.NoSprintsBody" xml:space="preserve"><value>Crea el primer sprint para seguir capacidad y compromiso.</value></data>
+  <data name="Admin.Portfolio" xml:space="preserve"><value>Portafolio</value></data>
+  <data name="Admin.Projects" xml:space="preserve"><value>Proyectos</value></data>
+  <data name="Admin.ProjectsSubtitle" xml:space="preserve"><value>Crea, edita y archiva proyectos.</value></data>
+  <data name="Admin.Role" xml:space="preserve"><value>Rol</value></data>
+  <data name="Admin.SendInvite" xml:space="preserve"><value>Enviar invitación</value></data>
+  <data name="Admin.Sprint" xml:space="preserve"><value>Sprint</value></data>
+  <data name="Admin.SprintList" xml:space="preserve"><value>Sprints</value></data>
+  <data name="Admin.Sprints" xml:space="preserve"><value>Sprints</value></data>
+  <data name="Admin.SprintsSubtitle" xml:space="preserve"><value>Planifica capacidad y compromiso de cada sprint.</value></data>
+  <data name="Admin.Start" xml:space="preserve"><value>Inicio</value></data>
+  <data name="Admin.TeamMembers" xml:space="preserve"><value>Miembros del equipo</value></data>
+  <data name="Analytics.Committed" xml:space="preserve"><value>Comprometidos</value></data>
+  <data name="Analytics.Completed" xml:space="preserve"><value>Completadas</value></data>
+  <data name="Analytics.CumulativeFlow" xml:space="preserve"><value>Flujo acumulado</value></data>
+  <data name="Analytics.CumulativeFlowHint" xml:space="preserve"><value>Proporción de las {0} tareas seguidas por estado, últimas 8 semanas</value></data>
+  <data name="Analytics.Delivered" xml:space="preserve"><value>Entregados</value></data>
+  <data name="Analytics.EstimateAccuracy" xml:space="preserve"><value>Precisión de estimaciones</value></data>
+  <data name="Analytics.EstimateAccuracyEmpty" xml:space="preserve"><value>Aún no hay tareas completadas con horas estimadas y registradas.</value></data>
+  <data name="Analytics.EstimateAccuracyHint" xml:space="preserve"><value>Horas registradas vs estimadas por etiqueta</value></data>
+  <data name="Analytics.Estimated" xml:space="preserve"><value>Estimadas</value></data>
+  <data name="Analytics.Kpis" xml:space="preserve"><value>Métricas clave</value></data>
+  <data name="Analytics.LoadPerMember" xml:space="preserve"><value>Carga por persona</value></data>
+  <data name="Analytics.LoadPerMemberHint" xml:space="preserve"><value>Tamaño = tareas activas asignadas</value></data>
+  <data name="Analytics.Logged" xml:space="preserve"><value>Registradas</value></data>
+  <data name="Analytics.NoMembers" xml:space="preserve"><value>Todavía no hay miembros.</value></data>
+  <data name="Analytics.NoRework" xml:space="preserve"><value>Sin retrabajo</value></data>
+  <data name="Analytics.ReworkHint" xml:space="preserve"><value>{0} tareas reabiertas este trimestre</value></data>
+  <data name="Analytics.ReworkOrigin" xml:space="preserve"><value>Origen del retrabajo</value></data>
+  <data name="Analytics.SprintVelocity" xml:space="preserve"><value>Velocidad por sprint</value></data>
+  <data name="Analytics.SprintVelocityEmpty" xml:space="preserve"><value>Todavía no hay sprints cerrados.</value></data>
+  <data name="Analytics.SprintVelocityHint" xml:space="preserve"><value>Puntos entregados vs comprometidos</value></data>
+  <data name="Analytics.Subtitle" xml:space="preserve"><value>Ritmo de entrega, precisión de estimaciones y distribución de la carga.</value></data>
+  <data name="Analytics.Throughput" xml:space="preserve"><value>Entrega por semana</value></data>
+  <data name="Analytics.ThroughputHint" xml:space="preserve"><value>Tareas completadas, últimas 8 semanas</value></data>
+  <data name="Analytics.Title" xml:space="preserve"><value>Analítica</value></data>
+  <data name="App.Name" xml:space="preserve"><value>Plexa</value></data>
+  <data name="App.Subtitle" xml:space="preserve"><value>Proyectos y operaciones</value></data>
+  <data name="App.Tagline" xml:space="preserve"><value>Proyectos, tareas y tiempo en un solo lugar</value></data>
+  <data name="Board.AddTask" xml:space="preserve"><value>Añadir tarea</value></data>
+  <data name="Board.AllProjects" xml:space="preserve"><value>Todos los proyectos</value></data>
+  <data name="Board.AwaitingApproval" xml:space="preserve"><value>Pendiente de aprobación</value></data>
+  <data name="Board.Blocked" xml:space="preserve"><value>Bloqueada</value></data>
+  <data name="Board.ClearSearch" xml:space="preserve"><value>Limpiar búsqueda</value></data>
+  <data name="Board.EmptyColumn" xml:space="preserve"><value>Aquí todavía no hay nada.</value></data>
+  <data name="Board.Everyone" xml:space="preserve"><value>Todos</value></data>
+  <data name="Board.LooseTasks" xml:space="preserve"><value>Backlog (sin proyecto)</value></data>
+  <data name="Board.Move" xml:space="preserve"><value>Mover a</value></data>
+  <data name="Board.NewTask" xml:space="preserve"><value>Nueva tarea</value></data>
+  <data name="Board.Person" xml:space="preserve"><value>Persona</value></data>
+  <data name="Board.Project" xml:space="preserve"><value>Proyecto</value></data>
+  <data name="Board.Search" xml:space="preserve"><value>Buscar tareas</value></data>
+  <data name="Board.SearchPlaceholder" xml:space="preserve"><value>Buscar tareas…</value></data>
+  <data name="Board.Subtasks" xml:space="preserve"><value>subtareas</value></data>
+  <data name="Board.Title" xml:space="preserve"><value>Tablero de tareas</value></data>
+  <data name="Board.Unassigned" xml:space="preserve"><value>Sin asignar</value></data>
+  <data name="Calendar.AddEvent" xml:space="preserve"><value>Añadir evento</value></data>
+  <data name="Calendar.Field.Date" xml:space="preserve"><value>Fecha</value></data>
+  <data name="Calendar.Field.Departments" xml:space="preserve"><value>Departamentos</value></data>
+  <data name="Calendar.Field.Ends" xml:space="preserve"><value>Fin</value></data>
+  <data name="Calendar.Field.Kind" xml:space="preserve"><value>Tipo</value></data>
+  <data name="Calendar.Field.Members" xml:space="preserve"><value>Miembros</value></data>
+  <data name="Calendar.Field.Place" xml:space="preserve"><value>Lugar / herramienta</value></data>
+  <data name="Calendar.Field.Project" xml:space="preserve"><value>Proyecto</value></data>
+  <data name="Calendar.Field.Starts" xml:space="preserve"><value>Inicio</value></data>
+  <data name="Calendar.Field.Title" xml:space="preserve"><value>Título</value></data>
+  <data name="Calendar.FormHint" xml:space="preserve"><value>Reuniones, revisiones, demos, entregas y retros.</value></data>
+  <data name="Calendar.NewEvent" xml:space="preserve"><value>Nuevo evento</value></data>
+  <data name="Calendar.Next" xml:space="preserve"><value>Siguiente</value></data>
+  <data name="Calendar.NoEvents" xml:space="preserve"><value>Sin eventos</value></data>
+  <data name="Calendar.NoProject" xml:space="preserve"><value>Sin proyecto</value></data>
+  <data name="Calendar.OpenCalendar" xml:space="preserve"><value>Abrir calendario</value></data>
+  <data name="Calendar.Prev" xml:space="preserve"><value>Anterior</value></data>
+  <data name="Calendar.Title" xml:space="preserve"><value>Calendario</value></data>
+  <data name="Calendar.Today" xml:space="preserve"><value>Hoy</value></data>
+  <data name="Calendar.Views" xml:space="preserve"><value>Vistas del calendario</value></data>
+  <data name="Common.BackToDashboard" xml:space="preserve"><value>Volver al panel</value></data>
+  <data name="Common.Cancel" xml:space="preserve"><value>Cancelar</value></data>
+  <data name="Common.Close" xml:space="preserve"><value>Cerrar</value></data>
+  <data name="Common.Delete" xml:space="preserve"><value>Eliminar</value></data>
+  <data name="Common.Edit" xml:space="preserve"><value>Editar</value></data>
+  <data name="Common.Loading" xml:space="preserve"><value>Cargando…</value></data>
+  <data name="Common.None" xml:space="preserve"><value>Ninguno</value></data>
+  <data name="Common.Open" xml:space="preserve"><value>Abrir</value></data>
+  <data name="Common.Save" xml:space="preserve"><value>Guardar</value></data>
+  <data name="Common.SeeAll" xml:space="preserve"><value>Ver todo</value></data>
+  <data name="Common.SkipToContent" xml:space="preserve"><value>Ir al contenido</value></data>
+  <data name="Dashboard.Actions" xml:space="preserve"><value>acciones</value></data>
+  <data name="Dashboard.ActionsLast4Weeks" xml:space="preserve"><value>acciones en las últimas 4 semanas</value></data>
+  <data name="Dashboard.GoBoard" xml:space="preserve"><value>Ir al tablero</value></data>
+  <data name="Dashboard.Kpis" xml:space="preserve"><value>Métricas clave</value></data>
+  <data name="Dashboard.Less" xml:space="preserve"><value>Menos</value></data>
+  <data name="Dashboard.More" xml:space="preserve"><value>Más</value></data>
+  <data name="Dashboard.NewTask" xml:space="preserve"><value>Nueva tarea</value></data>
+  <data name="Dashboard.NoTimer" xml:space="preserve"><value>Ahora mismo no hay ningún cronómetro activo.</value></data>
+  <data name="Dashboard.Open" xml:space="preserve"><value>abiertas</value></data>
+  <data name="Dashboard.Running" xml:space="preserve"><value>En marcha</value></data>
+  <data name="Dashboard.TaskPriority" xml:space="preserve"><value>Prioridad de tareas</value></data>
+  <data name="Dashboard.TasksInBacklog" xml:space="preserve"><value>tareas en el backlog</value></data>
+  <data name="Dashboard.TaskStatus" xml:space="preserve"><value>Estado de tareas</value></data>
+  <data name="Dashboard.TeamActivity" xml:space="preserve"><value>Actividad del equipo</value></data>
+  <data name="Dashboard.TeamWorkload" xml:space="preserve"><value>Carga del equipo</value></data>
+  <data name="Dashboard.ThisSprint" xml:space="preserve"><value>Este sprint</value></data>
+  <data name="Dashboard.Title" xml:space="preserve"><value>Panel</value></data>
+  <data name="Dashboard.TrackedToday" xml:space="preserve"><value>Registrado hoy</value></data>
+  <data name="Error.403.Body" xml:space="preserve"><value>No tienes acceso a esta página.</value></data>
+  <data name="Error.403.Title" xml:space="preserve"><value>Acceso denegado</value></data>
+  <data name="Error.404.Body" xml:space="preserve"><value>La página que buscas no existe o se ha movido.</value></data>
+  <data name="Error.404.Title" xml:space="preserve"><value>Página no encontrada</value></data>
+  <data name="Error.500.Body" xml:space="preserve"><value>Algo ha fallado de nuestro lado. Inténtalo de nuevo en un momento.</value></data>
+  <data name="Error.500.Title" xml:space="preserve"><value>Error inesperado</value></data>
+  <data name="Forgot.Back" xml:space="preserve"><value>Volver a iniciar sesión</value></data>
+  <data name="Forgot.Body" xml:space="preserve"><value>Escribe tu correo y te enviaremos un enlace para elegir una nueva contraseña.</value></data>
+  <data name="Forgot.SentBody" xml:space="preserve"><value>Si la dirección existe, acabamos de enviar un enlace a</value></data>
+  <data name="Forgot.SentTitle" xml:space="preserve"><value>Revisa tu bandeja</value></data>
+  <data name="Forgot.Submit" xml:space="preserve"><value>Enviar enlace</value></data>
+  <data name="Forgot.Title" xml:space="preserve"><value>¿Olvidaste tu contraseña?</value></data>
+  <data name="Invite.Body" xml:space="preserve"><value>Te han invitado al espacio de trabajo. Completa tu perfil para empezar.</value></data>
+  <data name="Invite.Code" xml:space="preserve"><value>Código de invitación</value></data>
+  <data name="Invite.FullName" xml:space="preserve"><value>Nombre completo</value></data>
+  <data name="Invite.Invalid" xml:space="preserve"><value>Esta invitación no es válida o ha caducado.</value></data>
+  <data name="Invite.JobTitle" xml:space="preserve"><value>Puesto</value></data>
+  <data name="Invite.Submit" xml:space="preserve"><value>Unirme al espacio</value></data>
+  <data name="Invite.Title" xml:space="preserve"><value>Aceptar invitación</value></data>
+  <data name="Login.DemoHint" xml:space="preserve"><value>Cuenta de demostración:</value></data>
+  <data name="Login.Email" xml:space="preserve"><value>Correo</value></data>
+  <data name="Login.Forgot" xml:space="preserve"><value>¿Olvidaste la contraseña?</value></data>
+  <data name="Login.Hello" xml:space="preserve"><value>Bienvenido de nuevo</value></data>
+  <data name="Login.HidePassword" xml:space="preserve"><value>Ocultar contraseña</value></data>
+  <data name="Login.KeepSignedIn" xml:space="preserve"><value>Mantener la sesión</value></data>
+  <data name="Login.Password" xml:space="preserve"><value>Contraseña</value></data>
+  <data name="Login.ShowPassword" xml:space="preserve"><value>Mostrar contraseña</value></data>
+  <data name="Login.Submit" xml:space="preserve"><value>Entrar</value></data>
+  <data name="Login.Tagline" xml:space="preserve"><value>Proyectos, tableros, registro de tiempo e informes para tu estudio.</value></data>
+  <data name="Login.Title" xml:space="preserve"><value>Iniciar sesión</value></data>
+  <data name="Messages.Create" xml:space="preserve"><value>Crear canal</value></data>
+  <data name="Messages.EmptyBody" xml:space="preserve"><value>Los managers pueden abrir un canal de proyecto o de equipo desde la página del proyecto.</value></data>
+  <data name="Messages.EmptyTitle" xml:space="preserve"><value>Todavía no hay hilos</value></data>
+  <data name="Messages.ExistingThreads" xml:space="preserve"><value>canales existentes</value></data>
+  <data name="Messages.Field.Scope" xml:space="preserve"><value>Ámbito</value></data>
+  <data name="Messages.Field.Title" xml:space="preserve"><value>Nombre del canal</value></data>
+  <data name="Messages.Field.TitlePlaceholder" xml:space="preserve"><value>proyecto-alpha</value></data>
+  <data name="Messages.NewChannel" xml:space="preserve"><value>Nuevo canal</value></data>
+  <data name="Messages.NewChannelHint" xml:space="preserve"><value>Los canales de proyecto los ve el equipo del proyecto.</value></data>
+  <data name="Messages.NoMessages" xml:space="preserve"><value>Todavía no hay mensajes. Di hola.</value></data>
+  <data name="Messages.ReadOnly" xml:space="preserve"><value>Puedes leer este canal pero no publicar en él.</value></data>
+  <data name="Messages.SelectThread" xml:space="preserve"><value>Selecciona un canal</value></data>
+  <data name="Messages.SelectThreadHint" xml:space="preserve"><value>Elige una conversación a la izquierda para leerla.</value></data>
+  <data name="Messages.Send" xml:space="preserve"><value>Enviar</value></data>
+  <data name="Messages.Subtitle" xml:space="preserve"><value>Canales de proyecto, menciones e hilos con clientes.</value></data>
+  <data name="Messages.Threads" xml:space="preserve"><value>Canales</value></data>
+  <data name="Messages.Title" xml:space="preserve"><value>Mensajes</value></data>
+  <data name="Messages.Unread" xml:space="preserve"><value>Sin leer</value></data>
+  <data name="Messages.WriteMessage" xml:space="preserve"><value>Escribe un mensaje…</value></data>
+  <data name="Nav.Account" xml:space="preserve"><value>Cuenta</value></data>
+  <data name="Nav.ActiveSprint" xml:space="preserve"><value>Sprint activo</value></data>
+  <data name="Nav.Admin" xml:space="preserve"><value>Administración</value></data>
+  <data name="Nav.General" xml:space="preserve"><value>General</value></data>
+  <data name="Nav.HelpSupport" xml:space="preserve"><value>Ayuda y soporte</value></data>
+  <data name="Nav.MainMenu" xml:space="preserve"><value>Menú principal</value></data>
+  <data name="Nav.ManageSprints" xml:space="preserve"><value>Gestionar sprints</value></data>
+  <data name="Nav.Menu" xml:space="preserve"><value>Menú</value></data>
+  <data name="Nav.Messages" xml:space="preserve"><value>Mensajes</value></data>
+  <data name="Nav.NoActiveSprint" xml:space="preserve"><value>Sin sprint activo</value></data>
+  <data name="Nav.Notifications" xml:space="preserve"><value>Notificaciones</value></data>
+  <data name="Nav.OpenMenu" xml:space="preserve"><value>Abrir menú</value></data>
+  <data name="Nav.Preferences" xml:space="preserve"><value>Preferencias</value></data>
+  <data name="Nav.Profile" xml:space="preserve"><value>Perfil</value></data>
+  <data name="Nav.Search" xml:space="preserve"><value>Buscar</value></data>
+  <data name="Nav.SearchPlaceholder" xml:space="preserve"><value>Buscar…</value></data>
+  <data name="Nav.Settings" xml:space="preserve"><value>Ajustes</value></data>
+  <data name="Nav.SignOut" xml:space="preserve"><value>Cerrar sesión</value></data>
+  <data name="Nav.SprintHint" xml:space="preserve"><value>Crea uno en Administración → Sprints.</value></data>
+  <data name="Nav.UpgradeBody" xml:space="preserve"><value>Desbloquea informes avanzados, planificación de capacidad y más.</value></data>
+  <data name="Nav.UpgradeCta" xml:space="preserve"><value>Ver planes</value></data>
+  <data name="Nav.UpgradeTitle" xml:space="preserve"><value>Pasar a Pro</value></data>
+  <data name="Nav.Workspace" xml:space="preserve"><value>Espacio de trabajo</value></data>
+  <data name="Notifications.EmptyBody" xml:space="preserve"><value>Las novedades de tareas y las menciones aparecerán aquí.</value></data>
+  <data name="Notifications.EmptyTitle" xml:space="preserve"><value>Estás al día</value></data>
+  <data name="Notifications.MarkAll" xml:space="preserve"><value>Marcar todo como leído</value></data>
+  <data name="Notifications.OpenBoard" xml:space="preserve"><value>Abrir el tablero</value></data>
+  <data name="Notifications.Title" xml:space="preserve"><value>Notificaciones</value></data>
+  <data name="Notifications.Unread" xml:space="preserve"><value>sin leer</value></data>
+  <data name="Projects.Activity" xml:space="preserve"><value>Actividad del proyecto</value></data>
+  <data name="Projects.AreaLead" xml:space="preserve"><value>Líder de área</value></data>
+  <data name="Projects.Attach" xml:space="preserve"><value>Adjuntar documentos</value></data>
+  <data name="Projects.Back" xml:space="preserve"><value>Proyectos</value></data>
+  <data name="Projects.ChooseDepartment" xml:space="preserve"><value>Elige un departamento</value></data>
+  <data name="Projects.ClearFilters" xml:space="preserve"><value>Limpiar filtros</value></data>
+  <data name="Projects.Collaborators" xml:space="preserve"><value>Colaboradores</value></data>
+  <data name="Projects.Column.Actions" xml:space="preserve"><value>Acciones</value></data>
+  <data name="Projects.Column.Budget" xml:space="preserve"><value>Presupuesto</value></data>
+  <data name="Projects.Column.Client" xml:space="preserve"><value>Cliente</value></data>
+  <data name="Projects.Column.Delivery" xml:space="preserve"><value>Entrega</value></data>
+  <data name="Projects.Column.Lead" xml:space="preserve"><value>Líder</value></data>
+  <data name="Projects.Column.Progress" xml:space="preserve"><value>Progreso</value></data>
+  <data name="Projects.Column.Project" xml:space="preserve"><value>Proyecto</value></data>
+  <data name="Projects.Column.Status" xml:space="preserve"><value>Estado</value></data>
+  <data name="Projects.CountLabel" xml:space="preserve"><value>proyectos</value></data>
+  <data name="Projects.DeleteDocumentConfirm" xml:space="preserve"><value>¿Eliminar este documento?</value></data>
+  <data name="Projects.Department" xml:space="preserve"><value>Departamento</value></data>
+  <data name="Projects.Documents" xml:space="preserve"><value>Documentos</value></data>
+  <data name="Projects.DocumentsHint" xml:space="preserve"><value>PDF, Office, OpenDocument, imágenes, texto, CSV, Markdown o ZIP · varios a la vez, hasta 25 MB cada uno</value></data>
+  <data name="Projects.Download" xml:space="preserve"><value>Descargar</value></data>
+  <data name="Projects.EditTeam" xml:space="preserve"><value>Editar equipo</value></data>
+  <data name="Projects.EditTeamHint" xml:space="preserve"><value>El acceso depende de esta configuración.</value></data>
+  <data name="Projects.EmptyBody" xml:space="preserve"><value>Prueba con otro estado u otro término de búsqueda.</value></data>
+  <data name="Projects.EmptyTitle" xml:space="preserve"><value>Ningún proyecto coincide</value></data>
+  <data name="Projects.Events" xml:space="preserve"><value>Eventos del proyecto</value></data>
+  <data name="Projects.FilterStatus" xml:space="preserve"><value>Filtrar por estado</value></data>
+  <data name="Projects.Health" xml:space="preserve"><value>Salud</value></data>
+  <data name="Projects.Kpis" xml:space="preserve"><value>Métricas del portafolio</value></data>
+  <data name="Projects.Lead" xml:space="preserve"><value>Líder</value></data>
+  <data name="Projects.Metrics" xml:space="preserve"><value>Métricas del proyecto</value></data>
+  <data name="Projects.Milestones" xml:space="preserve"><value>Hitos</value></data>
+  <data name="Projects.New" xml:space="preserve"><value>Nuevo proyecto</value></data>
+  <data name="Projects.NoActivity" xml:space="preserve"><value>Todavía no hay actividad.</value></data>
+  <data name="Projects.NoCollaborators" xml:space="preserve"><value>Todavía no hay colaboradores.</value></data>
+  <data name="Projects.NoDepartment" xml:space="preserve"><value>Sin departamento asignado.</value></data>
+  <data name="Projects.NoDocuments" xml:space="preserve"><value>Todavía no hay documentos</value></data>
+  <data name="Projects.NoDocumentsBody" xml:space="preserve"><value>Adjunta entregables, contratos y referencias del proyecto.</value></data>
+  <data name="Projects.NoEvents" xml:space="preserve"><value>No hay eventos programados.</value></data>
+  <data name="Projects.NoLead" xml:space="preserve"><value>Sin líder</value></data>
+  <data name="Projects.NoMilestones" xml:space="preserve"><value>Todavía no hay hitos definidos.</value></data>
+  <data name="Projects.NoPhases" xml:space="preserve"><value>Todavía no hay fases definidas.</value></data>
+  <data name="Projects.Of" xml:space="preserve"><value>de</value></data>
+  <data name="Projects.OpenCalendar" xml:space="preserve"><value>Abrir calendario</value></data>
+  <data name="Projects.OpenFullBoard" xml:space="preserve"><value>Abrir tablero completo</value></data>
+  <data name="Projects.Progress" xml:space="preserve"><value>Progreso</value></data>
+  <data name="Projects.ProjectLead" xml:space="preserve"><value>Líder del proyecto</value></data>
+  <data name="Projects.RowHint" xml:space="preserve"><value>Pulsa un nombre para abrir su detalle</value></data>
+  <data name="Projects.SaveTeam" xml:space="preserve"><value>Guardar equipo</value></data>
+  <data name="Projects.Search" xml:space="preserve"><value>Buscar proyectos</value></data>
+  <data name="Projects.SearchPlaceholder" xml:space="preserve"><value>Buscar un proyecto o cliente…</value></data>
+  <data name="Projects.Subtitle" xml:space="preserve"><value>Gestiona el portafolio: crea, edita, archiva y abre cada proyecto.</value></data>
+  <data name="Projects.Tabs" xml:space="preserve"><value>Secciones del proyecto</value></data>
+  <data name="Projects.Tasks" xml:space="preserve"><value>tareas</value></data>
+  <data name="Projects.TasksAndActions" xml:space="preserve"><value>Tareas y acciones</value></data>
+  <data name="Projects.TeamAccessNote" xml:space="preserve"><value>Solo el equipo y quienes pueden ver todos los proyectos pueden abrir este proyecto y sus tareas.</value></data>
+  <data name="Projects.Timeline" xml:space="preserve"><value>Línea temporal del proyecto</value></data>
+  <data name="Projects.Title" xml:space="preserve"><value>Proyectos</value></data>
+  <data name="Reports.AllMembers" xml:space="preserve"><value>Todos los miembros</value></data>
+  <data name="Reports.AllTags" xml:space="preserve"><value>Todas las etiquetas</value></data>
+  <data name="Reports.ByDepartment" xml:space="preserve"><value>Por departamento</value></data>
+  <data name="Reports.ByDepartmentHint" xml:space="preserve"><value>Últimos 30 días. Solo cuentan las tareas cuya finalización fue aprobada, con su tiempo.</value></data>
+  <data name="Reports.ClearFilters" xml:space="preserve"><value>Limpiar filtros</value></data>
+  <data name="Reports.Column.ActiveProjects" xml:space="preserve"><value>Proyectos activos</value></data>
+  <data name="Reports.Column.AwaitingApproval" xml:space="preserve"><value>Pendientes de aprobación</value></data>
+  <data name="Reports.Column.CompletedTasks" xml:space="preserve"><value>Tareas completadas</value></data>
+  <data name="Reports.Column.Department" xml:space="preserve"><value>Departamento</value></data>
+  <data name="Reports.Column.Hours" xml:space="preserve"><value>Horas</value></data>
+  <data name="Reports.Column.Logged" xml:space="preserve"><value>Registrado</value></data>
+  <data name="Reports.Column.Members" xml:space="preserve"><value>Miembros</value></data>
+  <data name="Reports.Column.Owner" xml:space="preserve"><value>Responsable</value></data>
+  <data name="Reports.Column.Tag" xml:space="preserve"><value>Etiqueta</value></data>
+  <data name="Reports.Column.Task" xml:space="preserve"><value>Tarea</value></data>
+  <data name="Reports.Column.TaskTime" xml:space="preserve"><value>Tiempo de tarea</value></data>
+  <data name="Reports.Column.Variance" xml:space="preserve"><value>Varianza</value></data>
+  <data name="Reports.EmptyBody" xml:space="preserve"><value>Ajusta los filtros para ver más tareas.</value></data>
+  <data name="Reports.EmptyTitle" xml:space="preserve"><value>Ninguna tarea coincide con los filtros</value></data>
+  <data name="Reports.ExportCsv" xml:space="preserve"><value>Exportar CSV</value></data>
+  <data name="Reports.ExportExcel" xml:space="preserve"><value>Exportar Excel</value></data>
+  <data name="Reports.ExportPdf" xml:space="preserve"><value>Exportar PDF</value></data>
+  <data name="Reports.HoursReport" xml:space="preserve"><value>Informe de horas</value></data>
+  <data name="Reports.Lead" xml:space="preserve"><value>Líder</value></data>
+  <data name="Reports.Logged" xml:space="preserve"><value>Registrado</value></data>
+  <data name="Reports.Member" xml:space="preserve"><value>Miembro</value></data>
+  <data name="Reports.NoDepartments" xml:space="preserve"><value>Todavía no hay departamentos.</value></data>
+  <data name="Reports.Sprint" xml:space="preserve"><value>Sprint</value></data>
+  <data name="Reports.Subtitle" xml:space="preserve"><value>Tiempo de tarea vs tiempo registrado (informativo). Las exportaciones llevan los filtros que elijas aquí.</value></data>
+  <data name="Reports.Tag" xml:space="preserve"><value>Etiqueta</value></data>
+  <data name="Reports.TaskTime" xml:space="preserve"><value>Tiempo de tarea</value></data>
+  <data name="Reports.TimeLogged" xml:space="preserve"><value>Con tiempo registrado</value></data>
+  <data name="Reports.Title" xml:space="preserve"><value>Informes</value></data>
+  <data name="Reports.Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Reports.Variance" xml:space="preserve"><value>Varianza</value></data>
+  <data name="Reports.VarianceGt0" xml:space="preserve"><value>Varianza &gt; 0</value></data>
+  <data name="Reset.Body" xml:space="preserve"><value>Elige una nueva contraseña para tu cuenta.</value></data>
+  <data name="Reset.Confirm" xml:space="preserve"><value>Confirmar contraseña</value></data>
+  <data name="Reset.Password" xml:space="preserve"><value>Nueva contraseña</value></data>
+  <data name="Reset.Submit" xml:space="preserve"><value>Actualizar contraseña</value></data>
+  <data name="Reset.Title" xml:space="preserve"><value>Restablece tu contraseña</value></data>
+  <data name="Role.Admin" xml:space="preserve"><value>Admin</value></data>
+  <data name="Role.Member" xml:space="preserve"><value>Miembro</value></data>
+  <data name="Search.NoResults" xml:space="preserve"><value>Sin resultados.</value></data>
+  <data name="Settings.AppPasswordNote" xml:space="preserve"><value>Si tu proveedor usa verificación en dos pasos (Gmail, Outlook), utiliza una contraseña de aplicación.</value></data>
+  <data name="Settings.AskAdmin" xml:space="preserve"><value>Pide a un administrador del espacio que cambie tu nombre, puesto o capacidad.</value></data>
+  <data name="Settings.AvatarHint" xml:space="preserve"><value>PNG, JPEG o GIF · hasta 2 MB · recortada a un cuadrado.</value></data>
+  <data name="Settings.ChooseImage" xml:space="preserve"><value>Elegir imagen</value></data>
+  <data name="Settings.HideUpgrade" xml:space="preserve"><value>Mostrar el bloque de mejora en la barra lateral</value></data>
+  <data name="Settings.HideUpgradeHint" xml:space="preserve"><value>Se guarda solo en este navegador.</value></data>
+  <data name="Settings.Language" xml:space="preserve"><value>Idioma</value></data>
+  <data name="Settings.LanguageHint" xml:space="preserve"><value>Idioma de la interfaz para este navegador.</value></data>
+  <data name="Settings.Mailbox" xml:space="preserve"><value>Mi buzón</value></data>
+  <data name="Settings.MailboxHint" xml:space="preserve"><value>El correo que envías desde Plexa sale de esta dirección, a través del servidor de tu organización. La contraseña se guarda cifrada y nunca se muestra.</value></data>
+  <data name="Settings.Name" xml:space="preserve"><value>Nombre</value></data>
+  <data name="Settings.Password" xml:space="preserve"><value>Contraseña</value></data>
+  <data name="Settings.PasswordKeep" xml:space="preserve"><value>Déjalo vacío para mantener la contraseña actual</value></data>
+  <data name="Settings.PasswordNote" xml:space="preserve"><value>Se guarda cifrada. Nunca se vuelve a mostrar.</value></data>
+  <data name="Settings.PasswordPlaceholder" xml:space="preserve"><value>Contraseña de aplicación</value></data>
+  <data name="Settings.Preferences" xml:space="preserve"><value>Preferencias</value></data>
+  <data name="Settings.PreferencesHint" xml:space="preserve"><value>Se guarda solo en este navegador.</value></data>
+  <data name="Settings.Profile" xml:space="preserve"><value>Perfil</value></data>
+  <data name="Settings.Role" xml:space="preserve"><value>Puesto y rol</value></data>
+  <data name="Settings.SaveMailbox" xml:space="preserve"><value>Guardar buzón</value></data>
+  <data name="Settings.Sections" xml:space="preserve"><value>Secciones de ajustes</value></data>
+  <data name="Settings.ShowInsights" xml:space="preserve"><value>Mostrar el panel de insights en las páginas de proyecto</value></data>
+  <data name="Settings.ShowInsightsHint" xml:space="preserve"><value>Añade un panel de resumen en cada proyecto.</value></data>
+  <data name="Settings.SmtpHost" xml:space="preserve"><value>Servidor SMTP</value></data>
+  <data name="Settings.SmtpPort" xml:space="preserve"><value>Puerto SMTP</value></data>
+  <data name="Settings.StartTls" xml:space="preserve"><value>Usar STARTTLS</value></data>
+  <data name="Settings.Subtitle" xml:space="preserve"><value>Tu perfil, preferencias del navegador y correo saliente.</value></data>
+  <data name="Settings.Title" xml:space="preserve"><value>Ajustes</value></data>
+  <data name="Task.AddStep" xml:space="preserve"><value>Añadir un paso</value></data>
+  <data name="Task.AddSubtask" xml:space="preserve"><value>Añadir subtarea</value></data>
+  <data name="Task.Approve" xml:space="preserve"><value>Aprobar</value></data>
+  <data name="Task.AssignedTeam" xml:space="preserve"><value>Equipo asignado</value></data>
+  <data name="Task.Assignee" xml:space="preserve"><value>Responsable</value></data>
+  <data name="Task.BlockedTitle" xml:space="preserve"><value>Esta tarea está bloqueada</value></data>
+  <data name="Task.ByHours" xml:space="preserve"><value>Por horas</value></data>
+  <data name="Task.ByPercentage" xml:space="preserve"><value>Por porcentaje</value></data>
+  <data name="Task.Checklist" xml:space="preserve"><value>Lista de comprobación</value></data>
+  <data name="Task.Create" xml:space="preserve"><value>Crear tarea</value></data>
+  <data name="Task.CreatedAt" xml:space="preserve"><value>Creada</value></data>
+  <data name="Task.DeleteConfirm" xml:space="preserve"><value>¿Eliminar esta tarea y sus subtareas?</value></data>
+  <data name="Task.DependsOn" xml:space="preserve"><value>Depende de</value></data>
+  <data name="Task.Description" xml:space="preserve"><value>Descripción</value></data>
+  <data name="Task.DescriptionPlaceholder" xml:space="preserve"><value>Contexto, criterios de aceptación, enlaces…</value></data>
+  <data name="Task.DueDate" xml:space="preserve"><value>Fecha límite</value></data>
+  <data name="Task.EditTitle" xml:space="preserve"><value>Editar tarea</value></data>
+  <data name="Task.Estimate" xml:space="preserve"><value>Estimación</value></data>
+  <data name="Task.EstimateHours" xml:space="preserve"><value>Estimación (horas)</value></data>
+  <data name="Task.FormHint" xml:space="preserve"><value>Que sea pequeña y concreta.</value></data>
+  <data name="Task.InBacklog" xml:space="preserve"><value>Mantener en el backlog</value></data>
+  <data name="Task.Logged" xml:space="preserve"><value>Registrado</value></data>
+  <data name="Task.NewSubtask" xml:space="preserve"><value>Nueva subtarea</value></data>
+  <data name="Task.NewTitle" xml:space="preserve"><value>Nueva tarea</value></data>
+  <data name="Task.NoChecklist" xml:space="preserve"><value>Todavía no hay pasos.</value></data>
+  <data name="Task.NoSubtasks" xml:space="preserve"><value>Todavía no hay subtareas.</value></data>
+  <data name="Task.NoTag" xml:space="preserve"><value>Sin etiqueta</value></data>
+  <data name="Task.NoTeam" xml:space="preserve"><value>Nadie más asignado</value></data>
+  <data name="Task.OfEstimate" xml:space="preserve"><value>de la estimación usada</value></data>
+  <data name="Task.Overdue" xml:space="preserve"><value>Vencida</value></data>
+  <data name="Task.Owner" xml:space="preserve"><value>Responsable</value></data>
+  <data name="Task.Priority" xml:space="preserve"><value>Prioridad</value></data>
+  <data name="Task.Progress" xml:space="preserve"><value>Progreso</value></data>
+  <data name="Task.ProgressMode" xml:space="preserve"><value>Modo de progreso</value></data>
+  <data name="Task.Project" xml:space="preserve"><value>Proyecto</value></data>
+  <data name="Task.StartDate" xml:space="preserve"><value>Fecha de inicio</value></data>
+  <data name="Task.Status" xml:space="preserve"><value>Estado</value></data>
+  <data name="Task.StoryPoints" xml:space="preserve"><value>Story points</value></data>
+  <data name="Task.Subtask" xml:space="preserve"><value>Subtarea</value></data>
+  <data name="Task.Subtasks" xml:space="preserve"><value>Subtareas</value></data>
+  <data name="Task.SubtaskTitle" xml:space="preserve"><value>Título de la subtarea</value></data>
+  <data name="Task.Tag" xml:space="preserve"><value>Etiqueta</value></data>
+  <data name="Task.Title" xml:space="preserve"><value>Título</value></data>
+  <data name="Task.TitlePlaceholder" xml:space="preserve"><value>¿Qué hay que hacer?</value></data>
+  <data name="Task.UnallocatedHours" xml:space="preserve"><value>sin asignar a subtareas todavía</value></data>
+  <data name="Task.Unassigned" xml:space="preserve"><value>Sin asignar</value></data>
+  <data name="Team.Active" xml:space="preserve"><value>Activas</value></data>
+  <data name="Team.Capacity" xml:space="preserve"><value>Capacidad</value></data>
+  <data name="Team.CapacityHours" xml:space="preserve"><value>horas de capacidad</value></data>
+  <data name="Team.EmptyBody" xml:space="preserve"><value>Invita a personas para ver aquí su carga.</value></data>
+  <data name="Team.EmptyTitle" xml:space="preserve"><value>Todavía no hay miembros</value></data>
+  <data name="Team.OpenHours" xml:space="preserve"><value>horas abiertas</value></data>
+  <data name="Team.Overdue" xml:space="preserve"><value>Vencidas</value></data>
+  <data name="Team.Subtitle" xml:space="preserve"><value>Capacidad, señal de presión y disponibilidad de {0} personas.</value></data>
+  <data name="Team.Title" xml:space="preserve"><value>Carga del equipo</value></data>
+  <data name="Timer.Start" xml:space="preserve"><value>Iniciar cronómetro</value></data>
+  <data name="Timer.Stop" xml:space="preserve"><value>Detener cronómetro</value></data>
+  <data name="Timer.Toggle" xml:space="preserve"><value>Alternar cronómetro</value></data>
+</root>

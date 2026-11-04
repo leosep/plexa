@@ -1,0 +1,51 @@
+@model IReadOnlyList<NotificationDto>
+@{
+    var unread = ViewData["Unread"] as int? ?? Model.Count(n => !n.IsRead);
+}
+<div class="flex items-center justify-between border-b border-ink-100 px-4 py-3">
+    <div>
+        <p class="text-sm font-semibold">@L["Notifications.Title"]</p>
+        <p class="text-xs text-ink-400">@unread @L["Notifications.Unread"]</p>
+    </div>
+    @if (Model.Count > 0)
+    {
+        <button type="button" class="text-xs font-medium text-brand-700 hover:underline"
+                hx-post="/notifications/read" hx-swap="none">
+            @L["Notifications.MarkAll"]
+        </button>
+    }
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="px-4 py-8 text-center">
+        <p class="text-sm font-medium">@L["Notifications.EmptyTitle"]</p>
+        <p class="mt-1 text-xs text-ink-400">@L["Notifications.EmptyBody"]</p>
+    </div>
+}
+else
+{
+    <ul class="divide-y divide-ink-100">
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="@(item.Url ?? "/board")" class="flex gap-3 px-4 py-3 hover:bg-ink-100/60 @(item.IsRead ? "" : "bg-brand-50/40")">
+                    <span class="mt-1.5 size-2 shrink-0 rounded-full @(item.IsRead ? "bg-ink-200" : "bg-brand-500")" aria-hidden="true"></span>
+                    <span class="min-w-0 flex-1">
+                        <span class="block text-sm @(item.IsRead ? "text-ink-600" : "font-medium text-ink-900")">@item.Text</span>
+                        <span class="mt-0.5 block text-xs text-ink-400">
+                            @if (!string.IsNullOrWhiteSpace(item.ActorName))
+                            {
+                                <span>@item.ActorName · </span>
+                            }
+                            @item.RelativeLabel
+                        </span>
+                    </span>
+                </a>
+            </li>
+        }
+    </ul>
+    <div class="border-t border-ink-100 px-4 py-2 text-center">
+        <a href="/board" class="text-xs font-medium text-brand-700 hover:underline">@L["Notifications.OpenBoard"]</a>
+    </div>
+}

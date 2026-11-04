@@ -1,0 +1,65 @@
+@model ReportPageDto
+@{
+    ViewData["Title"] = L["Reports.Title"].Value;
+    ViewData["Section"] = L["Nav.Menu"].Value;
+    var filters = Model.Hours.Filters;
+    var query = $"?sprint={Uri.EscapeDataString(filters.Sprint ?? string.Empty)}&member={filters.MemberId}&tag={Uri.EscapeDataString(filters.Tag ?? string.Empty)}&timeLogged={filters.TimeLogged.ToString().ToLowerInvariant()}&variance={filters.VarianceGt0.ToString().ToLowerInvariant()}";
+}
+<div class="space-y-6">
+    <header class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight">@L["Reports.Title"]</h1>
+            <p class="mt-1 text-sm text-ink-600">@L["Reports.Subtitle"]</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <span class="plx-btn bg-accent-500 text-white">@L["Reports.HoursReport"]</span>
+            <a href="/reports/export@(query)&format=csv" class="plx-btn-secondary">@L["Reports.ExportCsv"]</a>
+            <a href="/reports/export@(query)&format=xlsx" class="plx-btn-secondary">@L["Reports.ExportExcel"]</a>
+            <a href="/reports/export@(query)&format=pdf" class="plx-btn-secondary">@L["Reports.ExportPdf"]</a>
+        </div>
+    </header>
+
+    <form id="report-filters" class="plx-card flex flex-wrap items-end gap-3 p-4"
+          hx-get="/reports" hx-target="#report-body" hx-swap="outerHTML" hx-push-url="true" hx-trigger="change, search delay:400ms">
+        <div class="min-w-40 flex-1">
+            <label for="report-sprint" class="plx-label">@L["Reports.Sprint"]</label>
+            <select id="report-sprint" name="sprint" class="plx-input">
+                @foreach (var option in Model.Hours.SprintOptions)
+                {
+                    <option value="@option.Value" selected="@option.Selected">@option.Label</option>
+                }
+            </select>
+        </div>
+        <div class="min-w-40 flex-1">
+            <label for="report-member" class="plx-label">@L["Reports.Member"]</label>
+            <select id="report-member" name="member" class="plx-input">
+                <option value="">@L["Reports.AllMembers"]</option>
+                @foreach (var person in Model.Hours.People)
+                {
+                    <option value="@person.Id" selected="@(filters.MemberId == person.Id)">@person.FullName</option>
+                }
+            </select>
+        </div>
+        <div class="min-w-36 flex-1">
+            <label for="report-tag" class="plx-label">@L["Reports.Tag"]</label>
+            <select id="report-tag" name="tag" class="plx-input">
+                <option value="">@L["Reports.AllTags"]</option>
+                @foreach (var tag in Tags.All)
+                {
+                    <option value="@tag" selected="@(filters.Tag == tag)">@tag</option>
+                }
+            </select>
+        </div>
+        <label class="plx-btn cursor-pointer ring-1 @(filters.TimeLogged ? "bg-brand-600 text-white ring-brand-600" : "bg-white text-ink-600 ring-ink-200")">
+            <input type="checkbox" name="timeLogged" value="true" checked="@filters.TimeLogged" class="sr-only" />
+            @L["Reports.TimeLogged"]
+        </label>
+        <label class="plx-btn cursor-pointer ring-1 @(filters.VarianceGt0 ? "bg-brand-600 text-white ring-brand-600" : "bg-white text-ink-600 ring-ink-200")">
+            <input type="checkbox" name="variance" value="true" checked="@filters.VarianceGt0" class="sr-only" />
+            @L["Reports.VarianceGt0"]
+        </label>
+        <span class="htmx-indicator ml-auto text-xs text-ink-400">@L["Common.Loading"]</span>
+    </form>
+
+    <partial name="_ReportBody" model="Model" />
+</div>

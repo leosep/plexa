@@ -1,0 +1,44 @@
+@model ProjectDetailDto
+@{
+    var timeline = Model.Timeline!;
+    var all = timeline.Phases;
+    var start = all.Count > 0 ? all.Min(p => p.StartDate) : DateOnly.FromDateTime(DateTime.Today);
+    var end = all.Count > 0 ? all.Max(p => p.EndDate) : start.AddDays(30);
+    var totalDays = Math.Max(1, end.DayNumber - start.DayNumber);
+}
+<section class="plx-card p-5" aria-labelledby="project-timeline-title">
+    <div class="flex items-center justify-between">
+        <h2 id="project-timeline-title" class="text-lg font-semibold">@L["Projects.Timeline"]</h2>
+        <span class="text-xs text-ink-400">@timeline.RangeLabel</span>
+    </div>
+
+    @if (all.Count == 0)
+    {
+        <p class="mt-4 rounded-xl border border-dashed border-ink-200 px-4 py-10 text-center text-sm text-ink-400">@L["Projects.NoPhases"]</p>
+    }
+    else
+    {
+        <div class="mt-6 space-y-3">
+            @foreach (var phase in all)
+            {
+                var offset = Math.Max(0, phase.StartDate.DayNumber - start.DayNumber);
+                var width = Math.Max(2, phase.EndDate.DayNumber - phase.StartDate.DayNumber);
+                <div class="grid grid-cols-[10rem_1fr] items-center gap-3">
+                    <div class="min-w-0">
+                        <p class="truncate text-sm font-medium">@phase.Name</p>
+                        <p class="text-[11px] text-ink-400">@phase.StartDate.ToString("dd MMM") → @phase.EndDate.ToString("dd MMM")</p>
+                    </div>
+                    <div class="relative h-8 rounded-lg bg-ink-100">
+                        <div class="absolute inset-y-0 rounded-lg bg-gradient-to-r from-brand-500 to-cyan-500"
+                             style="left:@(offset * 100 / totalDays)%; width:@(Math.Min(100, width * 100 / totalDays))%"
+                             title="@phase.Name"></div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="mt-4 flex justify-between text-[11px] text-ink-400">
+            <span>@start.ToString("dd MMM")</span>
+            <span>@end.ToString("dd MMM")</span>
+        </div>
+    }
+</section>

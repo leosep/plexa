@@ -1,0 +1,102 @@
+@model CalendarPageViewModel
+@{
+    var form = ViewData["Form"] as CalendarEventFormModel ?? new CalendarEventFormModel { Date = DateOnly.FromDateTime(DateTime.Today) };
+    var kinds = Enum.GetValues<CalendarEventKind>();
+    var places = new[] { "No place", "Meeting room", "Zoom", "Google Meet", "Microsoft Teams", "Office" };
+}
+<dialog class="plx-modal" aria-labelledby="event-form-title">
+    <form hx-post="/calendar/events" hx-target="#modal-root" hx-swap="innerHTML" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div class="flex items-start justify-between gap-3 border-b border-ink-200 px-6 py-4">
+            <div>
+                <h2 id="event-form-title" class="text-xl font-semibold">@L["Calendar.NewEvent"]</h2>
+                <p class="mt-0.5 text-xs text-ink-400">@L["Calendar.FormHint"]</p>
+            </div>
+            <button type="button" class="plx-btn-ghost -mr-2 -mt-1" onclick="window.plexaCloseModal()" aria-label="@L["Common.Close"]">✕</button>
+        </div>
+
+        <div class="plx-modal-body space-y-4">
+            <div asp-validation-summary="ModelOnly" class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500 empty:hidden"></div>
+
+            <div>
+                <label for="event-title" class="plx-label">@L["Calendar.Field.Title"]</label>
+                <input id="event-title" name="Title" value="@form.Title" class="plx-input" required maxlength="160" autofocus placeholder="Client demo" />
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-3">
+                <div>
+                    <label for="event-date" class="plx-label">@L["Calendar.Field.Date"]</label>
+                    <input id="event-date" name="Date" type="date" value="@form.Date.ToString("yyyy-MM-dd")" class="plx-input" required />
+                </div>
+                <div>
+                    <label for="event-start" class="plx-label">@L["Calendar.Field.Starts"]</label>
+                    <input id="event-start" name="StartsAt" type="time" value="@form.StartsAt.ToString("HH:mm")" class="plx-input" required />
+                </div>
+                <div>
+                    <label for="event-end" class="plx-label">@L["Calendar.Field.Ends"]</label>
+                    <input id="event-end" name="EndsAt" type="time" value="@form.EndsAt.ToString("HH:mm")" class="plx-input" required />
+                    @Html.ValidationMessage("EndsAt", new { @class = "mt-1 block text-xs text-danger-500" })
+                </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="event-kind" class="plx-label">@L["Calendar.Field.Kind"]</label>
+                    <select id="event-kind" name="Kind" class="plx-input">
+                        @foreach (var kind in kinds)
+                        {
+                            <option value="@kind" selected="@(form.Kind == kind)">@StatusLabels.Of(kind)</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label for="event-place" class="plx-label">@L["Calendar.Field.Place"]</label>
+                    <select id="event-place" name="Place" class="plx-input">
+                        @foreach (var place in places)
+                        {
+                            <option value="@(place == "No place" ? string.Empty : place)" selected="@(form.Place == place || (place == "No place" && string.IsNullOrWhiteSpace(form.Place)))">@place</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label for="event-project" class="plx-label">@L["Calendar.Field.Project"]</label>
+                <select id="event-project" name="ProjectId" class="plx-input">
+                    <option value="">@L["Calendar.NoProject"]</option>
+                    @foreach (var project in Model.Projects)
+                    {
+                        <option value="@project.Id" selected="@(form.ProjectId == project.Id)">@project.Label</option>
+                    }
+                </select>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="event-members" class="plx-label">@L["Calendar.Field.Members"]</label>
+                    <select id="event-members" name="MemberIds" multiple size="4" class="plx-input h-auto">
+                        @foreach (var person in Model.People)
+                        {
+                            <option value="@person.Id" selected="@form.MemberIds.Contains(person.Id)">@person.FullName</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label for="event-departments" class="plx-label">@L["Calendar.Field.Departments"]</label>
+                    <select id="event-departments" name="DepartmentIds" multiple size="4" class="plx-input h-auto">
+                        @foreach (var department in Model.Departments)
+                        {
+                            <option value="@department.Id" selected="@form.DepartmentIds.Contains(department.Id)">@department.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 border-t border-ink-200 px-6 py-3">
+            <button type="button" class="plx-btn-secondary" onclick="window.plexaCloseModal()">@L["Common.Cancel"]</button>
+            <button type="submit" class="plx-btn-primary">@L["Calendar.AddEvent"]</button>
+        </div>
+    </form>
+</dialog>

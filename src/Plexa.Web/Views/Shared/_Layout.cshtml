@@ -1,0 +1,46 @@
+@{
+    var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var title = ViewData["Title"] as string ?? L["App.Name"].Value;
+}
+<!DOCTYPE html>
+<html lang="@culture" class="h-full">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0AA58A" />
+    <meta name="csrf-token" content="@Html.AntiForgeryToken()" />
+    <title>@title · @L["App.Name"]</title>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/Jost-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+    <script src="/lib/htmx.min.js" defer></script>
+    <script src="/lib/alpine.min.js" defer></script>
+    <script src="/lib/chart.umd.min.js" defer></script>
+    <script src="/js/app.js" defer></script>
+</head>
+<body class="h-full">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white">@L["Common.SkipToContent"]</a>
+
+<div x-data="{ mobileNav: false }" class="min-h-full lg:grid lg:grid-cols-[16rem_1fr]">
+    <partial name="_Sidebar" />
+
+    <div class="flex min-h-screen flex-col">
+        <partial name="_Topbar" />
+        <main id="main" tabindex="-1" class="flex-1 px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+            @RenderBody()
+        </main>
+        <footer class="plx-no-print border-t border-ink-200 px-4 py-4 text-xs text-ink-400 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span>© @DateTime.Now.Year @L["App.Name"] · @L["App.Tagline"]</span>
+                <a href="mailto:support@plexa.app" class="hover:text-brand-700">@L["Nav.HelpSupport"]</a>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<div id="modal-root"></div>
+<div id="toasts" class="pointer-events-none fixed bottom-4 right-4 z-[80] flex w-full max-w-sm flex-col gap-2" aria-live="polite"></div>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

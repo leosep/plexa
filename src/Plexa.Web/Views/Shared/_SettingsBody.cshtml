@@ -1,0 +1,136 @@
+@model SettingsViewModel
+@{
+    var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var prefs = Context.Request.Cookies["plexa.preferences"] ?? string.Empty;
+    var showInsights = !prefs.Contains("insights=0");
+    var hideUpgrade = prefs.Contains("upgrade=1");
+}
+<div id="settings-body" class="space-y-4">
+    @if (!string.IsNullOrWhiteSpace(Model.Success))
+    {
+        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@Model.Success</div>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@Model.Error</div>
+    }
+
+    @if (Model.Section == "preferences")
+    {
+        <section class="plx-card p-5" aria-labelledby="preferences-title">
+            <h2 id="preferences-title" class="text-lg font-semibold">@L["Settings.Preferences"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Settings.PreferencesHint"]</p>
+
+            <form method="post" action="/settings/preferences" class="mt-4 space-y-4">
+                @Html.AntiForgeryToken()
+                <label class="flex items-start gap-3 rounded-xl bg-ink-100/60 p-3">
+                    <input type="checkbox" name="showInsights" value="true" checked="@showInsights" class="mt-0.5 size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+                    <span>
+                        <span class="block text-sm font-medium">@L["Settings.ShowInsights"]</span>
+                        <span class="block text-xs text-ink-400">@L["Settings.ShowInsightsHint"]</span>
+                    </span>
+                </label>
+                <label class="flex items-start gap-3 rounded-xl bg-ink-100/60 p-3">
+                    <input type="checkbox" name="hideUpgrade" value="true" checked="@hideUpgrade" class="mt-0.5 size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+                    <span>
+                        <span class="block text-sm font-medium">@L["Settings.HideUpgrade"]</span>
+                        <span class="block text-xs text-ink-400">@L["Settings.HideUpgradeHint"]</span>
+                    </span>
+                </label>
+                <input type="hidden" name="locale" value="@culture" />
+                <div class="flex justify-end">
+                    <button type="submit" class="plx-btn-primary">@L["Common.Save"]</button>
+                </div>
+            </form>
+
+            <div class="mt-6 border-t border-ink-100 pt-4">
+                <p class="plx-label">@L["Settings.Language"]</p>
+                <p class="mb-2 text-xs text-ink-400">@L["Settings.LanguageHint"]</p>
+                <form method="post" action="/culture" class="flex items-center gap-2">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="returnUrl" value="/settings?section=preferences" />
+                    <button type="submit" name="culture" value="en" class="plx-btn-secondary @(culture == "en" ? "ring-2 ring-brand-600" : "")">EN</button>
+                    <button type="submit" name="culture" value="es" class="plx-btn-secondary @(culture == "es" ? "ring-2 ring-brand-600" : "")">ES</button>
+                </form>
+            </div>
+        </section>
+    }
+    else if (Model.Section == "mailbox")
+    {
+        <section class="plx-card p-5" aria-labelledby="mailbox-title">
+            <h2 id="mailbox-title" class="text-lg font-semibold">@L["Settings.Mailbox"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Settings.MailboxHint"]</p>
+
+            <form method="post" action="/settings/mailbox" class="mt-4 space-y-4">
+                @Html.AntiForgeryToken()
+                <div>
+                    <label for="mailbox-email" class="plx-label">@L["Login.Email"]</label>
+                    <input id="mailbox-email" name="Email" type="email" value="@Model.Mailbox.Email" class="plx-input" required />
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <label for="mailbox-host" class="plx-label">@L["Settings.SmtpHost"]</label>
+                        <input id="mailbox-host" name="SmtpHost" value="@Model.Mailbox.SmtpHost" class="plx-input" placeholder="smtp.office365.com" />
+                    </div>
+                    <div>
+                        <label for="mailbox-port" class="plx-label">@L["Settings.SmtpPort"]</label>
+                        <input id="mailbox-port" name="SmtpPort" type="number" min="1" max="65535" value="@Model.Mailbox.SmtpPort" class="plx-input tabular-nums" />
+                    </div>
+                </div>
+                <div>
+                    <label for="mailbox-password" class="plx-label">@L["Settings.Password"]</label>
+                    <input id="mailbox-password" name="password" type="password" autocomplete="new-password" class="plx-input"
+                           placeholder="@(Model.Mailbox.HasPassword ? L["Settings.PasswordKeep"].Value : L["Settings.PasswordPlaceholder"].Value)" />
+                    <p class="mt-1 text-xs text-ink-400">@L["Settings.PasswordNote"]</p>
+                </div>
+                <label class="flex items-center gap-2 text-sm text-ink-600">
+                    <input type="checkbox" name="UseStartTls" value="true" checked="@Model.Mailbox.UseStartTls" class="size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+                    @L["Settings.StartTls"]
+                </label>
+                <div class="flex justify-end">
+                    <button type="submit" class="plx-btn-primary">@L["Settings.SaveMailbox"]</button>
+                </div>
+            </form>
+
+            <p class="mt-4 rounded-xl bg-brand-50 px-3 py-2 text-xs text-brand-700">@L["Settings.AppPasswordNote"]</p>
+        </section>
+    }
+    else
+    {
+        <section class="plx-card p-5" aria-labelledby="profile-title">
+            <h2 id="profile-title" class="text-lg font-semibold">@L["Settings.Profile"]</h2>
+
+            <div class="mt-4 flex flex-wrap items-center gap-4">
+                @await Component.InvokeAsync("Avatar", new { name = Model.Profile.Person.FullName, path = Model.Profile.AvatarPath, size = 72 })
+                <div>
+                    <form method="post" action="/settings/profile/avatar" enctype="multipart/form-data" class="flex items-center gap-2">
+                        @Html.AntiForgeryToken()
+                        <label class="plx-btn-secondary cursor-pointer">
+                            @L["Settings.ChooseImage"]
+                            <input type="file" name="avatar" accept="image/png,image/jpeg,image/gif" class="sr-only"
+                                   onchange="this.form.requestSubmit();" />
+                        </label>
+                    </form>
+                    <p class="mt-1 text-xs text-ink-400">@L["Settings.AvatarHint"]</p>
+                </div>
+            </div>
+
+            <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+                <div>
+                    <dt class="plx-label">@L["Settings.Name"]</dt>
+                    <dd class="text-sm font-medium">@Model.Profile.Person.FullName</dd>
+                </div>
+                <div>
+                    <dt class="plx-label">@L["Login.Email"]</dt>
+                    <dd class="text-sm font-medium">@Model.Profile.Email</dd>
+                </div>
+                <div>
+                    <dt class="plx-label">@L["Settings.Role"]</dt>
+                    <dd class="text-sm font-medium">@Model.Profile.JobTitle · @Model.Profile.RoleLabel</dd>
+                </div>
+            </dl>
+
+            <p class="mt-6 rounded-xl bg-ink-100 px-3 py-2 text-xs text-ink-600">@L["Settings.AskAdmin"]</p>
+        </section>
+    }
+</div>

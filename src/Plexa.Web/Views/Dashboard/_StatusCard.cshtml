@@ -1,0 +1,26 @@
+@model DashboardDto
+<div class="mt-5 space-y-3">
+    @foreach (var slice in Model.StatusDistribution)
+    {
+        var tone = slice.Status switch
+        {
+            WorkTaskStatus.ToDo => "bg-status-todo",
+            WorkTaskStatus.InProgress => "bg-status-progress",
+            WorkTaskStatus.Review => "bg-status-review",
+            _ => "bg-status-done"
+        };
+        <div>
+            <div class="mb-1 flex items-center justify-between text-sm">
+                <span class="flex items-center gap-2 font-medium">
+                    <span class="size-2.5 rounded-full @tone" aria-hidden="true"></span>
+                    @slice.Label
+                </span>
+                <span class="tabular-nums text-ink-600">@slice.Count · @slice.Percent%</span>
+            </div>
+            <div class="h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{slice.Label}: {slice.Count} tasks ({slice.Percent}%)")">
+                <div class="h-full rounded-full @tone" style="width:@(slice.Percent)%"></div>
+            </div>
+        </div>
+    }
+    <p class="pt-1 text-xs text-ink-400">@Model.BacklogCount @L["Dashboard.TasksInBacklog"]</p>
+</div>

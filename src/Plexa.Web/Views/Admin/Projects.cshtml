@@ -1,0 +1,134 @@
+@model AdminProjectsViewModel
+@{
+    ViewData["Title"] = L["Admin.Projects"].Value;
+    ViewData["Section"] = L["Nav.Admin"].Value;
+    var members = ViewData["Members"] as IReadOnlyList<AdminMemberDto> ?? [];
+    var statuses = Enum.GetValues<ProjectStatus>();
+    var healths = Enum.GetValues<ProjectHealth>();
+}
+<div class="space-y-6">
+    <header>
+        <h1 class="text-3xl font-semibold tracking-tight">@L["Admin.Projects"]</h1>
+        <p class="mt-1 text-sm text-ink-600">@L["Admin.ProjectsSubtitle"]</p>
+    </header>
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@success</div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@error</div>
+    }
+
+    <div class="grid gap-4 xl:grid-cols-[1fr_22rem]">
+        <section class="plx-card overflow-hidden" aria-labelledby="admin-projects-title">
+            <h2 id="admin-projects-title" class="border-b border-ink-100 px-5 py-4 text-lg font-semibold">@L["Admin.Portfolio"]</h2>
+            <div class="overflow-x-auto">
+                <table class="plx-table min-w-[42rem]">
+                    <caption class="sr-only">@L["Admin.Portfolio"]</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">@L["Projects.Column.Project"]</th>
+                            <th scope="col">@L["Projects.Lead"]</th>
+                            <th scope="col">@L["Projects.Column.Status"]</th>
+                            <th scope="col">@L["Projects.Column.Delivery"]</th>
+                            <th scope="col" class="text-right"><span class="sr-only">@L["Projects.Column.Actions"]</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var project in Model.Projects)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="/projects/@project.Id" class="font-medium hover:text-brand-700">@project.Name</a>
+                                    <p class="text-xs text-ink-400">@project.Code · @project.Client</p>
+                                </td>
+                                <td class="text-ink-600">@(string.IsNullOrWhiteSpace(project.LeadName) ? "—" : project.LeadName)</td>
+                                <td>
+                                    <span class="plx-chip @(project.Status == ProjectStatus.AtRisk ? "bg-danger-100 text-danger-500" : project.Status == ProjectStatus.Archived ? "bg-ink-100 text-ink-400" : "bg-ink-100 text-ink-600")">@StatusLabels.Of(project.Status)</span>
+                                </td>
+                                <td class="text-ink-600">@(project.EndDate?.ToString("dd MMM yyyy") ?? "—")</td>
+                                <td class="text-right">
+                                    @if (project.Status != ProjectStatus.Archived)
+                                    {
+                                        <form method="post" action="/admin/projects/@project.Id/archive" class="inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="plx-btn-ghost px-2 py-1 text-xs text-danger-500" onclick="return confirm('@L["Admin.ArchiveConfirm"]')">@L["Admin.Archive"]</button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        @if (Model.Projects.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-sm text-ink-400">@L["Admin.NoProjects"]</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="plx-card h-fit p-5" aria-labelledby="new-project-title">
+            <h2 id="new-project-title" class="text-lg font-semibold">@L["Admin.NewProject"]</h2>
+            <form method="post" action="/admin/projects" class="mt-4 space-y-3">
+                @Html.AntiForgeryToken()
+                <div>
+                    <label for="project-name" class="plx-label">@L["Settings.Name"]</label>
+                    <input id="project-name" name="Name" class="plx-input" required maxlength="160" />
+                </div>
+                <div>
+                    <label for="project-client" class="plx-label">@L["Projects.Column.Client"]</label>
+                    <input id="project-client" name="Client" value="Internal development" class="plx-input" maxlength="120" />
+                </div>
+                <div>
+                    <label for="project-lead" class="plx-label">@L["Projects.ProjectLead"]</label>
+                    <select id="project-lead" name="LeadUserId" class="plx-input">
+                        <option value="">@L["Projects.NoLead"]</option>
+                        @foreach (var member in members)
+                        {
+                            <option value="@member.Id">@member.FullName</option>
+                        }
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="project-status" class="plx-label">@L["Projects.Column.Status"]</label>
+                        <select id="project-status" name="Status" class="plx-input">
+                            @foreach (var status in statuses)
+                            {
+                                <option value="@status">@StatusLabels.Of(status)</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label for="project-health" class="plx-label">@L["Projects.Health"]</label>
+                        <select id="project-health" name="Health" class="plx-input">
+                            @foreach (var health in healths)
+                            {
+                                <option value="@health">@StatusLabels.Of(health)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="project-start" class="plx-label">@L["Admin.Start"]</label>
+                        <input id="project-start" name="StartDate" type="date" class="plx-input" />
+                    </div>
+                    <div>
+                        <label for="project-end" class="plx-label">@L["Admin.End"]</label>
+                        <input id="project-end" name="EndDate" type="date" class="plx-input" />
+                    </div>
+                </div>
+                <div>
+                    <label for="project-budget" class="plx-label">@L["Projects.Column.Budget"]</label>
+                    <input id="project-budget" name="Budget" type="number" step="0.01" min="0" class="plx-input tabular-nums" placeholder="0.00" />
+                </div>
+                <button type="submit" class="plx-btn-primary w-full">@L["Admin.CreateProject"]</button>
+            </form>
+        </section>
+    </div>
+</div>

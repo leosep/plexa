@@ -1,0 +1,34 @@
+@model CalendarPageViewModel
+@{
+    ViewData["Title"] = L["Calendar.Title"].Value;
+    ViewData["Section"] = L["Nav.Menu"].Value;
+    var calendar = Model.Calendar;
+    var views = new[] { ("week", "Calendar.Week"), ("2weeks", "Calendar.TwoWeeks"), ("month", "Calendar.Month") };
+}
+<div class="space-y-5">
+    <header class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight">@L["Calendar.Title"]</h1>
+            <p class="mt-1 text-sm text-ink-600">@calendar.RangeLabel</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center rounded-xl bg-ink-100 p-0.5" role="group" aria-label="@L["Calendar.Views"]">
+                @foreach (var item in views)
+                {
+                    var active = calendar.View == item.Item1;
+                    <a href="/calendar?view=@item.Item1" class="rounded-lg px-2.5 py-1.5 text-xs font-medium @(active ? "bg-white shadow-sm text-ink-900" : "text-ink-600 hover:text-ink-900")"
+                       aria-current="@(active ? "page" : null)">@L[item.Item2]</a>
+                }
+            </div>
+            <a href="@calendar.PrevUrl" class="plx-btn-secondary px-2.5 py-1.5 text-xs" aria-label="@L["Calendar.Prev"]">← @L["Calendar.Prev"]</a>
+            <a href="@calendar.TodayUrl" class="plx-btn-secondary px-2.5 py-1.5 text-xs">@L["Calendar.Today"]</a>
+            <a href="@calendar.NextUrl" class="plx-btn-secondary px-2.5 py-1.5 text-xs" aria-label="@L["Calendar.Next"]">@L["Calendar.Next"] →</a>
+            <button type="button" class="plx-btn-primary"
+                    hx-get="/calendar/new?date=@calendar.Anchor.ToString("yyyy-MM-dd")" hx-target="#modal-root" hx-swap="innerHTML">
+                @L["Calendar.NewEvent"]
+            </button>
+        </div>
+    </header>
+
+    <partial name="_CalendarBody" model="Model" />
+</div>

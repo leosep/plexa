@@ -1,0 +1,39 @@
+@model SettingsViewModel
+@{
+    ViewData["Title"] = L["Settings.Title"].Value;
+    ViewData["Section"] = L["Nav.Settings"].Value;
+    var sections = new[]
+    {
+        ("profile", "Settings.Profile"),
+        ("preferences", "Settings.Preferences"),
+        ("mailbox", "Settings.Mailbox")
+    };
+    var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+<div class="space-y-6">
+    <header>
+        <h1 class="text-3xl font-semibold tracking-tight">@L["Settings.Title"]</h1>
+        <p class="mt-1 text-sm text-ink-600">@L["Settings.Subtitle"]</p>
+    </header>
+
+    <div class="grid gap-4 lg:grid-cols-[14rem_1fr]">
+        <nav class="plx-card h-fit p-1.5" aria-label="@L["Settings.Sections"]">
+            @foreach (var navItem in sections)
+            {
+                var active = Model.Section == navItem.Item1;
+                <a href="/settings?section=@navItem.Item1"
+                   hx-get="/settings?section=@navItem.Item1" hx-target="#settings-body" hx-swap="outerHTML" hx-push-url="true"
+                   class="plx-nav-item @(active ? "is-active" : "")"
+                   aria-current="@(active ? "page" : null)">@L[navItem.Item2]</a>
+            }
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="/admin/sprints" class="plx-nav-item mt-1 border-t border-ink-100 pt-2">@L["Admin.Sprints"]</a>
+                <a href="/admin/members" class="plx-nav-item">@L["Admin.Members"]</a>
+                <a href="/admin/projects" class="plx-nav-item">@L["Admin.Projects"]</a>
+            }
+        </nav>
+
+        <partial name="_SettingsBody" model="Model" />
+    </div>
+</div>

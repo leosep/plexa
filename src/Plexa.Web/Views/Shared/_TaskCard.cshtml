@@ -1,0 +1,97 @@
+@model TaskCardDto
+@{
+    var statuses = Enum.GetValues<WorkTaskStatus>();
+}
+<article id="task-card-@Model.Id" class="group rounded-xl bg-white p-3 shadow-card ring-1 ring-ink-100 transition-shadow hover:ring-ink-200">
+    <div class="flex items-start justify-between gap-2">
+        <button type="button" class="min-w-0 flex-1 text-left"
+                hx-get="/board/detail/@Model.Id" hx-target="#modal-root" hx-swap="innerHTML"
+                hx-push-url="/board?task=@Model.Id">
+            @if (!string.IsNullOrWhiteSpace(Model.ProjectCode))
+            {
+                <span class="plx-chip mb-1 bg-ink-100 text-[10px] uppercase tracking-wide text-ink-600">@Model.ProjectCode</span>
+            }
+            <h3 class="line-clamp-2 text-sm font-medium leading-snug group-hover:text-brand-700">@Model.Title</h3>
+        </button>
+        @if (Model.Assignee is not null)
+        {
+            @await Component.InvokeAsync("Avatar", new { name = Model.Assignee.FullName, path = Model.Assignee.AvatarPath, size = 26 })
+        }
+    </div>
+
+    @if (Model.DueDate.HasValue)
+    {
+        <p class="mt-1.5 text-xs @(Model.Overdue ? "font-medium text-danger-500" : "text-ink-400")">
+            <span aria-hidden="true">◷</span> @Model.DueDate.Value.ToString("dd MMM")
+        </p>
+    }
+
+    <div class="mt-2 flex flex-wrap items-center gap-1">
+        <plx-chip tone="@Model.Priority.ToString().ToLowerInvariant()">@Model.PriorityLabel</plx-chip>
+        @if (!string.IsNullOrWhiteSpace(Model.Tag))
+        {
+            <plx-chip tone="info">@Model.Tag</plx-chip>
+        }
+        @if (Model.Blocked)
+        {
+            <plx-chip tone="danger" title="@string.Join(" · ", Model.BlockedBy)">⛔ @L["Board.Blocked"]</plx-chip>
+        }
+        @if (Model.AwaitingApproval)
+        {
+            <plx-chip tone="accent">@L["Board.AwaitingApproval"]</plx-chip>
+        }
+    </div>
+
+    @if (Model.SubtasksTotal > 0)
+    {
+        <div class="mt-2.5">
+            <div class="mb-1 flex items-center justify-between text-[11px] text-ink-400">
+                <span>@Model.SubtasksDone/@Model.SubtasksTotal @L["Board.Subtasks"]</span>
+                <span class="tabular-nums">@Model.ProgressPct%</span>
+            </div>
+            <div class="h-1.5 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{Model.ProgressPct}% complete")">
+                <div class="h-full rounded-full bg-brand-500" style="width:@Model.ProgressPct%"></div>
+            </div>
+        </div>
+    }
+
+    <div class="mt-2.5 flex items-center justify-between gap-2 border-t border-ink-100 pt-2">
+        <div class="flex items-center -space-x-1.5">
+            @foreach (var person in Model.AssignedTeam.Take(3))
+            {
+                <span class="rounded-full ring-2 ring-white">@await Component.InvokeAsync("Avatar", new { name = person.FullName, path = person.AvatarPath, size = 22 })</span>
+            }
+            @if (Model.AssignedTeam.Count == 0)
+            {
+                <span class="text-[11px] text-ink-400">@L["Board.Unassigned"]</span>
+            }
+        </div>
+
+        <div class="flex items-center gap-1">
+            <div x-data="plexaTimer({ taskId: '@Model.Id', running: @(Model.TimerRunning ? "true" : "false"), seconds: @((int)Model.Logged.TotalSeconds) })" x-init="init()">
+                <button type="button" @@click="toggle()" :aria-pressed="running.toString()"
+                        class="grid size-7 place-items-center rounded-lg text-ink-600 hover:bg-ink-100 @(Model.TimerRunning ? "bg-brand-50 text-brand-700" : "")"
+                        aria-label="@L["Timer.Toggle"]" :disabled="busy">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-3.5" aria-hidden="true">
+                        <template x-if="!running"><path d="M8 5v14l11-7z"/></template>
+                        <template x-if="running"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></template>
+                    </svg>
+                </button>
+            </div>
+            <span class="text-[11px] tabular-nums text-ink-400">@Plexa.Domain.Rules.DurationFormatter.FormatShort(Model.Logged)</span>
+        </div>
+    </div>
+
+    <form class="mt-2" hx-post="/board/move" hx-target="#task-card-@Model.Id" hx-swap="outerHTML" hx-trigger="change from:select">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <label class="sr-only" for="move-@Model.Id">@L["Board.Move"]</label>
+        <select id="move-@Model.Id" name="status" class="w-full rounded-lg bg-ink-100 px-2 py-1 text-[11px] font-medium text-ink-600 focus:ring-2 focus:ring-brand-600">
+            <option value="" selected>@L["Board.Move"]…</option>
+            @foreach (var status in statuses.Where(s => s != Model.Status))
+            {
+                <option value="@status">@StatusLabels.Of(status)</option>
+            }
+        </select>
+    </form>
+</article>

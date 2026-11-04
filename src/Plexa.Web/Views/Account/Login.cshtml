@@ -1,0 +1,57 @@
+@model LoginViewModel
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = L["Login.Title"].Value;
+}
+<div class="mb-8 flex flex-col items-center text-center">
+    <img src="/img/logo.svg" alt="@L["App.Name"]" class="size-12" />
+    <h1 class="mt-4 text-2xl font-semibold tracking-tight">@L["App.Name"]</h1>
+    <p class="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-ink-400">@L["App.Subtitle"]</p>
+</div>
+
+@if (TempData["Toast"] is string toast)
+{
+    <div class="mb-4 rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@toast</div>
+}
+
+<form method="post" action="/login" class="space-y-4" novalidate>
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+
+    <div asp-validation-summary="ModelOnly" class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500 empty:hidden"></div>
+
+    <div>
+        <label asp-for="Email" class="plx-label">@L["Login.Email"]</label>
+        <input asp-for="Email" type="email" autocomplete="email" placeholder="user@company.com" class="plx-input" autofocus />
+        <span asp-validation-for="Email" class="mt-1 block text-xs text-danger-500"></span>
+    </div>
+
+    <div x-data="{ show: false }">
+        <div class="flex items-center justify-between">
+            <label asp-for="Password" class="plx-label">@L["Login.Password"]</label>
+            <a href="/forgot-password" class="mb-1.5 text-xs font-medium text-brand-700 hover:underline">@L["Login.Forgot"]</a>
+        </div>
+        <div class="relative">
+            <input asp-for="Password" :type="show ? 'text' : 'password'" autocomplete="current-password" placeholder="••••••••" class="plx-input pr-10" />
+            <button type="button" @@click="show = !show" class="absolute right-1.5 top-1.5 grid size-7 place-items-center rounded-lg text-ink-400 hover:bg-ink-100 hover:text-ink-900"
+                    :aria-label="show ? '@L["Login.HidePassword"]' : '@L["Login.ShowPassword"]'" :aria-pressed="show">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-4" aria-hidden="true">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+            </button>
+        </div>
+        <span asp-validation-for="Password" class="mt-1 block text-xs text-danger-500"></span>
+    </div>
+
+    <label class="flex cursor-pointer items-center gap-2 text-sm text-ink-600">
+        <input asp-for="KeepSignedIn" type="checkbox" class="size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+        @L["Login.KeepSignedIn"]
+    </label>
+
+    <button type="submit" class="plx-btn-primary w-full py-2.5">@L["Login.Submit"]</button>
+</form>
+
+<p class="mt-6 text-center text-xs text-ink-400">
+    @L["Login.DemoHint"] <span class="font-medium text-ink-600">lsepulveda@dwn.com.do</span> · <span class="font-medium text-ink-600">Plexa123$</span>
+</p>

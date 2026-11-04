@@ -1,0 +1,57 @@
+@model DashboardDto
+@{
+    var total = Model.Priorities.Sum(p => p.Count);
+    var colors = new Dictionary<TaskPriority, string>
+    {
+        [TaskPriority.High] = "#D9503F",
+        [TaskPriority.Medium] = "#E9A93B",
+        [TaskPriority.Low] = "#9AA3AF"
+    };
+    var data = string.Join(",", Model.Priorities.Select(p => p.Count));
+    var labels = string.Join(",", Model.Priorities.Select(p => $"\"{p.Label}\""));
+    var palette = string.Join(",", Model.Priorities.Select(p => $"\"{colors[p.Priority]}\""));
+}
+<div class="mt-4 flex items-center gap-4">
+    <div class="relative size-32 shrink-0">
+        <canvas id="priority-chart" width="128" height="128" role="img" aria-label="@L["Dashboard.TaskPriority"]"></canvas>
+        <div class="pointer-events-none absolute inset-0 grid place-items-center text-center">
+            <div>
+                <p class="text-xl font-semibold tabular-nums">@total</p>
+                <p class="text-[10px] uppercase tracking-wide text-ink-400">@L["Dashboard.Open"]</p>
+            </div>
+        </div>
+    </div>
+    <table class="w-full text-sm">
+        <caption class="sr-only">@L["Dashboard.TaskPriority"]</caption>
+        <tbody>
+            @foreach (var item in Model.Priorities)
+            {
+                <tr>
+                    <th scope="row" class="py-1 text-left font-normal">
+                        <span class="mr-1.5 inline-block size-2 rounded-full" style="background:@colors[item.Priority]" aria-hidden="true"></span>@item.Label
+                    </th>
+                    <td class="py-1 text-right tabular-nums text-ink-600">@item.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    (function () {
+        const canvas = document.getElementById("priority-chart");
+        if (!canvas || typeof Chart === "undefined") return;
+        if (canvas.dataset.ready) return;
+        canvas.dataset.ready = "1";
+        new Chart(canvas.getContext("2d"), {
+            type: "doughnut",
+            data: {
+                labels: [@Html.Raw(labels)],
+                datasets: [{ data: [@data], backgroundColor: [@Html.Raw(palette)], borderWidth: 0, hoverOffset: 3 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: "72%",
+                plugins: { legend: { display: false } }
+            }
+        });
+    })();
+</script>

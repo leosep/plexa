@@ -1,0 +1,139 @@
+@model ReportPageDto
+@{
+    var hours = Model.Hours;
+}
+<div id="report-body" class="space-y-6">
+    <section class="plx-card overflow-hidden" aria-labelledby="hours-report-title">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 px-5 py-4">
+            <h2 id="hours-report-title" class="text-lg font-semibold">@L["Reports.HoursReport"]</h2>
+            <div class="flex gap-4 text-sm">
+                <span class="text-ink-600">@L["Reports.TaskTime"]: <strong class="tabular-nums text-ink-900">@Plexa.Domain.Rules.DurationFormatter.Format(TimeSpan.FromHours((double)hours.TotalTaskHours))</strong></span>
+                <span class="text-ink-600">@L["Reports.Logged"]: <strong class="tabular-nums text-ink-900">@Plexa.Domain.Rules.DurationFormatter.Format(hours.TotalLogged)</strong></span>
+                <span class="text-ink-600">@L["Reports.Variance"]: <strong class="tabular-nums @(hours.TotalVariance < TimeSpan.Zero ? "text-danger-500" : "text-ink-900")">@Plexa.Web.Infrastructure.ViewHelpers.FormatDuration(hours.TotalVariance)</strong></span>
+            </div>
+        </div>
+
+        @if (hours.Rows.Count == 0)
+        {
+            <div class="p-5">
+                <partial name="_EmptyState" model="@(new EmptyStateModel(L["Reports.EmptyTitle"].Value, L["Reports.EmptyBody"].Value, L["Reports.ClearFilters"].Value, "/reports", "chart"))" />
+            </div>
+        }
+        else
+        {
+            <div class="overflow-x-auto">
+                <table class="plx-table min-w-[44rem]">
+                    <caption class="sr-only">@L["Reports.HoursReport"]</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">@L["Reports.Column.Task"]</th>
+                            <th scope="col">@L["Reports.Column.Owner"]</th>
+                            <th scope="col">@L["Reports.Column.Tag"]</th>
+                            <th scope="col" class="text-right">@L["Reports.Column.TaskTime"]</th>
+                            <th scope="col" class="text-right">@L["Reports.Column.Logged"]</th>
+                            <th scope="col" class="text-right">@L["Reports.Column.Variance"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in hours.Rows)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="/board?task=@row.TaskId" class="font-medium hover:text-brand-700">@row.Task</a>
+                                    @if (row.Overdue)
+                                    {
+                                        <span class="ml-1 text-xs font-medium text-danger-500">@L["Task.Overdue"]</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (row.Owner is not null)
+                                    {
+                                        <span class="flex items-center gap-2">
+                                            @await Component.InvokeAsync("Avatar", new { name = row.Owner.FullName, path = row.Owner.AvatarPath, size = 22 })
+                                            <span class="text-sm">@row.Owner.FullName</span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-ink-400">—</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(row.Tag))
+                                    {
+                                        <plx-chip tone="info">@row.Tag</plx-chip>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-ink-400">—</span>
+                                    }
+                                </td>
+                                <td class="text-right tabular-nums">@Plexa.Domain.Rules.DurationFormatter.Format(TimeSpan.FromHours((double)row.TaskHours))</td>
+                                <td class="text-right tabular-nums">@Plexa.Domain.Rules.DurationFormatter.Format(row.Logged)</td>
+                                <td class="text-right tabular-nums @(row.HasVariance && row.Variance > TimeSpan.Zero ? "font-medium text-danger-500" : "text-ink-400")">
+                                    @(row.HasVariance ? Plexa.Web.Infrastructure.ViewHelpers.FormatDuration(row.Variance) : "—")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-ink-100/60 font-semibold">
+                            <td colspan="3" class="px-4 py-3">@L["Reports.Total"]</td>
+                            <td class="px-4 py-3 text-right tabular-nums">@Plexa.Domain.Rules.DurationFormatter.Format(TimeSpan.FromHours((double)hours.TotalTaskHours))</td>
+                            <td class="px-4 py-3 text-right tabular-nums">@Plexa.Domain.Rules.DurationFormatter.Format(hours.TotalLogged)</td>
+                            <td class="px-4 py-3 text-right tabular-nums @(hours.TotalVariance < TimeSpan.Zero ? "text-danger-500" : "")">@Plexa.Web.Infrastructure.ViewHelpers.FormatDuration(hours.TotalVariance)</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <p class="border-t border-ink-100 px-5 py-3 text-xs text-ink-400">@hours.FooterNote</p>
+        }
+    </section>
+
+    <section class="plx-card overflow-hidden" aria-labelledby="department-report-title">
+        <div class="border-b border-ink-100 px-5 py-4">
+            <h2 id="department-report-title" class="text-lg font-semibold">@L["Reports.ByDepartment"]</h2>
+            <p class="mt-0.5 text-xs text-ink-400">@L["Reports.ByDepartmentHint"]</p>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="plx-table min-w-[44rem]">
+                <caption class="sr-only">@L["Reports.ByDepartment"]</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">@L["Reports.Column.Department"]</th>
+                        <th scope="col" class="text-right">@L["Reports.Column.ActiveProjects"]</th>
+                        <th scope="col" class="text-right">@L["Reports.Column.Members"]</th>
+                        <th scope="col" class="text-right">@L["Reports.Column.CompletedTasks"]</th>
+                        <th scope="col" class="text-right">@L["Reports.Column.AwaitingApproval"]</th>
+                        <th scope="col" class="text-right">@L["Reports.Column.Hours"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Model.Departments)
+                    {
+                        <tr>
+                            <td>
+                                <p class="font-medium">@row.Department</p>
+                                @if (!string.IsNullOrWhiteSpace(row.LeadName))
+                                {
+                                    <p class="text-xs text-ink-400">@L["Reports.Lead"]: @row.LeadName</p>
+                                }
+                            </td>
+                            <td class="text-right tabular-nums">@row.ActiveProjects</td>
+                            <td class="text-right tabular-nums">@row.Members</td>
+                            <td class="text-right tabular-nums">@row.CompletedTasks</td>
+                            <td class="text-right tabular-nums">@row.AwaitingApproval</td>
+                            <td class="text-right tabular-nums font-medium">@row.Hours.ToString("0.0")</td>
+                        </tr>
+                    }
+                    @if (Model.Departments.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-sm text-ink-400">@L["Reports.NoDepartments"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

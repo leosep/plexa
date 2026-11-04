@@ -1,0 +1,90 @@
+@model DashboardDto
+@{
+    ViewData["Title"] = L["Dashboard.Title"].Value;
+    ViewData["Section"] = L["Nav.Menu"].Value;
+}
+<div class="space-y-6">
+    <header class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight">@Model.Greeting</h1>
+            <p class="mt-1 text-sm text-ink-600">@Model.ContextLine</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <a href="/board" class="plx-btn-secondary">@L["Dashboard.ThisSprint"]</a>
+            <button type="button" class="plx-btn-primary" data-shortcut-new-task
+                    hx-get="/tasks/new" hx-target="#modal-root" hx-swap="innerHTML">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-4" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                @L["Dashboard.NewTask"]
+            </button>
+        </div>
+    </header>
+
+    <section aria-label="@L["Dashboard.Kpis"]" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @foreach (var kpi in Model.Kpis)
+        {
+            <partial name="_KpiCard" model="kpi" />
+        }
+    </section>
+
+    <div class="grid gap-4 xl:grid-cols-3">
+        <section class="plx-card p-5 xl:col-span-2" aria-labelledby="status-title">
+            <div class="flex items-center justify-between">
+                <h2 id="status-title" class="text-lg font-semibold">@L["Dashboard.TaskStatus"]</h2>
+                <span class="text-xs text-ink-400">@Model.BacklogCount @L["Dashboard.TasksInBacklog"]</span>
+            </div>
+            <div hx-get="/dashboard/card/status" hx-trigger="load" hx-swap="innerHTML">
+                <div class="mt-5 space-y-3">
+                    @for (var i = 0; i < 4; i++)
+                    {
+                        <div class="plx-skeleton h-8 w-full"></div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <section class="plx-card p-5" aria-labelledby="priority-title">
+            <h2 id="priority-title" class="text-lg font-semibold">@L["Dashboard.TaskPriority"]</h2>
+            <div hx-get="/dashboard/card/priority" hx-trigger="load" hx-swap="innerHTML">
+                <div class="mt-4 flex items-center gap-4">
+                    <div class="plx-skeleton size-32 rounded-full"></div>
+                    <div class="flex-1 space-y-2">
+                        <div class="plx-skeleton h-4 w-full"></div>
+                        <div class="plx-skeleton h-4 w-3/4"></div>
+                        <div class="plx-skeleton h-4 w-2/3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="plx-card p-5 xl:col-span-2" aria-labelledby="activity-title">
+            <div class="flex items-center justify-between">
+                <h2 id="activity-title" class="text-lg font-semibold">@L["Dashboard.TeamActivity"]</h2>
+                <span class="text-xs text-ink-400">@Model.HeatmapActions @L["Dashboard.ActionsLast4Weeks"]</span>
+            </div>
+            <div hx-get="/dashboard/card/activity" hx-trigger="load" hx-swap="innerHTML">
+                <div class="plx-skeleton mt-4 h-32 w-full"></div>
+            </div>
+        </section>
+
+        <section class="plx-card p-5" aria-labelledby="today-title">
+            <h2 id="today-title" class="text-lg font-semibold">@L["Dashboard.TrackedToday"]</h2>
+            <div hx-get="/dashboard/card/today" hx-trigger="load" hx-swap="innerHTML">
+                <div class="plx-skeleton mt-4 h-24 w-full"></div>
+            </div>
+        </section>
+    </div>
+
+    <section class="plx-card p-5" aria-labelledby="workload-title">
+        <div class="flex items-center justify-between">
+            <h2 id="workload-title" class="text-lg font-semibold">@L["Dashboard.TeamWorkload"]</h2>
+            <a href="/team" class="text-sm font-medium text-brand-700 hover:underline">@L["Common.SeeAll"]</a>
+        </div>
+        <div hx-get="/dashboard/card/workload" hx-trigger="load" hx-swap="innerHTML">
+            <div class="mt-4 grid gap-3 md:grid-cols-3">
+                <div class="plx-skeleton h-28"></div>
+                <div class="plx-skeleton h-28"></div>
+                <div class="plx-skeleton h-28"></div>
+            </div>
+        </div>
+    </section>
+</div>

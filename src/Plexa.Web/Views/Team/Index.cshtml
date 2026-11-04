@@ -1,0 +1,77 @@
+@model IReadOnlyList<MemberCapacityDto>
+@{
+    ViewData["Title"] = L["Team.Title"].Value;
+    ViewData["Section"] = L["Nav.Menu"].Value;
+    var signals = Model.GroupBy(m => m.Signal).ToDictionary(g => g.Key, g => g.Count());
+}
+<div class="space-y-6">
+    <header>
+        <h1 class="text-3xl font-semibold tracking-tight">@L["Team.Title"]</h1>
+        <p class="mt-1 text-sm text-ink-600">@string.Format(L["Team.Subtitle"].Value, Model.Count)</p>
+    </header>
+
+    @if (Model.Count == 0)
+    {
+        <partial name="_EmptyState" model="@(new EmptyStateModel(L["Team.EmptyTitle"].Value, L["Team.EmptyBody"].Value, L["Admin.InviteMember"].Value, "/admin/members", "users"))" />
+    }
+    else
+    {
+        <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" aria-label="@L["Team.Title"]">
+            @foreach (var member in Model)
+            {
+                var tone = member.Signal switch
+                {
+                    CapacitySignal.Overloaded => "bg-danger-500",
+                    CapacitySignal.AtRisk => "bg-accent-500",
+                    _ => "bg-brand-500"
+                };
+                var chipTone = member.Signal switch
+                {
+                    CapacitySignal.Overloaded => "bg-danger-100 text-danger-500",
+                    CapacitySignal.AtRisk => "bg-accent-100 text-accent-500",
+                    _ => "bg-brand-50 text-brand-700"
+                };
+                <article class="plx-card p-5">
+                    <div class="flex items-center gap-3">
+                        @await Component.InvokeAsync("Avatar", new { name = member.Person.FullName, path = member.Person.AvatarPath, size = 44 })
+                        <div class="min-w-0">
+                            <h2 class="truncate text-base font-semibold">@member.Person.FullName</h2>
+                            <p class="truncate text-xs text-ink-400">@member.Person.JobTitle</p>
+                        </div>
+                    </div>
+
+                    <dl class="mt-5 grid grid-cols-3 gap-2 text-center">
+                        <div>
+                            <dd class="text-2xl font-semibold tabular-nums">@member.ActiveTasks</dd>
+                            <dt class="text-[11px] uppercase tracking-wide text-ink-400">@L["Team.Active"]</dt>
+                        </div>
+                        <div>
+                            <dd class="text-2xl font-semibold tabular-nums @(member.OverdueTasks > 0 ? "text-danger-500" : "")">@member.OverdueTasks</dd>
+                            <dt class="text-[11px] uppercase tracking-wide text-ink-400">@L["Team.Overdue"]</dt>
+                        </div>
+                        <div>
+                            <dd class="text-2xl font-semibold tabular-nums">@member.CapacityPercent%</dd>
+                            <dt class="text-[11px] uppercase tracking-wide text-ink-400">@L["Team.Capacity"]</dt>
+                        </div>
+                    </dl>
+
+                    <div class="mt-3 h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{member.CapacityPercent}% capacity")">
+                        <div class="h-full rounded-full @tone" style="width:@Math.Min(100, member.CapacityPercent)%"></div>
+                    </div>
+
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span class="plx-chip @chipTone">
+                            <span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>
+                            @member.SignalLabel
+                        </span>
+                        <span class="font-medium text-ink-600">@member.Availability</span>
+                    </div>
+
+                    <p class="mt-3 border-t border-ink-100 pt-2 text-[11px] text-ink-400">
+                        @member.OpenHours.ToString("0.#")h @L["Team.OpenHours"] · @member.CapacityHours.ToString("0.#")h @L["Team.CapacityHours"]
+                    </p>
+                </article>
+            }
+        </section>
+    }
+</div>

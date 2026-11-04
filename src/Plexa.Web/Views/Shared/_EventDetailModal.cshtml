@@ -1,0 +1,44 @@
+@model CalendarEventDto
+<dialog class="plx-modal" aria-labelledby="event-detail-title">
+    <div class="flex items-start justify-between gap-3 border-b border-ink-200 px-6 py-4">
+        <div>
+            <span class="plx-chip bg-cyan-100 text-cyan-500">@Model.KindLabel</span>
+            <h2 id="event-detail-title" class="mt-2 text-xl font-semibold">@Model.Title</h2>
+            <p class="mt-0.5 text-sm text-ink-600">@Model.DateLabel · @Model.TimeLabel</p>
+        </div>
+        <button type="button" class="plx-btn-ghost -mr-2 -mt-1" onclick="window.plexaCloseModal()" aria-label="@L["Common.Close"]">✕</button>
+    </div>
+
+    <div class="plx-modal-body space-y-3 text-sm">
+        <div class="flex gap-3">
+            <span class="w-24 shrink-0 text-xs font-medium uppercase tracking-wide text-ink-400">@L["Calendar.Field.Place"]</span>
+            <span class="text-ink-900">@(string.IsNullOrWhiteSpace(Model.Place) ? L["Common.None"].Value : Model.Place)</span>
+        </div>
+        <div class="flex gap-3">
+            <span class="w-24 shrink-0 text-xs font-medium uppercase tracking-wide text-ink-400">@L["Calendar.Field.Project"]</span>
+            <span class="text-ink-900">
+                @if (Model.ProjectId.HasValue)
+                {
+                    <a href="/projects/@Model.ProjectId" class="font-medium text-brand-700 hover:underline">@Model.ProjectLabel</a>
+                }
+                else
+                {
+                    @L["Common.None"]
+                }
+            </span>
+        </div>
+        <div class="flex gap-3">
+            <span class="w-24 shrink-0 text-xs font-medium uppercase tracking-wide text-ink-400">@L["Calendar.Field.Members"]</span>
+            <span class="text-ink-900">@(Model.Members.Count == 0 ? L["Common.None"].Value : string.Join(", ", Model.Members))</span>
+        </div>
+        <div class="flex gap-3">
+            <span class="w-24 shrink-0 text-xs font-medium uppercase tracking-wide text-ink-400">@L["Calendar.Field.Departments"]</span>
+            <span class="text-ink-900">@(Model.Departments.Count == 0 ? L["Common.None"].Value : string.Join(", ", Model.Departments))</span>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between gap-2 border-t border-ink-200 px-6 py-3">
+        <a href="/calendar" class="text-sm font-medium text-brand-700 hover:underline">@L["Calendar.OpenCalendar"]</a>
+        <button type="button" class="plx-btn-secondary" onclick="window.plexaCloseModal()">@L["Common.Close"]</button>
+    </div>
+</dialog>

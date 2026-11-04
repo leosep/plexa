@@ -1,0 +1,77 @@
+@model ProjectDetailDto
+@{
+    var header = Model.Header;
+    ViewData["Title"] = header.Name;
+    ViewData["Section"] = L["Projects.Title"].Value;
+    var tabs = new[]
+    {
+        ("Overview", "Projects.Tab.Overview"),
+        ("Dashboard", "Projects.Tab.Dashboard"),
+        ("Board", "Projects.Tab.Board"),
+        ("Timeline", "Projects.Tab.Timeline"),
+        ("Calendar", "Projects.Tab.Calendar"),
+        ("Team", "Projects.Tab.Team"),
+        ("Documents", "Projects.Tab.Documents")
+    };
+}
+<div class="space-y-6">
+    <a href="/projects" class="inline-flex items-center gap-1.5 text-sm font-medium text-ink-600 hover:text-brand-700">← @L["Projects.Back"]</a>
+
+    <header class="plx-card p-5">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+            <div class="flex min-w-0 items-start gap-4">
+                <span class="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-cyan-500 text-lg font-semibold text-white">@header.Initials</span>
+                <div class="min-w-0">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <h1 class="text-2xl font-semibold tracking-tight">@header.Name</h1>
+                        <span class="plx-chip @(header.Health == ProjectHealth.AtRisk ? "bg-danger-100 text-danger-500" : "bg-brand-50 text-brand-700")">@header.HealthLabel</span>
+                    </div>
+                    <p class="mt-1 text-xs uppercase tracking-wide text-ink-400">@header.MetaLine</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-6">
+                <div>
+                    <p class="plx-label">@L["Projects.Lead"]</p>
+                    @if (header.Lead is not null)
+                    {
+                        <div class="flex items-center gap-2">
+                            @await Component.InvokeAsync("Avatar", new { name = header.Lead.FullName, path = header.Lead.AvatarPath, size = 26 })
+                            <span class="text-sm font-medium">@header.Lead.FullName</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-sm text-ink-400">@L["Projects.NoLead"]</p>
+                    }
+                </div>
+                <div>
+                    <p class="plx-label">@L["Projects.Progress"]</p>
+                    <div class="flex items-center gap-2">
+                        <div class="h-2 w-28 overflow-hidden rounded-full bg-ink-100">
+                            <div class="h-full rounded-full bg-brand-500" style="width:@header.ProgressPct%"></div>
+                        </div>
+                        <span class="text-sm font-semibold tabular-nums">@header.ProgressPct%</span>
+                    </div>
+                    <p class="mt-0.5 text-[11px] text-ink-400">@header.TasksDone/@header.TasksTotal @L["Projects.Tasks"]</p>
+                </div>
+                <div>
+                    <p class="plx-label">@L["Projects.Health"]</p>
+                    <p class="text-sm font-medium @(header.Health == ProjectHealth.AtRisk ? "text-danger-500" : "text-brand-700")">@header.HealthLabel</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="-mx-1 flex gap-1 overflow-x-auto border-b border-ink-200 px-1" aria-label="@L["Projects.Tabs"]">
+        @foreach (var tab in tabs)
+        {
+            var active = string.Equals(Model.ActiveTab, tab.Item1, StringComparison.OrdinalIgnoreCase);
+            <a href="/projects/@header.Id?tab=@tab.Item1"
+               hx-get="/projects/@header.Id?tab=@tab.Item1" hx-target="#project-tab" hx-swap="outerHTML" hx-push-url="true"
+               class="whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium transition-colors @(active ? "border-brand-600 text-brand-700" : "border-transparent text-ink-600 hover:border-ink-200 hover:text-ink-900")"
+               aria-current="@(active ? "page" : null)">@L[tab.Item2]</a>
+        }
+    </nav>
+
+    <partial name="_ProjectTab" model="Model" />
+</div>

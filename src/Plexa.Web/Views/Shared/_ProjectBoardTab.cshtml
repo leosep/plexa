@@ -1,0 +1,47 @@
+@model ProjectDetailDto
+@{
+    var board = Model.Board!;
+    var projectId = Model.Header.Id;
+}
+<div class="space-y-3">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+        <p class="text-sm text-ink-600">@board.Subtitle</p>
+        <div class="flex gap-2">
+            <a href="/board?project=@projectId" class="plx-btn-secondary">@L["Projects.OpenFullBoard"]</a>
+            <button type="button" class="plx-btn-primary" data-shortcut-new-task
+                    hx-get="/tasks/new?project=@projectId" hx-target="#modal-root" hx-swap="innerHTML">
+                @L["Board.NewTask"]
+            </button>
+        </div>
+    </div>
+
+    <div class="grid gap-3 lg:grid-cols-4">
+        @foreach (var column in board.Columns)
+        {
+            var accent = column.Status switch
+            {
+                WorkTaskStatus.ToDo => "bg-status-todo",
+                WorkTaskStatus.InProgress => "bg-status-progress",
+                WorkTaskStatus.Review => "bg-status-review",
+                _ => "bg-status-done"
+            };
+            <section class="flex min-h-40 flex-col rounded-2xl bg-ink-100/80" aria-labelledby="project-column-@column.Status">
+                <header class="flex items-center gap-2 px-3 py-3">
+                    <span class="size-2.5 rounded-full @accent" aria-hidden="true"></span>
+                    <h2 id="project-column-@column.Status" class="text-sm font-semibold">@column.Title</h2>
+                    <span class="ml-auto rounded-full bg-white px-2 py-0.5 text-xs font-medium tabular-nums text-ink-600">@column.Count</span>
+                </header>
+                <div class="flex-1 space-y-2.5 px-2.5 pb-2.5">
+                    @foreach (var card in column.Cards)
+                    {
+                        <partial name="_TaskCard" model="card" />
+                    }
+                    @if (column.Cards.Count == 0)
+                    {
+                        <p class="px-2 py-4 text-center text-xs text-ink-400">@L["Board.EmptyColumn"]</p>
+                    }
+                </div>
+            </section>
+        }
+    </div>
+</div>

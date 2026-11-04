@@ -1,0 +1,50 @@
+@model MessagesPageViewModel
+@{
+    var thread = Model.Thread;
+}
+<section id="thread-panel" class="plx-card flex min-h-[70vh] flex-col" aria-labelledby="thread-title">
+    @if (thread is null)
+    {
+        <div class="grid flex-1 place-items-center p-8 text-center">
+            <div>
+                <p class="text-sm font-semibold">@L["Messages.SelectThread"]</p>
+                <p class="mt-1 text-xs text-ink-400">@L["Messages.SelectThreadHint"]</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <header class="flex items-center justify-between gap-2 border-b border-ink-100 px-5 py-3">
+            <div class="min-w-0">
+                <h2 id="thread-title" class="truncate text-base font-semibold">@thread.Title</h2>
+                <p class="truncate text-xs text-ink-400">
+                    @thread.ScopeLabel
+                    @if (!string.IsNullOrWhiteSpace(thread.ProjectLabel))
+                    {
+                        <span>· @thread.ProjectLabel</span>
+                    }
+                </p>
+            </div>
+        </header>
+
+        <partial name="_Messages" model="thread" />
+
+        @if (thread.CanPost)
+        {
+            <form class="border-t border-ink-100 p-3" hx-post="/messages/@thread.Id" hx-target="#thread-panel" hx-swap="outerHTML"
+                  hx-on::after-request="if(event.detail.successful) this.reset()">
+                @Html.AntiForgeryToken()
+                <label for="message-body" class="sr-only">@L["Messages.WriteMessage"]</label>
+                <div class="flex items-end gap-2">
+                    <textarea id="message-body" name="body" rows="2" required maxlength="4000" class="plx-input resize-y"
+                              placeholder="@L["Messages.WriteMessage"]"></textarea>
+                    <button type="submit" class="plx-btn-primary">@L["Messages.Send"]</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <p class="border-t border-ink-100 px-5 py-3 text-xs text-ink-400">@L["Messages.ReadOnly"]</p>
+        }
+    }
+</section>

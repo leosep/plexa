@@ -1,0 +1,25 @@
+@model IReadOnlyList<SearchHitDto>
+@if (Model.Count == 0)
+{
+    <div class="px-3 py-2 text-sm text-ink-400">@L["Search.NoResults"]</div>
+}
+else
+{
+    <ul class="py-1">
+        @foreach (var hit in Model)
+        {
+            <li>
+                <a href="@hit.Url" class="flex items-center justify-between gap-3 px-3 py-2 text-sm hover:bg-ink-100">
+                    <span class="min-w-0">
+                        <span class="block truncate font-medium">@hit.Title</span>
+                        @if (!string.IsNullOrWhiteSpace(hit.Context))
+                        {
+                            <span class="block truncate text-xs text-ink-400">@hit.Context</span>
+                        }
+                    </span>
+                    <span class="plx-chip shrink-0 bg-ink-100 text-[10px] uppercase tracking-wide text-ink-600">@hit.Type</span>
+                </a>
+            </li>
+        }
+    </ul>
+}

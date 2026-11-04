@@ -1,0 +1,52 @@
+@model ProjectListDto
+@{
+    ViewData["Title"] = L["Projects.Title"].Value;
+    ViewData["Section"] = L["Nav.Menu"].Value;
+}
+<div class="space-y-6">
+    <header class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight">@L["Projects.Title"]</h1>
+            <p class="mt-1 text-sm text-ink-600">@L["Projects.Subtitle"]</p>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="/admin/projects" class="plx-btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-4" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                @L["Projects.New"]
+            </a>
+        }
+    </header>
+
+    <section aria-label="@L["Projects.Kpis"]" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @foreach (var kpi in Model.Kpis)
+        {
+            <partial name="_KpiCard" model="kpi" />
+        }
+    </section>
+
+    <form class="flex flex-wrap items-center gap-2" hx-get="/projects" hx-target="#project-list" hx-swap="outerHTML"
+          hx-push-url="true" hx-trigger="change, search delay:350ms from:#project-search">
+        <input type="hidden" name="status" value="@Model.Status" id="project-status-input" />
+        <div class="flex flex-wrap gap-1.5" role="group" aria-label="@L["Projects.FilterStatus"]">
+            @foreach (var chip in Model.Chips)
+            {
+                <a href="/projects?status=@chip.Status&q=@Model.Query"
+                   class="plx-chip ring-1 @(chip.Active ? "bg-brand-600 text-white ring-brand-600" : "bg-white text-ink-600 ring-ink-200 hover:bg-ink-100")"
+                   aria-current="@(chip.Active ? "page" : null)">
+                    @chip.Label <span class="tabular-nums opacity-70">@chip.Count</span>
+                </a>
+            }
+        </div>
+
+        <div class="relative ml-auto">
+            <label class="sr-only" for="project-search">@L["Projects.Search"]</label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-ink-400" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+            <input id="project-search" name="q" type="search" value="@Model.Query" placeholder="@L["Projects.SearchPlaceholder"]"
+                   class="plx-input w-64 py-2 pl-8" />
+        </div>
+        <span class="htmx-indicator text-xs text-ink-400">@L["Common.Loading"]</span>
+    </form>
+
+    <partial name="_ProjectList" model="Model" />
+</div>

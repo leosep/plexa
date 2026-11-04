@@ -1,0 +1,44 @@
+@model InvitationViewModel
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = L["Invite.Title"].Value;
+}
+<h1 class="text-2xl font-semibold tracking-tight">@L["Invite.Title"]</h1>
+<p class="mt-2 text-sm text-ink-600">@L["Invite.Body"]</p>
+
+@if (Model.Invalid)
+{
+    <div class="mt-6 rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@L["Invite.Invalid"]</div>
+    <a href="/login" class="plx-btn-secondary mt-4 w-full py-2.5">@L["Forgot.Back"]</a>
+}
+else
+{
+    <form method="post" action="/invitations" class="mt-6 space-y-4" novalidate>
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500 empty:hidden"></div>
+        <div>
+            <label asp-for="Email" class="plx-label">@L["Login.Email"]</label>
+            <input asp-for="Email" type="email" readonly class="plx-input bg-ink-100" />
+        </div>
+        <div>
+            <label asp-for="Code" class="plx-label">@L["Invite.Code"]</label>
+            <input asp-for="Code" class="plx-input font-mono" />
+            <span asp-validation-for="Code" class="mt-1 block text-xs text-danger-500"></span>
+        </div>
+        <div>
+            <label asp-for="FullName" class="plx-label">@L["Invite.FullName"]</label>
+            <input asp-for="FullName" class="plx-input" autofocus />
+            <span asp-validation-for="FullName" class="mt-1 block text-xs text-danger-500"></span>
+        </div>
+        <div>
+            <label asp-for="JobTitle" class="plx-label">@L["Invite.JobTitle"]</label>
+            <input asp-for="JobTitle" class="plx-input" placeholder="Full-Stack Developer" />
+        </div>
+        <div>
+            <label asp-for="Password" class="plx-label">@L["Reset.Password"]</label>
+            <input asp-for="Password" type="password" autocomplete="new-password" class="plx-input" />
+            <span asp-validation-for="Password" class="mt-1 block text-xs text-danger-500"></span>
+        </div>
+        <button type="submit" class="plx-btn-primary w-full py-2.5">@L["Invite.Submit"]</button>
+    </form>
+}

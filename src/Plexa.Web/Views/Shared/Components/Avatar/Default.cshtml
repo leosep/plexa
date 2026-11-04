@@ -1,0 +1,15 @@
+@model Plexa.Web.ViewComponents.AvatarViewComponent.AvatarModel
+@{
+    var dimension = Model.Size;
+}
+@if (!string.IsNullOrWhiteSpace(Model.Path))
+{
+    <img src="@Model.Path" alt="@Model.Name" width="@dimension" height="@dimension"
+         class="rounded-full object-cover ring-1 ring-ink-200" style="width:@(dimension)px;height:@(dimension)px" loading="lazy" />
+}
+else
+{
+    <span aria-hidden="true" title="@Model.Name"
+          class="grid shrink-0 place-items-center rounded-full bg-brand-100 font-semibold text-brand-700"
+          style="width:@(dimension)px;height:@(dimension)px;font-size:@(Math.Max(10, dimension / 2.8))px">@Model.Initials</span>
+}

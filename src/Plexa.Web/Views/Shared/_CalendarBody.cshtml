@@ -1,0 +1,92 @@
+@model CalendarPageViewModel
+@{
+    var calendar = Model.Calendar;
+    var isMonth = calendar.View == "month";
+}
+<div id="calendar-body">
+    @if (isMonth)
+    {
+        <div class="plx-card overflow-hidden">
+            <div class="grid grid-cols-7 border-b border-ink-100 bg-ink-100/50">
+                @foreach (var day in new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" })
+                {
+                    <div class="px-2 py-2 text-center text-[11px] font-semibold uppercase tracking-wide text-ink-400">@day</div>
+                }
+            </div>
+            <div class="grid grid-cols-7">
+                @foreach (var day in calendar.Days)
+                {
+                    <div class="min-h-24 border-b border-r border-ink-100 p-1.5 @(day.IsCurrentMonth ? "" : "bg-ink-100/40")">
+                        <div class="flex items-center justify-between">
+                            <span class="grid size-6 place-items-center rounded-full text-xs font-medium @(day.IsToday ? "bg-brand-600 text-white" : day.IsCurrentMonth ? "text-ink-900" : "text-ink-400")">@day.Date.Day</span>
+                            @if (day.Count > 0)
+                            {
+                                <span class="text-[10px] font-medium text-ink-400">@day.Count</span>
+                            }
+                        </div>
+                        <div class="mt-1 space-y-1">
+                            @foreach (var item in day.Events.Take(2))
+                            {
+                                <button type="button" class="block w-full truncate rounded-md bg-cyan-100 px-1.5 py-1 text-left text-[11px] font-medium text-ink-900 hover:bg-cyan-100/70"
+                                        hx-get="/calendar/events/@item.Id" hx-target="#modal-root" hx-swap="innerHTML">
+                                    @item.StartsAt.ToString("HH:mm") @item.Title
+                                </button>
+                            }
+                            @if (day.Count > 2)
+                            {
+                                <p class="px-1 text-[10px] text-ink-400">+@(day.Count - 2)</p>
+                            }
+                        </div>
+                        <button type="button" class="mt-1 w-full rounded-md border border-dashed border-ink-200 py-0.5 text-[10px] text-ink-400 hover:border-brand-500 hover:text-brand-700"
+                                hx-get="/calendar/new?date=@day.Date.ToString("yyyy-MM-dd")" hx-target="#modal-root" hx-swap="innerHTML">+</button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="grid gap-3 @(calendar.View == "2weeks" ? "sm:grid-cols-7" : "sm:grid-cols-7")">
+            @foreach (var day in calendar.Days)
+            {
+                <section class="flex min-h-48 flex-col rounded-2xl bg-ink-100/70 p-2" aria-labelledby="day-@day.Date.ToString("yyyyMMdd")">
+                    <header class="flex items-center justify-between px-1 py-1">
+                        <h2 id="day-@day.Date.ToString("yyyyMMdd")" class="text-sm font-semibold">
+                            <span class="@(day.IsToday ? "text-brand-700" : "")">@day.Date.Day</span>
+                            <span class="text-xs font-normal text-ink-400">@day.Date.ToString("ddd")</span>
+                        </h2>
+                        @if (day.IsToday)
+                        {
+                            <span class="plx-chip bg-brand-600 text-[10px] text-white">@L["Calendar.Today"]</span>
+                        }
+                        else if (day.Count > 0)
+                        {
+                            <span class="text-[11px] tabular-nums text-ink-400">@day.Count</span>
+                        }
+                    </header>
+
+                    <div class="flex-1 space-y-1.5">
+                        @foreach (var item in day.Events)
+                        {
+                            <button type="button" class="block w-full rounded-xl bg-white p-2 text-left shadow-card ring-1 ring-ink-100 hover:ring-brand-500"
+                                    hx-get="/calendar/events/@item.Id" hx-target="#modal-root" hx-swap="innerHTML">
+                                <span class="block text-[11px] font-medium text-ink-400">@item.TimeLabel</span>
+                                <span class="mt-0.5 block line-clamp-2 text-xs font-medium leading-snug">@item.Title</span>
+                                <span class="mt-1 block text-[10px] text-cyan-500">@item.KindLabel</span>
+                            </button>
+                        }
+                        @if (day.Events.Count == 0)
+                        {
+                            <p class="px-1 pt-2 text-center text-[11px] text-ink-400">@L["Calendar.NoEvents"]</p>
+                        }
+                    </div>
+
+                    <button type="button" class="mt-2 w-full rounded-lg border border-dashed border-ink-200 py-1 text-[11px] font-medium text-ink-400 hover:border-brand-500 hover:text-brand-700"
+                            hx-get="/calendar/new?date=@day.Date.ToString("yyyy-MM-dd")" hx-target="#modal-root" hx-swap="innerHTML">
+                        + @L["Calendar.AddEvent"]
+                    </button>
+                </section>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,151 @@
+@model TaskFormViewModel
+@{
+    var form = Model.Form;
+    var action = Model.IsEdit ? $"/tasks/{form.Id}" : "/tasks";
+    var priorities = Enum.GetValues<TaskPriority>();
+    var progressModes = Enum.GetValues<TaskProgressMode>();
+}
+<dialog class="plx-modal max-w-2xl" aria-labelledby="task-form-title">
+    <form hx-post="@action" hx-target="#modal-root" hx-swap="innerHTML" novalidate>
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="Id" value="@form.Id" />
+        <input type="hidden" name="ParentId" value="@form.ParentId" />
+
+        <div class="flex items-start justify-between gap-3 border-b border-ink-200 px-6 py-4">
+            <div>
+                <h2 id="task-form-title" class="text-xl font-semibold">
+                    @(Model.IsEdit ? L["Task.EditTitle"].Value : Model.IsSubtask ? L["Task.NewSubtask"].Value : L["Task.NewTitle"].Value)
+                </h2>
+                <p class="mt-0.5 text-xs text-ink-400">@L["Task.FormHint"]</p>
+            </div>
+            <button type="button" class="plx-btn-ghost -mr-2 -mt-1" onclick="window.plexaCloseModal()" aria-label="@L["Common.Close"]">✕</button>
+        </div>
+
+        <div class="plx-modal-body space-y-4">
+            @if (!string.IsNullOrWhiteSpace(Model.Error))
+            {
+                <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@Model.Error</div>
+            }
+            <div asp-validation-summary="ModelOnly" class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500 empty:hidden"></div>
+
+            <div>
+                <label for="task-title" class="plx-label">@L["Task.Title"]</label>
+                <input id="task-title" name="Title" value="@form.Title" class="plx-input" required maxlength="200" autofocus
+                       placeholder="@L["Task.TitlePlaceholder"]" />
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="task-project" class="plx-label">@L["Task.Project"]</label>
+                    <select id="task-project" name="ProjectId" class="plx-input">
+                        <option value="">@L["Board.LooseTasks"]</option>
+                        @foreach (var project in Model.Options.Projects)
+                        {
+                            <option value="@project.Id" selected="@(form.ProjectId == project.Id)">@project.Label</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label for="task-assignee" class="plx-label">@L["Task.Assignee"]</label>
+                    <select id="task-assignee" name="AssigneeId" class="plx-input">
+                        <option value="">@L["Task.Unassigned"]</option>
+                        @foreach (var person in Model.Options.People)
+                        {
+                            <option value="@person.Id" selected="@(form.AssigneeId == person.Id)">@person.FullName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-3">
+                <div>
+                    <label for="task-priority" class="plx-label">@L["Task.Priority"]</label>
+                    <select id="task-priority" name="Priority" class="plx-input">
+                        @foreach (var priority in priorities)
+                        {
+                            <option value="@priority" selected="@(form.Priority == priority)">@StatusLabels.Of(priority)</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label for="task-tag" class="plx-label">@L["Task.Tag"]</label>
+                    <select id="task-tag" name="Tag" class="plx-input">
+                        <option value="">@L["Task.NoTag"]</option>
+                        @foreach (var tag in Tags.All)
+                        {
+                            <option value="@tag" selected="@(form.Tag == tag)">@tag</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label for="task-points" class="plx-label">@L["Task.StoryPoints"]</label>
+                    <input id="task-points" name="StoryPoints" type="number" min="0" max="21" value="@form.StoryPoints" class="plx-input tabular-nums" />
+                </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="task-start" class="plx-label">@L["Task.StartDate"]</label>
+                    <input id="task-start" name="StartDate" type="date" value="@form.StartDate?.ToString("yyyy-MM-dd")" class="plx-input" />
+                </div>
+                <div>
+                    <label for="task-due" class="plx-label">@L["Task.DueDate"]</label>
+                    <input id="task-due" name="DueDate" type="date" value="@form.DueDate?.ToString("yyyy-MM-dd")" class="plx-input" />
+                </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="task-estimate" class="plx-label">@L["Task.EstimateHours"]</label>
+                    <input id="task-estimate" name="EstimateHours" type="number" step="0.5" min="0" value="@form.EstimateHours.ToString("0.##")" class="plx-input tabular-nums" />
+                </div>
+                <div>
+                    <label for="task-mode" class="plx-label">@L["Task.ProgressMode"]</label>
+                    <select id="task-mode" name="ProgressMode" class="plx-input">
+                        @foreach (var mode in progressModes)
+                        {
+                            <option value="@mode" selected="@(form.ProgressMode == mode)">
+                                @(mode == TaskProgressMode.Hours ? L["Task.ByHours"].Value : L["Task.ByPercentage"].Value)
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label for="task-description" class="plx-label">@L["Task.Description"]</label>
+                <textarea id="task-description" name="Description" rows="3" class="plx-input resize-y" placeholder="@L["Task.DescriptionPlaceholder"]">@form.Description</textarea>
+            </div>
+
+            @if (Model.Options.DependencyOptions.Count > 0 && !Model.IsSubtask)
+            {
+                <fieldset>
+                    <legend class="plx-label">@L["Task.DependsOn"]</legend>
+                    <div class="grid max-h-40 gap-1.5 overflow-y-auto rounded-xl bg-ink-100/60 p-3 sm:grid-cols-2">
+                        @foreach (var option in Model.Options.DependencyOptions)
+                        {
+                            var id = $"dep-{option.Id}";
+                            <label for="@id" class="flex items-center gap-2 text-sm">
+                                <input id="@id" type="checkbox" name="DependsOn" value="@option.Id" checked="@option.Selected"
+                                       class="size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+                                <span class="truncate">@option.Label</span>
+                            </label>
+                        }
+                    </div>
+                </fieldset>
+            }
+
+            <label class="flex items-center gap-2 text-sm text-ink-600">
+                <input type="checkbox" name="InBacklog" value="true" checked="@form.InBacklog" class="size-4 rounded border-ink-200 text-brand-600 focus:ring-brand-600" />
+                @L["Task.InBacklog"]
+            </label>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 border-t border-ink-200 px-6 py-3">
+            <button type="button" class="plx-btn-secondary" onclick="window.plexaCloseModal()">@L["Common.Cancel"]</button>
+            <button type="submit" class="plx-btn-primary">
+                @(Model.IsEdit ? L["Common.Save"].Value : L["Task.Create"].Value)
+            </button>
+        </div>
+    </form>
+</dialog>
