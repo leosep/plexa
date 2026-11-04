@@ -1,0 +1,14 @@
+{
+  "name": "plexa",
+  "private": true,
+  "version": "1.0.0",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  },
+  "scripts": {
+    "build:css": "tailwindcss -i ./Styles/app.css -o ./src/Plexa.Web/wwwroot/css/site.css --minify",
+    "watch:css": "tailwindcss -i ./Styles/app.css -o ./src/Plexa.Web/wwwroot/css/site.css --watch",
+    "build:css:standalone": "tools/tailwindcss.exe -i ./Styles/app.css -o ./src/Plexa.Web/wwwroot/css/site.css --minify"
+  }
+}

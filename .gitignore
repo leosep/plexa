@@ -1,0 +1,23 @@
+# Secretos y configuración local
+.env
+*.user
+.vs/
+
+# Artefactos de compilación
+bin/
+obj/
+TestResults/
+playwright-report/
+node_modules/
+
+# Herramientas y salidas locales
+tools/
+logs/
+storage/
+
+# Herramientas de agentes (no forman parte del producto)
+.opencode/
+opencode.json
+AGENTS.md
+prompts/
+scripts/

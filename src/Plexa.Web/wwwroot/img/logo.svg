@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Plexa">
+  <defs>
+    <linearGradient id="plx" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0AA58A"/>
+      <stop offset="1" stop-color="#00AEC0"/>
+    </linearGradient>
+  </defs>
+  <path d="M24 2.5 42.2 13v22L24 45.5 5.8 35V13z" fill="url(#plx)"/>
+  <path d="M18.5 33V15h8.2c4.1 0 6.8 2.5 6.8 6.2 0 3.8-2.8 6.3-7 6.3h-3.4V33zm4.6-9.4h3.2c1.7 0 2.7-.9 2.7-2.3s-1-2.3-2.7-2.3h-3.2z" fill="#fff"/>
+</svg>

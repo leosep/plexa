@@ -1,0 +1,23 @@
+# Solo el servicio web: la base de datos SQL Server es externa.
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: plexa-web:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Default: ${ConnectionStrings__Default}
+      # En el contenedor no hay entorno Development: se prepara la base a mano.
+      Database__MigrateOnStartup: "true"
+      Database__SeedOnStartup: "false"
+    volumes:
+      - plexa-storage:/app/storage
+      - plexa-logs:/app/logs
+
+volumes:
+  plexa-storage:
+  plexa-logs:

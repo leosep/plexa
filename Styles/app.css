@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+@source "../src/Plexa.Web/Views/**/*.cshtml";
+@source "../src/Plexa.Web/wwwroot/js/**/*.js";
+
+@theme {
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #E8F8F4;
+  --color-brand-100: #C9EFE6;
+  --color-brand-500: #0AA58A;
+  --color-brand-600: #08876F;
+  --color-brand-700: #066B59;
+
+  --color-cyan-500: #00AEC0;
+  --color-cyan-100: #D6F3F6;
+
+  --color-accent-500: #F28C28;
+  --color-accent-100: #FDEBD6;
+
+  --color-danger-500: #D9503F;
+  --color-danger-100: #FBE3DF;
+
+  --color-ink-900: #0F2A3D;
+  --color-ink-600: #4A6072;
+  --color-ink-400: #8696A5;
+  --color-ink-200: #DCE4EA;
+  --color-ink-100: #EEF3F6;
+
+  --color-status-todo: #C9CED6;
+  --color-status-progress: #7FD6E0;
+  --color-status-review: #F6B98A;
+  --color-status-done: #8FD9C5;
+
+  --color-priority-high: #D9503F;
+  --color-priority-medium: #E9A93B;
+  --color-priority-low: #9AA3AF;
+
+  --radius-card: 1rem;
+  --radius-chip: 999px;
+
+  --shadow-card: 0 1px 2px rgb(15 42 61 / .05), 0 8px 24px -12px rgb(15 42 61 / .12);
+}
+
+@font-face {
+  font-family: "Jost";
+  src: url("/fonts/Jost-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-100 text-ink-900 font-sans antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-brand-100);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .plx-card {
+    @apply bg-white rounded-2xl shadow-card;
+  }
+
+  .plx-chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+
+  .plx-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .plx-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .plx-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors bg-white text-ink-900 ring-1 ring-ink-200 hover:bg-ink-100 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .plx-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors text-ink-600 hover:bg-ink-100 hover:text-ink-900 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .plx-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors bg-danger-500 text-white hover:bg-danger-500/90 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .plx-input {
+    @apply w-full rounded-xl border-0 bg-white px-3 py-2 text-sm text-ink-900 ring-1 ring-ink-200 placeholder:text-ink-400 focus:ring-2 focus:ring-brand-600;
+  }
+
+  .plx-label {
+    @apply block text-xs font-medium uppercase tracking-wide text-ink-600 mb-1.5;
+  }
+
+  .plx-nav-item {
+    @apply flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-brand-50 hover:text-brand-700;
+  }
+
+  .plx-nav-item.is-active {
+    @apply bg-brand-50 text-brand-700;
+  }
+
+  .plx-table {
+    @apply w-full text-left text-sm;
+  }
+
+  .plx-table thead th {
+    @apply px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-ink-400 border-b border-ink-200;
+  }
+
+  .plx-table tbody td {
+    @apply px-4 py-3 border-b border-ink-100 align-middle;
+  }
+
+  .plx-table tbody tr:hover {
+    @apply bg-ink-100/60;
+  }
+
+  .plx-skeleton {
+    @apply animate-pulse rounded-xl bg-ink-100;
+  }
+
+  .htmx-indicator {
+    opacity: 0;
+    transition: opacity .15s ease-in;
+  }
+
+  .htmx-request .htmx-indicator,
+  .htmx-request.htmx-indicator {
+    opacity: 1;
+  }
+
+  dialog.plx-modal {
+    @apply fixed inset-0 m-auto w-full max-w-xl rounded-2xl border-0 bg-white p-0 text-ink-900 shadow-2xl;
+    max-height: 90vh;
+  }
+
+  dialog.plx-modal::backdrop {
+    background: rgb(15 42 61 / .45);
+    backdrop-filter: blur(2px);
+  }
+
+  .plx-modal-body {
+    @apply max-h-[calc(90vh-4rem)] overflow-y-auto p-6;
+  }
+}
+
+@media print {
+  .plx-no-print, nav, aside, header.plx-topbar {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .plx-card {
+    box-shadow: none;
+    border: 1px solid #DCE4EA;
+  }
+}
