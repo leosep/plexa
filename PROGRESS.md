@@ -7,7 +7,7 @@
 | 00 | Scaffold e infraestructura .NET | ✅ | Solución de 4 capas + 3 proyectos de test, `Directory.Build.props` con `TreatWarningsAsErrors`, Tailwind v4, Dockerfile y compose (solo `web`) |
 | 01 | Modelo de datos (EF Core), migraciones y seed | ✅ | Entidades + configuraciones, `InitialCreate` aplicada, seed idempotente con 1 espacio, 3 usuarios, 1 proyecto, 14 tareas, 1 registro de tiempo y 4 notificaciones |
 | 02 | Autenticación, invitaciones y roles | ✅ | Identity con cookie `plexa.auth`, roles `Admin`/`Member`, invitaciones, recuperación de contraseña, políticas por pertenencia a proyecto |
-| 03 | Shell Razor (sidebar, topbar, i18n, componentes) | ✅ | Layout, sidebar/topbar, toasts, modales `<dialog>`, atajos (`/`, `N`, `Esc`), `IStringLocalizer` EN/ES con paridad exacta de 391 claves |
+| 03 | Shell Razor (sidebar, topbar, i18n, componentes) | ✅ | Layout, sidebar/topbar, toasts, modales `<dialog>`, atajos (`/`, `N`, `Esc`), `IStringLocalizer` EN/ES con todas las claves EN presentes en ES |
 | 04 | Servicios de tareas + Task board | ✅ | 4 columnas, filtros combinables, búsqueda con subtareas, drag de estado, aprobación, `HX-Trigger` |
 | 05 | Crear/editar/detalle de tarea | ✅ | Modal htmx con validación inline, subtareas de 2 niveles, checklist, dependencias con detección de ciclos y bloqueo |
 | 06 | Cronómetro y registro de tiempo | ✅ | Timer único por usuario (índice único filtrado), inicio/parada, registro manual, historial del día |
@@ -19,7 +19,7 @@
 | 12 | Calendario | ✅ | Vista mensual, tipos de evento, alta/detalle, JSON en `/api/v1/calendar/events` |
 | 13 | Mensajes y notificaciones | ✅ | Hilos de proyecto/equipo, menciones, panel de notificaciones, JSON en `/api/v1/notifications` |
 | 14 | Settings, buzón SMTP y administración | ✅ | Perfil, avatar, idioma, buzón con contraseña cifrada, admin de miembros/proyectos/sprints |
-| 15 | Endurecimiento, E2E y auditoría final | ✅ | Páginas 403/404/500, `ProblemDetails`, Serilog, health check, 54 unit + 10 integración + 3 E2E (omitibles), Docker |
+| 15 | Endurecimiento, E2E y auditoría final | ✅ | Páginas 403/404/500, `ProblemDetails`, Serilog, health check, 54 unit + 11 integración + 3 E2E (omitibles), Docker |
 
 Stack: .NET 9 MVC + Razor + Tailwind v4 + htmx/Alpine · EF Core/SQL Server · Identity
 
@@ -30,12 +30,42 @@ Leyenda: ⬜ pendiente · 🟡 en curso · ✅ terminada y verificada · ⚠️ 
 | Comprobación | Resultado |
 |---|---|
 | `dotnet build Plexa.sln` | 0 warnings, 0 errores |
-| `dotnet test Plexa.sln` | 54 unit + 10 integración + 3 E2E = **67 en verde** |
+| `dotnet test Plexa.sln` | 54 unit + 11 integración + 3 E2E = **68 en verde** |
 | Tailwind (`tools/tailwindcss.exe`) | compila, `wwwroot/css/site.css` ≈ 52 KB |
-| `.resx` EN/ES | 391 claves en ambos, sin diferencias |
+| `.resx` EN/ES | 442 claves EN, 665 ES; **0 claves EN sin traducción** |
+| QA de UI y funcionalidad (Playwright sobre la app real) | **229 comprobaciones PASS, 0 FAIL, 0 WARN** |
 | Rutas principales con sesión Member | `/`, `/dashboard`, `/board`, `/projects`, `/team`, `/reports`, `/analytics`, `/calendar`, `/messages`, `/settings`, `/health` → 200 |
 | Área `/admin/*` con Member | 403 |
+| Responsive 1280 / 768 / 390 px | sin desbordamiento horizontal en member, admin, ES y modales |
 | Cifras de aceptación | tablero `14 tasks`; dashboard `13 tasks in the backlog`, `3 / 13`, `23% of sprint`; analítica `13 tracked`, `77/0/0/23`, `28.0d`; reportes `42h 00m · 1m · -41h 59m` |
+
+### QA de UI y funcionalidad (2026-11-04)
+
+Recorrido automatizado con Playwright sobre la app en marcha, con datos del seed y en EN/ES: rutas anónimas y
+autenticadas, tablero (alta, cambio de columna, checklist, cronómetro), búsqueda, pestañas de proyecto, exportaciones
+CSV/XLSX/PDF, estados vacíos de analítica, calendario, mensajes (miembro y admin), ajustes, notificaciones, atajos,
+403/404, auditoría ES y responsive a 768/390 px. Resultado **229 PASS / 0 FAIL / 0 WARN**.
+
+Defectos encontrados y corregidos:
+
+1. `Htmx.Toast` sobrescribía el `HX-Trigger` existente; ahora fusiona los eventos.
+2. `_AuthLayout` no cargaba Alpine ni `app.js`, y usaba un `<h1>` decorativo para el logo (ahora `<p>`).
+3. Orden de scripts incorrecto; se unificó a `htmx → chart → app.js → alpine` en ambos layouts.
+4. SVG inválido con `<template x-if>` dentro de `<path>`; sustituido por `<path x-show>`.
+5. El formulario de movimiento de `_TaskCard` disparaba con `change from:select`; ahora `hx-trigger="change"`.
+6. La búsqueda en vivo del topbar no estaba conectada; ahora consulta `/search/suggest` con `_SearchSuggestions` y `[x-cloak]`.
+7. `/error/{code:int}` solo aceptaba GET (405 en POST); ahora usa `[Route]`.
+8. **Cookie de idioma**: se escribía `es` plano y `CookieRequestCultureProvider` la ignoraba; ahora se usa
+   `MakeCookieValue("es|uic=es")`. Regresión cubierta por `Culture_Switch_PersistsSpanishCulture`.
+9. `/messages/{id}` devolvía un parcial en navegación completa; ahora responde la vista `Index` salvo que htmx apunte a `thread-panel`.
+10. Crear un canal no navegaba al hilo nuevo; ahora responde `HX-Redirect` a `/messages/{id}?created=1` con aviso inline.
+11. Desbordamiento horizontal en tablas y mensajes a 390 px; `[contain:paint]` en contenedores de tabla, `min-w-0` en grid/hilo/compositor y `break-words` en burbujas.
+12. Placeholders con texto duro (`user@company.com`, `smtp.office365.com`) movidos a `.resx` EN/ES.
+
+Datos de demostración: el espacio de trabajo se llama **Plexa Studio** y el proyecto del seed **Internal Training Platform**
+(la UI nunca usa el nombre de la app original). DB de desarrollo limpia de artefactos de QA tras la auditoría: 14 tareas,
+1 evento, 0 sprints, 1 proyecto, 0 hilos, 1 registro de tiempo y 4 notificaciones del seed.
+
 
 ## Decisiones y supuestos tomados
 
@@ -61,4 +91,8 @@ Leyenda: ⬜ pendiente · 🟡 en curso · ✅ terminada y verificada · ⚠️ 
 - **[SUPUESTO] Pruebas que se omiten**: integración requiere `Tests__ConnectionString` (base temporal `Plexa_Test_<guid>`);
   E2E requiere `E2E__BaseUrl`. Sin esas variables las pruebas pasan sin ejecutar, para no romper `dotnet test` en local/CI.
 - **[SUPUESTO] Zona horaria**: todo se guarda en UTC y se muestra en la zona local del servidor mediante `IClock`.
+- **[SUPUESTO] Texto persistido**: la actividad y las notificaciones se escriben en inglés en base de datos (idioma por
+  defecto) para que el histórico no cambie al alternar EN/ES; la UI que las muestra sí está localizada.
+- **[SUPUESTO] Nombres del seed**: espacio de trabajo **Plexa Studio** y proyecto **Internal Training Platform**, para no
+  reutilizar la identidad de la app original. `spec/` se conserva intacto como referencia.
 - **Marca**: el producto es **Plexa** en UI, correos, títulos y metadatos; soporte `support@plexa.app`.

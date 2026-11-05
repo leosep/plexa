@@ -31,6 +31,32 @@ Idioma: inglés por defecto y español, con `IStringLocalizer` + `.resx` y cooki
 
 ---
 
+## Capturas
+
+Interfaz real de Plexa en inglés (idioma por defecto), con los datos del seed.
+
+| Inicio de sesión | Dashboard |
+|---|---|
+| <img src="docs/screenshots/login.png" width="480" alt="Inicio de sesión" /> | <img src="docs/screenshots/dashboard.png" width="480" alt="Dashboard" /> |
+
+| Tablero Kanban | Proyectos |
+|---|---|
+| <img src="docs/screenshots/board.png" width="480" alt="Tablero Kanban" /> | <img src="docs/screenshots/projects.png" width="480" alt="Proyectos" /> |
+
+| Detalle de proyecto | Equipo |
+|---|---|
+| <img src="docs/screenshots/project.png" width="480" alt="Detalle de proyecto" /> | <img src="docs/screenshots/team.png" width="480" alt="Equipo" /> |
+
+| Reportes | Analítica |
+|---|---|
+| <img src="docs/screenshots/reports.png" width="480" alt="Reportes" /> | <img src="docs/screenshots/analytics.png" width="480" alt="Analítica" /> |
+
+| Calendario |
+|---|
+| <img src="docs/screenshots/calendar.png" width="480" alt="Calendario" /> |
+
+---
+
 ## Stack
 
 | Capa | Tecnología |
@@ -109,9 +135,9 @@ Idioma: inglés por defecto y español, con `IStringLocalizer` + `.resx` y cooki
 
    | Rol | Correo | Contraseña |
    |---|---|---|
-   | Admin | `gerson.cabreja@dwn.com.do` | `Plexa123$` |
-   | Member | `lsepulveda@dwn.com.do` | `Plexa123$` |
-   | Member | `ymontero@dwn.com.do` | `Plexa123$` |
+   | Admin | `alex.rivera@dwn.com.do` | `Plexa123$` |
+   | Member | `marta.gomez@dwn.com.do` | `Plexa123$` |
+   | Member | `diego.fernandez@dwn.com.do` | `Plexa123$` |
 
    > Cambia estas credenciales antes de cualquier despliegue real.
 
