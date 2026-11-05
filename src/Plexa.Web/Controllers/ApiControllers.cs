@@ -12,11 +12,13 @@ public sealed class TimeApiController : Controller
 {
     private readonly ITimerService _timer;
     private readonly IUserContext _user;
+    private readonly ITranslator _t;
 
-    public TimeApiController(ITimerService timer, IUserContext user)
+    public TimeApiController(ITimerService timer, IUserContext user, ITranslator translator)
     {
         _timer = timer;
         _user = user;
+        _t = translator;
     }
 
     [HttpGet("timer")]
@@ -32,7 +34,7 @@ public sealed class TimeApiController : Controller
     {
         var timer = await _timer.StartAsync(taskId, _user.UserId, ct);
         Response.Headers["HX-Trigger"] = "{\"timer:changed\":true,\"task:changed\":true}";
-        Response.Toast("success", "Timer started");
+        Response.Toast("success", _t["Timer started"]);
         return Ok(timer);
     }
 
@@ -42,7 +44,7 @@ public sealed class TimeApiController : Controller
     {
         var timer = await _timer.StopAsync(_user.UserId, ct);
         Response.Headers["HX-Trigger"] = "{\"timer:changed\":true,\"task:changed\":true}";
-        Response.Toast("success", "Timer stopped");
+        Response.Toast("success", _t["Timer stopped"]);
         return timer is null ? NoContent() : Ok(timer);
     }
 
@@ -57,11 +59,13 @@ public sealed class TimerController : Controller
 {
     private readonly ITimerService _timer;
     private readonly IUserContext _user;
+    private readonly ITranslator _t;
 
-    public TimerController(ITimerService timer, IUserContext user)
+    public TimerController(ITimerService timer, IUserContext user, ITranslator translator)
     {
         _timer = timer;
         _user = user;
+        _t = translator;
     }
 
     [HttpPost("/board/timer/start")]
@@ -69,7 +73,7 @@ public sealed class TimerController : Controller
     public async Task<IActionResult> Start(Guid id, string? returnUrl, CancellationToken ct)
     {
         await _timer.StartAsync(id, _user.UserId, ct);
-        Response.Toast("success", "Timer started");
+        Response.Toast("success", _t["Timer started"]);
         return Redirect(SafeReturn(returnUrl));
     }
 
@@ -78,7 +82,7 @@ public sealed class TimerController : Controller
     public async Task<IActionResult> Stop(string? returnUrl, CancellationToken ct)
     {
         await _timer.StopAsync(_user.UserId, ct);
-        Response.Toast("success", "Timer stopped");
+        Response.Toast("success", _t["Timer stopped"]);
         return Redirect(SafeReturn(returnUrl));
     }
 

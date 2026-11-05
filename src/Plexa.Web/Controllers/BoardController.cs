@@ -15,12 +15,14 @@ public sealed class BoardController : Controller
     private readonly ITaskService _tasks;
     private readonly IProjectService _projects;
     private readonly IUserContext _user;
+    private readonly ITranslator _t;
 
-    public BoardController(ITaskService tasks, IProjectService projects, IUserContext user)
+    public BoardController(ITaskService tasks, IProjectService projects, IUserContext user, ITranslator translator)
     {
         _tasks = tasks;
         _projects = projects;
         _user = user;
+        _t = translator;
     }
 
     [HttpGet("/board")]
@@ -126,7 +128,7 @@ public sealed class BoardController : Controller
         }
 
         Response.Headers["HX-Trigger"] = "{\"task:changed\":true,\"closeModal\":true}";
-        Response.Toast("success", "Task created");
+        Response.Toast("success", _t["Task created"]);
         return PartialView("_TaskCreated", result.TaskId);
     }
 
@@ -160,7 +162,7 @@ public sealed class BoardController : Controller
         }
 
         Response.Headers["HX-Trigger"] = "{\"task:changed\":true,\"closeModal\":true}";
-        Response.Toast("success", "Task updated");
+        Response.Toast("success", _t["Task updated"]);
         return PartialView("_TaskCreated", id);
     }
 
@@ -172,12 +174,12 @@ public sealed class BoardController : Controller
         var result = await _tasks.DeleteAsync(id, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The task could not be deleted.");
+            Response.Toast("error", result.Error ?? _t["The task could not be deleted."]);
             return StatusCode(StatusCodes.Status409Conflict);
         }
 
         Response.Headers["HX-Trigger"] = "{\"task:changed\":true,\"closeModal\":true}";
-        Response.Toast("success", "Task deleted");
+        Response.Toast("success", _t["Task deleted"]);
         return NoContent();
     }
 
@@ -188,13 +190,13 @@ public sealed class BoardController : Controller
         var result = await _tasks.MoveAsync(id, status, _user.UserId, ct);
         if (!result.Success)
         {
-            Response.Toast("error", result.Error ?? "The task cannot move yet.");
+            Response.Toast("error", result.Error ?? _t["The task cannot move yet."]);
             Response.Headers["HX-Trigger"] = "{\"task:changed\":true}";
             return StatusCode(StatusCodes.Status409Conflict);
         }
 
         Response.Headers["HX-Trigger"] = "{\"task:changed\":true}";
-        Response.Toast("success", result.Toast ?? "Task moved");
+        Response.Toast("success", result.Toast ?? _t["Task moved"]);
         if (source == "detail")
         {
             var detail = await _tasks.GetDetailAsync(id, ct);
@@ -212,12 +214,12 @@ public sealed class BoardController : Controller
         var result = await _tasks.ApproveAsync(id, _user.UserId, ct);
         if (!result.Success)
         {
-            Response.Toast("error", result.Error ?? "The task cannot be approved.");
+            Response.Toast("error", result.Error ?? _t["The task cannot be approved."]);
             return StatusCode(StatusCodes.Status403Forbidden);
         }
 
         Response.Headers["HX-Trigger"] = "{\"task:changed\":true}";
-        Response.Toast("success", "Task approved");
+        Response.Toast("success", _t["Task approved"]);
         var detail = await _tasks.GetDetailAsync(id, ct);
         ViewData["CanApprove"] = _user.IsAdmin;
         return detail is null ? NoContent() : PartialView("_TaskDetailModal", detail);
@@ -237,12 +239,12 @@ public sealed class BoardController : Controller
         var result = await _tasks.UpdateAsync(form, _user.UserId, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The task could not be assigned.");
+            Response.Toast("error", result.Error ?? _t["The task could not be assigned."]);
             return StatusCode(StatusCodes.Status409Conflict);
         }
 
         Response.Headers["HX-Trigger"] = "{\"task:changed\":true}";
-        Response.Toast("success", assignee.HasValue ? "Task assigned" : "Task left unassigned");
+        Response.Toast("success", assignee.HasValue ? _t["Task assigned"] : _t["Task left unassigned"]);
         var card = await _tasks.GetCardAsync(id, ct);
         return card is null ? NoContent() : PartialView("_TaskCard", card);
     }
@@ -254,12 +256,12 @@ public sealed class BoardController : Controller
         var result = await _tasks.AddSubtaskAsync(id, title, hours, assignee, _user.UserId, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The subtask could not be created.");
+            Response.Toast("error", result.Error ?? _t["The subtask could not be created."]);
             return StatusCode(StatusCodes.Status422UnprocessableEntity);
         }
 
         Response.Headers["HX-Trigger"] = "{\"task:changed\":true}";
-        Response.Toast("success", "Subtask added");
+        Response.Toast("success", _t["Subtask added"]);
         var detail = await _tasks.GetDetailAsync(id, ct);
         return detail is null ? NoContent() : PartialView("_TaskDetailBody", detail);
     }
@@ -271,7 +273,7 @@ public sealed class BoardController : Controller
         var result = await _tasks.AddChecklistStepAsync(id, text, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The step could not be added.");
+            Response.Toast("error", result.Error ?? _t["The step could not be added."]);
             return StatusCode(StatusCodes.Status422UnprocessableEntity);
         }
 

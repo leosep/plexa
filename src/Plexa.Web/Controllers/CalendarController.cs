@@ -79,7 +79,7 @@ public sealed class CalendarController : Controller
         }
 
         Response.Headers["HX-Trigger"] = "{\"calendar:changed\":true,\"closeModal\":true}";
-        Response.Toast("success", "Event created");
+        Response.Toast("success", _t["Event created"]);
         return NoContent();
     }
 
@@ -127,12 +127,14 @@ public sealed class MessagesController : Controller
     private readonly IMessageService _messages;
     private readonly IProjectService _projects;
     private readonly IUserContext _user;
+    private readonly ITranslator _t;
 
-    public MessagesController(IMessageService messages, IProjectService projects, IUserContext user)
+    public MessagesController(IMessageService messages, IProjectService projects, IUserContext user, ITranslator translator)
     {
         _messages = messages;
         _projects = projects;
         _user = user;
+        _t = translator;
     }
 
     [HttpGet("/messages")]
@@ -190,7 +192,7 @@ public sealed class MessagesController : Controller
         var result = await _messages.PostMessageAsync(id, body, _user.UserId, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The message could not be sent.");
+            Response.Toast("error", result.Error ?? _t["The message could not be sent."]);
             return StatusCode(StatusCodes.Status422UnprocessableEntity);
         }
 
@@ -231,12 +233,12 @@ public sealed class MessagesController : Controller
         var result = await _messages.CreateThreadAsync(title, scope, projectId, _user.UserId, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The channel could not be created.");
+            Response.Toast("error", result.Error ?? _t["The channel could not be created."]);
             return StatusCode(StatusCodes.Status422UnprocessableEntity);
         }
 
         Response.Headers["HX-Trigger"] = "{\"closeModal\":true,\"threads:changed\":true}";
-        Response.Toast("success", "Channel created");
+        Response.Toast("success", _t["Channel created"]);
 
         // Se abre el canal recién creado: en htmx con redirección de cliente, si no con un 302 normal.
         var target = $"/messages/{result.Id}?created=1";

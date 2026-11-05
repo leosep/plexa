@@ -20,13 +20,15 @@ public sealed class SettingsController : Controller
     private readonly UserManager<ApplicationUser> _users;
     private readonly IUserContext _user;
     private readonly PlexaDbContext _db;
+    private readonly ITranslator _t;
 
-    public SettingsController(ISettingsService settings, UserManager<ApplicationUser> users, IUserContext user, PlexaDbContext db)
+    public SettingsController(ISettingsService settings, UserManager<ApplicationUser> users, IUserContext user, PlexaDbContext db, ITranslator translator)
     {
         _settings = settings;
         _users = users;
         _user = user;
         _db = db;
+        _t = translator;
     }
 
     [HttpGet("/settings")]
@@ -56,13 +58,13 @@ public sealed class SettingsController : Controller
     {
         if (avatar is null || avatar.Length == 0)
         {
-            TempData["Error"] = "Choose an image first.";
+            TempData["Error"] = _t["Choose an image first."];
             return Redirect("/settings?section=profile");
         }
 
         await using var stream = avatar.OpenReadStream();
         var result = await _settings.UpdateAvatarAsync(stream, avatar.FileName, avatar.ContentType, avatar.Length, ct);
-        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? "Profile picture updated." : result.Error;
+        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? _t["Profile picture updated."] : result.Error;
         Response.Headers["HX-Trigger"] = "{\"profile:changed\":true}";
         return Redirect("/settings?section=profile");
     }
@@ -73,7 +75,7 @@ public sealed class SettingsController : Controller
     {
         var result = await _settings.SaveMailboxAsync(model.Email, model.SmtpHost, model.SmtpPort, model.UseStartTls, password, ct);
         TempData[result.Ok ? "Success" : "Error"] = result.Ok
-            ? "Mailbox saved. The password is never shown again."
+            ? _t["Mailbox saved. The password is never shown again."]
             : result.Error;
         Response.Headers["HX-Trigger"] = "{\"settings:changed\":true}";
         return Redirect("/settings?section=mailbox");
@@ -91,7 +93,7 @@ public sealed class SettingsController : Controller
             Expires = DateTimeOffset.UtcNow.AddYears(1),
             IsEssential = true
         });
-        TempData["Success"] = "Preferences saved.";
+        TempData["Success"] = _t["Preferences saved."];
         return Redirect("/settings?section=preferences");
     }
 }
@@ -100,10 +102,12 @@ public sealed class SettingsController : Controller
 public sealed class AdminController : Controller
 {
     private readonly IAdminService _admin;
+    private readonly ITranslator _t;
 
-    public AdminController(IAdminService admin)
+    public AdminController(IAdminService admin, ITranslator translator)
     {
         _admin = admin;
+        _t = translator;
     }
 
     [HttpGet("/admin")]
@@ -118,7 +122,7 @@ public sealed class AdminController : Controller
     public async Task<IActionResult> CreateSprint(string name, DateOnly start, DateOnly end, int capacityPoints, int committedPoints, bool activate, CancellationToken ct)
     {
         var result = await _admin.CreateSprintAsync(name, start, end, capacityPoints, committedPoints, activate, ct);
-        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? "Sprint saved." : result.Error;
+        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? _t["Sprint saved."] : result.Error;
         Response.Headers["HX-Trigger"] = "{\"sprint:changed\":true}";
         return Redirect("/admin/sprints");
     }
@@ -128,7 +132,7 @@ public sealed class AdminController : Controller
     public async Task<IActionResult> CloseSprint(Guid id, CancellationToken ct)
     {
         var result = await _admin.CloseSprintAsync(id, ct);
-        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? "Sprint closed." : result.Error;
+        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? _t["Sprint closed."] : result.Error;
         Response.Headers["HX-Trigger"] = "{\"sprint:changed\":true}";
         return Redirect("/admin/sprints");
     }
@@ -142,7 +146,7 @@ public sealed class AdminController : Controller
     public async Task<IActionResult> InviteMember(string email, WorkspaceRole role, string fullName, string jobTitle, decimal capacityHours, CancellationToken ct)
     {
         var result = await _admin.InviteMemberAsync(email, role, fullName, jobTitle, capacityHours, ct);
-        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? "Invitation sent." : result.Error;
+        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? _t["Invitation sent."] : result.Error;
         return Redirect("/admin/members");
     }
 
@@ -151,7 +155,7 @@ public sealed class AdminController : Controller
     public async Task<IActionResult> UpdateMember(Guid id, string fullName, string jobTitle, WorkspaceRole role, decimal capacityHours, CancellationToken ct)
     {
         var result = await _admin.UpdateMemberAsync(id, fullName, jobTitle, role, capacityHours, ct);
-        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? "Member updated." : result.Error;
+        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? _t["Member updated."] : result.Error;
         return Redirect("/admin/members");
     }
 
@@ -167,7 +171,7 @@ public sealed class AdminController : Controller
     public async Task<IActionResult> SaveProject(AdminProjectFormModel model, CancellationToken ct)
     {
         var result = await _admin.SaveProjectAsync(model, ct);
-        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? "Project saved." : result.Error;
+        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? _t["Project saved."] : result.Error;
         Response.Headers["HX-Trigger"] = "{\"project:changed\":true}";
         return Redirect("/admin/projects");
     }
@@ -177,7 +181,7 @@ public sealed class AdminController : Controller
     public async Task<IActionResult> ArchiveProject(Guid id, CancellationToken ct)
     {
         var result = await _admin.ArchiveProjectAsync(id, ct);
-        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? "Project archived." : result.Error;
+        TempData[result.Ok ? "Success" : "Error"] = result.Ok ? _t["Project archived."] : result.Error;
         return Redirect("/admin/projects");
     }
 }

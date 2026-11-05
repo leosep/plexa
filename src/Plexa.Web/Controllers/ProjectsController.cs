@@ -13,11 +13,13 @@ public sealed class ProjectsController : Controller
 {
     private readonly IProjectService _projects;
     private readonly IUserContext _user;
+    private readonly ITranslator _t;
 
-    public ProjectsController(IProjectService projects, IUserContext user)
+    public ProjectsController(IProjectService projects, IUserContext user, ITranslator translator)
     {
         _projects = projects;
         _user = user;
+        _t = translator;
     }
 
     [HttpGet("/projects")]
@@ -64,12 +66,12 @@ public sealed class ProjectsController : Controller
         var result = await _projects.SaveTeamAsync(model, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The team could not be saved.");
+            Response.Toast("error", result.Error ?? _t["The team could not be saved."]);
             return StatusCode(StatusCodes.Status422UnprocessableEntity);
         }
 
         Response.Headers["HX-Trigger"] = "{\"closeModal\":true,\"project:changed\":true}";
-        Response.Toast("success", "Team updated");
+        Response.Toast("success", _t["Team updated"]);
         return NoContent();
     }
 
@@ -92,12 +94,12 @@ public sealed class ProjectsController : Controller
 
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The files could not be uploaded.");
+            Response.Toast("error", result.Error ?? _t["The files could not be uploaded."]);
             return StatusCode(StatusCodes.Status422UnprocessableEntity);
         }
 
         Response.Headers["HX-Trigger"] = "{\"project:changed\":true}";
-        Response.Toast("success", "Documents uploaded");
+        Response.Toast("success", _t["Documents uploaded"]);
         var detail = await _projects.GetDetailAsync(id, "Documents", ct);
         return detail is null ? NoContent() : PartialView("_ProjectTab", detail);
     }
@@ -109,12 +111,12 @@ public sealed class ProjectsController : Controller
         var result = await _projects.DeleteDocumentAsync(documentId, ct);
         if (!result.Ok)
         {
-            Response.Toast("error", result.Error ?? "The document could not be deleted.");
+            Response.Toast("error", result.Error ?? _t["The document could not be deleted."]);
             return StatusCode(StatusCodes.Status422UnprocessableEntity);
         }
 
         Response.Headers["HX-Trigger"] = "{\"project:changed\":true}";
-        Response.Toast("success", "Document deleted");
+        Response.Toast("success", _t["Document deleted"]);
         var detail = await _projects.GetDetailAsync(id, "Documents", ct);
         return detail is null ? NoContent() : PartialView("_ProjectTab", detail);
     }

@@ -19,7 +19,7 @@
 | 12 | Calendario | ✅ | Vista mensual, tipos de evento, alta/detalle, JSON en `/api/v1/calendar/events` |
 | 13 | Mensajes y notificaciones | ✅ | Hilos de proyecto/equipo, menciones, panel de notificaciones, JSON en `/api/v1/notifications` |
 | 14 | Settings, buzón SMTP y administración | ✅ | Perfil, avatar, idioma, buzón con contraseña cifrada, admin de miembros/proyectos/sprints |
-| 15 | Endurecimiento, E2E y auditoría final | ✅ | Páginas 403/404/500, `ProblemDetails`, Serilog, health check, 54 unit + 11 integración + 3 E2E (omitibles), Docker |
+| 15 | Endurecimiento, E2E y auditoría final | ✅ | Páginas 403/404/500, `ProblemDetails`, Serilog, health check, 54 unit + 12 integración + 3 E2E (omitibles), Docker |
 
 Stack: .NET 9 MVC + Razor + Tailwind v4 + htmx/Alpine · EF Core/SQL Server · Identity
 
@@ -30,9 +30,9 @@ Leyenda: ⬜ pendiente · 🟡 en curso · ✅ terminada y verificada · ⚠️ 
 | Comprobación | Resultado |
 |---|---|
 | `dotnet build Plexa.sln` | 0 warnings, 0 errores |
-| `dotnet test Plexa.sln` | 54 unit + 11 integración + 3 E2E = **68 en verde** |
+| `dotnet test Plexa.sln` | 54 unit + 12 integración + 3 E2E = **69 en verde** |
 | Tailwind (`tools/tailwindcss.exe`) | compila, `wwwroot/css/site.css` ≈ 52 KB |
-| `.resx` EN/ES | 442 claves EN, 665 ES; **0 claves EN sin traducción** |
+| `.resx` EN/ES | 480 claves EN, 665 ES; **0 claves EN sin traducción** |
 | QA de UI y funcionalidad (Playwright sobre la app real) | **229 comprobaciones PASS, 0 FAIL, 0 WARN** |
 | Rutas principales con sesión Member | `/`, `/dashboard`, `/board`, `/projects`, `/team`, `/reports`, `/analytics`, `/calendar`, `/messages`, `/settings`, `/health` → 200 |
 | Área `/admin/*` con Member | 403 |
@@ -61,6 +61,8 @@ Defectos encontrados y corregidos:
 10. Crear un canal no navegaba al hilo nuevo; ahora responde `HX-Redirect` a `/messages/{id}?created=1` con aviso inline.
 11. Desbordamiento horizontal en tablas y mensajes a 390 px; `[contain:paint]` en contenedores de tabla, `min-w-0` en grid/hilo/compositor y `break-words` en burbujas.
 12. Placeholders con texto duro (`user@company.com`, `smtp.office365.com`) movidos a `.resx` EN/ES.
+13. Toasts y avisos `TempData` de tablero, proyectos, cronómetro, calendario, ajustes y administración estaban en inglés
+    fijo; ahora pasan por `ITranslator` y hay prueba de regresión ES (`Settings_SuccessMessage_IsLocalized_InSpanish`).
 
 Datos de demostración: el espacio de trabajo se llama **Plexa Studio** y el proyecto del seed **Internal Training Platform**
 (la UI nunca usa el nombre de la app original). DB de desarrollo limpia de artefactos de QA tras la auditoría: 14 tareas,

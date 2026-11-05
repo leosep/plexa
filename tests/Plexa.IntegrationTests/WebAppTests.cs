@@ -120,6 +120,46 @@ public class WebAppTests : IClassFixture<PlexaWebFactory>
     }
 
     [Fact]
+    public async Task Settings_SuccessMessage_IsLocalized_InSpanish()
+    {
+        if (!_factory.Enabled) return;
+
+        using var client = await _factory.CreateAuthenticatedClientAsync(allowAutoRedirect: true);
+
+        var settingsHtml = await client.GetStringAsync("/settings?section=preferences");
+        var token = System.Text.RegularExpressions.Regex
+            .Match(settingsHtml, "name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"")
+            .Groups[1].Value;
+
+        var culture = await client.PostAsync("/culture", new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            ["culture"] = "es",
+            ["returnUrl"] = "/settings?section=preferences",
+            ["__RequestVerificationToken"] = token
+        }));
+        culture.StatusCode.Should().Be(HttpStatusCode.OK, "el cliente sigue la redirección del cambio de idioma");
+
+        var spanishHtml = await client.GetStringAsync("/settings?section=preferences");
+        var spanishToken = System.Text.RegularExpressions.Regex
+            .Match(spanishHtml, "name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"")
+            .Groups[1].Value;
+
+        var save = await client.PostAsync("/settings/preferences", new FormUrlEncodedContent(
+            new Dictionary<string, string>
+            {
+                ["showInsights"] = "true",
+                ["hideUpgrade"] = "false",
+                ["locale"] = "es",
+                ["__RequestVerificationToken"] = spanishToken
+            }));
+
+        save.StatusCode.Should().Be(HttpStatusCode.OK, "tras guardar preferencias se vuelve a la página de ajustes");
+        var savedHtml = await save.Content.ReadAsStringAsync();
+        savedHtml.Should().Contain("Preferencias guardadas.",
+            "los toasts de los controladores también deben pasar por el localizador");
+    }
+
+    [Fact]
     public async Task Reports_MatchSpecAcceptanceNumbers()
     {
         if (!_factory.Enabled) return;

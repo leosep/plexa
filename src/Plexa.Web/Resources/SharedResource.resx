@@ -500,4 +500,42 @@
   <data name="Analytics.LoadAria" xml:space="preserve"><value>{0}: {1} active tasks</value></data>
   <data name="Login.EmailPlaceholder" xml:space="preserve"><value>user@company.com</value></data>
   <data name="Settings.SmtpHostPlaceholder" xml:space="preserve"><value>smtp.office365.com</value></data>
+  <data name="Task created" xml:space="preserve"><value>Task created</value></data>
+  <data name="Task updated" xml:space="preserve"><value>Task updated</value></data>
+  <data name="Task deleted" xml:space="preserve"><value>Task deleted</value></data>
+  <data name="Task moved" xml:space="preserve"><value>Task moved</value></data>
+  <data name="Task approved" xml:space="preserve"><value>Task approved</value></data>
+  <data name="Task assigned" xml:space="preserve"><value>Task assigned</value></data>
+  <data name="Task left unassigned" xml:space="preserve"><value>Task left unassigned</value></data>
+  <data name="Subtask added" xml:space="preserve"><value>Subtask added</value></data>
+  <data name="Timer started" xml:space="preserve"><value>Timer started</value></data>
+  <data name="Timer stopped" xml:space="preserve"><value>Timer stopped</value></data>
+  <data name="Event created" xml:space="preserve"><value>Event created</value></data>
+  <data name="Channel created" xml:space="preserve"><value>Channel created</value></data>
+  <data name="Team updated" xml:space="preserve"><value>Team updated</value></data>
+  <data name="Documents uploaded" xml:space="preserve"><value>Documents uploaded</value></data>
+  <data name="Document deleted" xml:space="preserve"><value>Document deleted</value></data>
+  <data name="Choose an image first." xml:space="preserve"><value>Choose an image first.</value></data>
+  <data name="Profile picture updated." xml:space="preserve"><value>Profile picture updated.</value></data>
+  <data name="Preferences saved." xml:space="preserve"><value>Preferences saved.</value></data>
+  <data name="Mailbox saved. The password is never shown again." xml:space="preserve"><value>Mailbox saved. The password is never shown again.</value></data>
+  <data name="Sprint saved." xml:space="preserve"><value>Sprint saved.</value></data>
+  <data name="Sprint closed." xml:space="preserve"><value>Sprint closed.</value></data>
+  <data name="Invitation sent." xml:space="preserve"><value>Invitation sent.</value></data>
+  <data name="Member updated." xml:space="preserve"><value>Member updated.</value></data>
+  <data name="Project saved." xml:space="preserve"><value>Project saved.</value></data>
+  <data name="Project archived." xml:space="preserve"><value>Project archived.</value></data>
+  <data name="Password updated. Sign in with your new password." xml:space="preserve"><value>Password updated. Sign in with your new password.</value></data>
+  <data name="The task could not be deleted." xml:space="preserve"><value>The task could not be deleted.</value></data>
+  <data name="The task cannot move yet." xml:space="preserve"><value>The task cannot move yet.</value></data>
+  <data name="The task cannot be approved." xml:space="preserve"><value>The task cannot be approved.</value></data>
+  <data name="The task could not be assigned." xml:space="preserve"><value>The task could not be assigned.</value></data>
+  <data name="The subtask could not be created." xml:space="preserve"><value>The subtask could not be created.</value></data>
+  <data name="The step could not be added." xml:space="preserve"><value>The step could not be added.</value></data>
+  <data name="The event could not be created." xml:space="preserve"><value>The event could not be created.</value></data>
+  <data name="The message could not be sent." xml:space="preserve"><value>The message could not be sent.</value></data>
+  <data name="The channel could not be created." xml:space="preserve"><value>The channel could not be created.</value></data>
+  <data name="The team could not be saved." xml:space="preserve"><value>The team could not be saved.</value></data>
+  <data name="The files could not be uploaded." xml:space="preserve"><value>The files could not be uploaded.</value></data>
+  <data name="The document could not be deleted." xml:space="preserve"><value>The document could not be deleted.</value></data>
 </root>

@@ -165,7 +165,7 @@ public sealed class AccountController : Controller
             return View(model);
         }
 
-        TempData["Toast"] = "Password updated. Sign in with your new password.";
+        TempData["Toast"] = _t["Password updated. Sign in with your new password."];
         return RedirectToAction(nameof(Login));
     }
 
