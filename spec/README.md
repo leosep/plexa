@@ -61,7 +61,7 @@ Syncra is a **project and operations management tool for studios/agencies**. It 
 ## How to use this manual
 
 - Each document explains **what you see**, **what it is for** and **how to use it step by step**.
-- Screenshots are in [`docs/img`](img) and are referenced in each section.
+- Screenshots are in [`img`](img) and are referenced in each section.
 - Interface terms are shown in quotes: `"New task"`, `"Move to Review"`, etc.
 - At the end, [Recipes and workflows](15-recetas-y-flujos.md) summarizes the complete flows (create a task, move it, log time, export a report…).
 
