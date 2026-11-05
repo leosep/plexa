@@ -1,109 +1,109 @@
 # Plexa
 
-Plexa es una aplicación web de **gestión de proyectos y operaciones para estudios y agencias**: proyectos, tablero Kanban,
-sprints, cronómetro, reportes, analítica, calendario, mensajes y carga del equipo. Está construida como una aplicación
-**ASP.NET Core MVC con Razor renderizado en servidor** y una interfaz con acabado profesional (sin SPA, sin jQuery, sin Bootstrap).
+Plexa is a **project and operations management web app for studios and agencies**: projects, Kanban board, sprints,
+time tracking, reports, analytics, calendar, messages and team workload. It is built as an
+**ASP.NET Core MVC app with server-rendered Razor** and a professionally polished interface (no SPA, no jQuery, no Bootstrap).
 
-La especificación funcional que describe la aplicación de referencia está en [`spec/`](spec/README.md) (16 documentos + capturas).
-Plexa la reimplementa con marca y datos propios.
+The functional specification describing the reference app lives in [`spec/`](spec/README.md) (16 documents + screenshots).
+Plexa reimplements it with its own brand and data.
 
 ---
 
-## Funcionalidad
+## Features
 
-| Área | Ruta | Qué incluye |
+| Area | Route | What it includes |
 |---|---|---|
-| Acceso | `/login`, `/forgot-password`, `/reset-password`, `/invitations` | Identity con cookie, invitaciones y roles `Admin`/`Member` |
-| Dashboard | `/dashboard` | KPIs del sprint, distribución por estado y prioridad, actividad, tiempo del día (tarjetas htmx con skeleton) |
-| Tablero | `/board` | 4 columnas, filtros por proyecto/persona/texto, búsqueda que incluye subtareas, arrastre de estado, aprobación |
-| Tareas | `/tasks/new`, `/tasks/{id}`, `/tasks/{id}/edit` | Formulario en modal, subtareas (2 niveles), checklist, dependencias con detección de ciclos, bloqueo |
-| Tiempo | `/api/v1/time/timer`, `/board/timer/*` | Cronómetro de un solo timer activo por usuario, registro manual, historial |
-| Proyectos | `/projects`, `/projects/{id}?tab=` | Listado y detalle con pestañas (resumen, tablero, equipo, sprints, hitos, documentos, actividad) |
-| Equipo | `/team` | Carga por persona, capacidad semanal, señales `On track` / `At risk` / `Overloaded` |
-| Reportes | `/reports`, `/reports/export` | Tiempo estimado vs registrado, filtros y exportación CSV / Excel / PDF |
-| Analítica | `/analytics` | Throughput, cycle time, rework, fiabilidad de estimaciones, flujo acumulado |
-| Calendario | `/calendar`, `/api/v1/calendar/events` | Vista mensual, eventos por tipo, alta y detalle |
-| Mensajes | `/messages`, `/notifications/*` | Hilos de proyecto y de equipo, menciones, notificaciones con panel |
-| Configuración | `/settings?section=` | Perfil, avatar, preferencias de idioma, buzón SMTP con contraseña cifrada |
-| Administración | `/admin`, `/admin/members`, `/admin/projects`, `/admin/sprints` | Solo `Admin`: alta de miembros, proyectos, sprints y archivado |
+| Access | `/login`, `/forgot-password`, `/reset-password`, `/invitations` | Cookie-based Identity, invitations and `Admin`/`Member` roles |
+| Dashboard | `/dashboard` | Sprint KPIs, status and priority breakdown, activity, time of day (htmx cards with skeletons) |
+| Board | `/board` | 4 columns, project/person/text filters, search that includes subtasks, status drag, approval |
+| Tasks | `/tasks/new`, `/tasks/{id}`, `/tasks/{id}/edit` | Modal form, two-level subtasks, checklist, dependencies with cycle detection, blocking |
+| Time | `/api/v1/time/timer`, `/board/timer/*` | One active timer per user, manual entries, history |
+| Projects | `/projects`, `/projects/{id}?tab=` | List and detail with tabs (overview, board, team, sprints, milestones, documents, activity) |
+| Team | `/team` | Workload per person, weekly capacity, `On track` / `At risk` / `Overloaded` signals |
+| Reports | `/reports`, `/reports/export` | Estimated vs logged time, filters and CSV / Excel / PDF export |
+| Analytics | `/analytics` | Throughput, cycle time, rework, estimate reliability, cumulative flow |
+| Calendar | `/calendar`, `/api/v1/calendar/events` | Month view, event types, create and detail |
+| Messages | `/messages`, `/notifications/*` | Project and team threads, mentions, notification panel |
+| Settings | `/settings?section=` | Profile, avatar, language preferences, SMTP mailbox with encrypted password |
+| Administration | `/admin`, `/admin/members`, `/admin/projects`, `/admin/sprints` | `Admin` only: members, projects, sprints and archiving |
 
-Idioma: inglés por defecto y español, con `IStringLocalizer` + `.resx` y cookie `plexa.culture`.
+Languages: English by default and Spanish, via `IStringLocalizer` + `.resx` and the `plexa.culture` cookie.
 
 ---
 
-## Capturas
+## Screenshots
 
-Interfaz real de Plexa en inglés (idioma por defecto), con los datos del seed.
+The real Plexa UI in English (the default language), with seed data.
 
-| Inicio de sesión | Dashboard |
+| Sign in | Dashboard |
 |---|---|
-| <img src="docs/screenshots/login.png" width="480" alt="Inicio de sesión" /> | <img src="docs/screenshots/dashboard.png" width="480" alt="Dashboard" /> |
+| <img src="docs/screenshots/login.png" width="480" alt="Sign in" /> | <img src="docs/screenshots/dashboard.png" width="480" alt="Dashboard" /> |
 
-| Tablero Kanban | Proyectos |
+| Kanban board | Projects |
 |---|---|
-| <img src="docs/screenshots/board.png" width="480" alt="Tablero Kanban" /> | <img src="docs/screenshots/projects.png" width="480" alt="Proyectos" /> |
+| <img src="docs/screenshots/board.png" width="480" alt="Kanban board" /> | <img src="docs/screenshots/projects.png" width="480" alt="Projects" /> |
 
-| Detalle de proyecto | Equipo |
+| Project detail | Team |
 |---|---|
-| <img src="docs/screenshots/project.png" width="480" alt="Detalle de proyecto" /> | <img src="docs/screenshots/team.png" width="480" alt="Equipo" /> |
+| <img src="docs/screenshots/project.png" width="480" alt="Project detail" /> | <img src="docs/screenshots/team.png" width="480" alt="Team" /> |
 
-| Reportes | Analítica |
+| Reports | Analytics |
 |---|---|
-| <img src="docs/screenshots/reports.png" width="480" alt="Reportes" /> | <img src="docs/screenshots/analytics.png" width="480" alt="Analítica" /> |
+| <img src="docs/screenshots/reports.png" width="480" alt="Reports" /> | <img src="docs/screenshots/analytics.png" width="480" alt="Analytics" /> |
 
-| Calendario |
+| Calendar |
 |---|
-| <img src="docs/screenshots/calendar.png" width="480" alt="Calendario" /> |
+| <img src="docs/screenshots/calendar.png" width="480" alt="Calendar" /> |
 
 ---
 
 ## Stack
 
-| Capa | Tecnología |
+| Layer | Technology |
 |---|---|
-| Plataforma | .NET 9 (`net9.0`), C# con `Nullable` e `ImplicitUsings` |
+| Platform | .NET 9 (`net9.0`), C# with `Nullable` and `ImplicitUsings` |
 | Web | ASP.NET Core MVC + Razor Views (server-rendered) |
-| Estilos | Tailwind CSS v4 (CLI, tokens en `@theme`), tipografía Jost autohospedada |
-| Interactividad | htmx 2 + Alpine.js 3 (mejora progresiva) |
-| Gráficos / iconos | Chart.js 4, iconos SVG tipo Lucide |
-| Datos | EF Core 9 + SQL Server, migraciones, ids `Guid`, `rowversion` |
-| Auth | ASP.NET Core Identity (cookie), roles y políticas por pertenencia a proyecto |
-| Validación | FluentValidation en servidor, errores inline vía htmx |
-| Exportación | CsvHelper, ClosedXML, QuestPDF |
-| Correo | MailKit (SMTP del buzón del usuario, contraseña con `IDataProtector`) |
-| Logs | Serilog (consola + archivo rotado) |
+| Styling | Tailwind CSS v4 (CLI, tokens in `@theme`), self-hosted Jost typeface |
+| Interactivity | htmx 2 + Alpine.js 3 (progressive enhancement) |
+| Charts / icons | Chart.js 4, Lucide-style SVG icons |
+| Data | EF Core 9 + SQL Server, migrations, `Guid` ids, `rowversion` |
+| Auth | ASP.NET Core Identity (cookie), roles and project-membership policies |
+| Validation | FluentValidation on the server, inline errors via htmx |
+| Export | CsvHelper, ClosedXML, QuestPDF |
+| Email | MailKit (the user's own SMTP mailbox, password protected with `IDataProtector`) |
+| Logs | Serilog (console + rolling file) |
 | Tests | xUnit + FluentAssertions, `WebApplicationFactory`, Playwright .NET |
 
-> **Desviación documentada:** el objetivo original era .NET 10 LTS; el entorno disponible solo tiene el SDK 9.0.102,
-> así que la solución compila en `net9.0`. Cambiar `TargetFramework` a `net10.0` es suficiente cuando el SDK esté instalado.
+> **Documented deviation:** the original target was .NET 10 LTS; the available environment only has SDK 9.0.102,
+> so the solution compiles for `net9.0`. Changing `TargetFramework` to `net10.0` is enough once the SDK is installed.
 
 ---
 
-## Requisitos
+## Requirements
 
-- .NET SDK 9 (o superior) y Git.
-- SQL Server accesible (probado contra SQL Server 2012, nivel de compatibilidad 110).
-- Para recompilar CSS: Node 20+ (`npm install`) **o** el CLI autónomo de Tailwind en `tools/tailwindcss.exe`.
-- Opcional para E2E: navegadores de Playwright (`pwsh bin/Debug/net9.0/playwright.ps1 install chromium`).
+- .NET SDK 9 (or later) and Git.
+- A reachable SQL Server (tested against SQL Server 2012, compatibility level 110).
+- To rebuild CSS: Node 20+ (`npm install`) **or** the standalone Tailwind CLI at `tools/tailwindcss.exe`.
+- Optional for E2E: Playwright browsers (`pwsh bin/Debug/net9.0/playwright.ps1 install chromium`).
 
 ---
 
-## Puesta en marcha
+## Getting started
 
-1. **Configura los secretos** (nunca se versionan):
+1. **Configure secrets** (never committed):
 
    ```bash
    cp .env.example .env
-   # edita .env con tu cadena de conexión real
+   # edit .env with your real connection string
    ```
 
-   La cadena se lee de `ConnectionStrings__Default`. También puedes usar `dotnet user-secrets`:
+   The connection string is read from `ConnectionStrings__Default`. You can also use `dotnet user-secrets`:
 
    ```bash
    dotnet user-secrets set "ConnectionStrings:Default" "Server=...;Database=Plexa;..." --project src/Plexa.Web
    ```
 
-2. **Carga las variables en la sesión** (PowerShell):
+2. **Load the variables into the session** (PowerShell):
 
    ```powershell
    Get-Content .env | ForEach-Object {
@@ -114,109 +114,109 @@ Interfaz real de Plexa en inglés (idioma por defecto), con los datos del seed.
    }
    ```
 
-   En bash: `set -a; source .env; set +a`.
+   In bash: `set -a; source .env; set +a`.
 
-3. **Aplica migraciones y datos de ejemplo**:
+3. **Apply migrations and sample data**:
 
    ```bash
    dotnet run --project src/Plexa.Web -- --seed
    ```
 
-   En `Development` la aplicación también migra y siembra al arrancar. Si el login no puede crear la base,
-   créala vacía con anticipación (`CREATE DATABASE Plexa`).
+   In `Development` the app also migrates and seeds on startup. If the login cannot create the database,
+   create it empty beforehand (`CREATE DATABASE Plexa`).
 
-4. **Arranca**:
+4. **Run it**:
 
    ```bash
    dotnet run --project src/Plexa.Web
    ```
 
-   Abre `http://localhost:5087` (el puerto del perfil `http` de `launchSettings.json`) e inicia sesión con una cuenta del seed:
+   Open `http://localhost:5087` (the port from the `http` profile in `launchSettings.json`) and sign in with a seed account:
 
-   | Rol | Correo | Contraseña |
+   | Role | Email | Password |
    |---|---|---|
    | Admin | `alex.rivera@dwn.com.do` | `Plexa123$` |
    | Member | `marta.gomez@dwn.com.do` | `Plexa123$` |
    | Member | `diego.fernandez@dwn.com.do` | `Plexa123$` |
 
-   > Cambia estas credenciales antes de cualquier despliegue real.
+   > Change these credentials before any real deployment.
 
-5. **CSS** (solo si tocas clases de Tailwind):
+5. **CSS** (only if you touch Tailwind classes):
 
    ```bash
    npm install
-   npm run build:css          # o: npm run build:css:standalone
+   npm run build:css          # or: npm run build:css:standalone
    ```
 
-   `wwwroot/css/site.css` se versiona ya compilado para que un clon funcione sin Node.
+   `wwwroot/css/site.css` is committed already compiled so a fresh clone works without Node.
 
 ---
 
-## Pruebas
+## Tests
 
 ```bash
 dotnet test Plexa.sln
 ```
 
-| Proyecto | Qué cubre |
+| Project | What it covers |
 |---|---|
-| `tests/Plexa.UnitTests` | Reglas de dominio: progreso, bloqueo por dependencias, ciclos, capacidad, formato de duración, transiciones |
-| `tests/Plexa.IntegrationTests` | Rutas y cifras de aceptación de la spec sobre una base temporal `Plexa_Test_<guid>` (se crea y se elimina por prueba). Requiere `Tests__ConnectionString`; sin ella se omiten |
-| `tests/Plexa.E2E` | Smoke tests con Playwright (login, tablero, modal). Requieren `E2E__BaseUrl` apuntando a una instancia en marcha; sin ella se omiten |
+| `tests/Plexa.UnitTests` | Domain rules: progress, dependency blocking, cycles, capacity, duration formatting, transitions |
+| `tests/Plexa.IntegrationTests` | Routes and spec acceptance figures on a temporary `Plexa_Test_<guid>` database (created and dropped per run). Requires `Tests__ConnectionString`; skipped without it |
+| `tests/Plexa.E2E` | Playwright smoke tests (login, board, modal). Require `E2E__BaseUrl` pointing at a running instance; skipped without it |
 
-Las pruebas de integración **nunca** tocan la base de desarrollo `Plexa`.
+Integration tests **never** touch the development database `Plexa`.
 
 ---
 
 ## Docker
 
-La base de datos es externa; el compose solo levanta el servicio web.
+The database is external; the compose file only brings up the web service.
 
 ```bash
 docker compose up --build
 ```
 
-Expone `http://localhost:8080` y monta volúmenes para `storage/` (archivos y claves de Data Protection) y `logs/`.
-`Database__MigrateOnStartup=true` aplica migraciones al arrancar; el seed queda desactivado.
+It exposes `http://localhost:8080` and mounts volumes for `storage/` (files and Data Protection keys) and `logs/`.
+`Database__MigrateOnStartup=true` applies migrations on startup; seeding stays disabled.
 
 ---
 
-## Estructura
+## Structure
 
 ```
 Plexa.sln
-src/Plexa.Domain/          Entidades, enums y reglas puras (progreso, bloqueo, capacidad)
-src/Plexa.Application/     Contratos de servicios, DTOs y abstracciones (IClock, IMailer, IFileStorage)
-src/Plexa.Infrastructure/  PlexaDbContext, configuraciones EF, migraciones, Identity, servicios, seed, exports, mail
-src/Plexa.Web/             Controladores, Vistas Razor, ViewModels, ViewComponents, recursos .resx, wwwroot
-Styles/app.css             Entrada de Tailwind (tokens @theme)
+src/Plexa.Domain/          Entities, enums and pure rules (progress, blocking, capacity)
+src/Plexa.Application/     Service contracts, DTOs and abstractions (IClock, IMailer, IFileStorage)
+src/Plexa.Infrastructure/  PlexaDbContext, EF configurations, migrations, Identity, services, seed, exports, mail
+src/Plexa.Web/             Controllers, Razor Views, ViewModels, ViewComponents, .resx resources, wwwroot
+Styles/app.css             Tailwind entry point (@theme tokens)
 tests/                     UnitTests · IntegrationTests · E2E
-spec/                      Manual funcional de referencia (fuente de verdad)
+spec/                      Reference functional manual (source of truth)
 ```
 
-### Convenciones clave
+### Key conventions
 
-- Controladores delgados; la lógica vive en `Domain`/`Application` y cada vista usa su ViewModel (nunca entidades).
-- Patrón htmx: la acción devuelve la página completa o, si la petición es htmx, un `PartialView`; los eventos al cliente viajan en `HX-Trigger`.
-- Errores JSON en RFC 7807 (`ProblemDetails`); páginas 403/404/500 con diseño propio; PRG y antiforgery en todo POST.
-- Autorización siempre en servidor (políticas + pertenencia a proyecto); la UI solo oculta controles.
-- Fechas en UTC en base de datos, `TimeProvider` inyectado, `async/await` con `CancellationToken`.
-- Estilos solo con utilidades Tailwind y los componentes del sistema visual; CSS propio mínimo.
-- Textos siempre por `.resx` (inglés por defecto, español en `SharedResource.es.resx`).
+- Thin controllers; logic lives in `Domain`/`Application` and every view uses its own ViewModel (never entities).
+- htmx pattern: the action returns the full page or, for htmx requests, a `PartialView`; client events travel in `HX-Trigger`.
+- JSON errors follow RFC 7807 (`ProblemDetails`); custom 403/404/500 pages; PRG and antiforgery on every POST.
+- Authorization always on the server (policies + project membership); the UI only hides controls.
+- UTC dates in the database, injected `TimeProvider`, `async/await` with `CancellationToken`.
+- Styling only with Tailwind utilities and the design-system components; minimal custom CSS.
+- All copy goes through `.resx` (English by default, Spanish in `SharedResource.es.resx`).
 
 ---
 
-## Decisiones y supuestos
+## Decisions and assumptions
 
-Están registrados en [`PROGRESS.md`](PROGRESS.md), junto con el estado de cada fase. Los más relevantes:
+They are recorded in [`PROGRESS.md`](PROGRESS.md), along with the status of each phase. The most relevant ones:
 
-- `net9.0` en lugar de `net10.0` por disponibilidad del SDK.
-- SQL Server en nivel de compatibilidad 110 (2012): sin `OPENJSON`, `STRING_AGG`, `TRIM` ni `CONCAT_WS`.
-- `InBacklog` distingue las tareas del backlog: el tablero muestra los 14 nodos (padres + subtareas) y el dashboard/analítica
-  los 13 elementos rastreados, igual que las cifras de la spec.
-- Las pantallas de administración (sprints, alta de miembros/proyectos, archivado) no aparecen en la spec y se definieron de forma razonable.
-- Soporte: [support@plexa.app](mailto:support@plexa.app).
+- `net9.0` instead of `net10.0` because of SDK availability.
+- SQL Server at compatibility level 110 (2012): no `OPENJSON`, `STRING_AGG`, `TRIM` or `CONCAT_WS`.
+- `InBacklog` distinguishes backlog tasks: the board shows 14 nodes (parents + subtasks) while the dashboard/analytics
+  show 13 tracked items, matching the spec figures.
+- The administration screens (sprints, member/project creation, archiving) do not appear in the spec and were designed reasonably.
+- Support: [support@plexa.app](mailto:support@plexa.app).
 
-## Licencia
+## License
 
-Uso interno / demostración. El código no incluye activos, logo ni datos reales de la aplicación original.
+Internal use / demonstration. The code includes no assets, logo or real data from the original app.
