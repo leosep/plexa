@@ -1,139 +1,139 @@
-# 02 · Navegación e interfaz
+# 02 · Navigation and interface
 
-Cómo está organizada la pantalla dentro de la aplicación y dónde está cada cosa.
+How the screen is organized inside the application and where each thing is.
 
-![Vista general de la app](img/dashboard.jpeg)
+![App overview](img/dashboard.jpeg)
 
 ---
 
-## 1. Estructura de la pantalla
+## 1. Screen structure
 
-La app usa un layout de tres zonas:
+The app uses a three-zone layout:
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│ SIDEBAR (izquierda)  │  TOPBAR (cabecera)                     │
+┌───────────────────────────────────────────────────────────────┐
+│ SIDEBAR (left)       │  TOPBAR (header)                       │
 │                      ├────────────────────────────────────────┤
-│  Espacio de trabajo  │  Breadcrumb · mensajes · campana ·     │
-│  Menú principal      │  usuario                               │
-│  Sprint activo       ├────────────────────────────────────────┤
+│  Workspace           │  Breadcrumb · messages · bell ·        │
+│  Main menu           │  user                                  │
+│  Active sprint       ├────────────────────────────────────────┤
 │  General             │                                        │
-│  Upgrade to Pro      │        CONTENIDO DE LA PÁGINA          │
+│  Upgrade to Pro      │        PAGE CONTENT                    │
 │                      │                                        │
-└──────────────────────┴────────────────────────────────────────┘
+└───────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 2. Barra lateral (sidebar)
+## 2. Sidebar
 
-### 2.1 Selector de espacio de trabajo (arriba)
-Muestra:
-- Logo cuadrado del espacio (o iniciales).
-- Nombre: **Grupo Dominican Watchman**.
-- Subtítulo: **Workspace · 3 people**.
-- Una flecha (⌄) que indica que es un selector.
+### 2.1 Workspace selector (top)
+Shows:
+- Square workspace logo (or initials).
+- Name: **Grupo Dominican Watchman**.
+- Subtitle: **Workspace · 3 people**.
+- An arrow (⌄) indicating that it is a selector.
 
-Si perteneces a más de un espacio de trabajo, este control permite cambiar entre ellos; el espacio activo determina todos los datos que ves (proyectos, equipo, reportes…).
+If you belong to more than one workspace, this control lets you switch between them; the active workspace determines all the data you see (projects, team, reports…).
 
-### 2.2 Sección **MENU**
-| Elemento | Ruta | Para qué sirve |
+### 2.2 **MENU** section
+| Element | Route | What it is for |
 |---|---|---|
-| **Dashboard** | `/dashboard` | Resumen general: KPIs, actividad, prioridades, cronómetro y carga del equipo |
-| **Task board** | `/board` | Tablero Kanban global con todas las tareas |
-| **Project detail** | `/projects` | Listado de proyectos (al abrir uno, su detalle) |
-| **Team workload** | `/team` | Carga y capacidad de cada persona |
-| **Reports** | `/reports` | Horas estimadas vs registradas y reporte por departamento |
-| **Analytics** | `/analytics` | Métricas de entrega y calidad |
-| **Calendar** | `/calendar` | Calendario compartido de eventos |
-| **Messages** | `/messages` | Canales de proyecto y equipo |
+| **Dashboard** | `/dashboard` | General summary: KPIs, activity, priorities, timer and team workload |
+| **Task board** | `/board` | Global Kanban board with all tasks |
+| **Project detail** | `/projects` | Project listing (opening one shows its detail) |
+| **Team workload** | `/team` | Workload and capacity of each person |
+| **Reports** | `/reports` | Estimated vs logged hours and report by department |
+| **Analytics** | `/analytics` | Delivery and quality metrics |
+| **Calendar** | `/calendar` | Shared event calendar |
+| **Messages** | `/messages` | Project and team channels |
 
-El elemento activo se resalta con fondo celeste y una barra lateral turquesa.
+The active item is highlighted with a light blue background and a turquoise side bar.
 
-### 2.3 Tarjeta **ACTIVE SPRINT**
-Bloque informativo debajo del menú.
-- Si hay sprint activo, muestra su nombre, fechas y progreso.
-- Si no hay ninguno, muestra: **"No active sprint. Create one in Settings → Sprints."**
+### 2.3 **ACTIVE SPRINT** card
+Informational block below the menu.
+- If there is an active sprint, it shows its name, dates and progress.
+- If there is none, it shows: **"No active sprint. Create one in Settings → Sprints."**
 
-En el espacio documentado aparece **sin sprint activo**. La creación de sprints se hace en *Settings → Sprints*, sección que no está disponible para el rol **Member** (ver [14 · Roles y límites](14-roles-permisos-y-limites.md)).
+In the documented workspace it appears **with no active sprint**. Sprints are created in *Settings → Sprints*, a section that is not available to the **Member** role (see [14 · Roles and limits](14-roles-permisos-y-limites.md)).
 
-### 2.4 Sección **GENERAL**
-| Elemento | Acción |
+### 2.4 **GENERAL** section
+| Element | Action |
 |---|---|
-| **Settings** | Abre configuración (Profile, Preferences, My mailbox) |
-| **Help & support** | Abre tu cliente de correo con `mailto:support@syncra.app` |
-| **Log out** | Cierra la sesión |
+| **Settings** | Opens settings (Profile, Preferences, My mailbox) |
+| **Help & support** | Opens your mail client with `mailto:support@syncra.app` |
+| **Log out** | Ends the session |
 
-### 2.5 Tarjeta **Upgrade to Pro**
-Bloque promocional:
-- Título **"Upgrade to Pro"**.
-- Texto: *"Unlimited projects and automated reports"*.
-- Botón circular con flecha hacia arriba (`aria-label="Upgrade now"`).
+### 2.5 **Upgrade to Pro** card
+Promotional block:
+- Title **"Upgrade to Pro"**.
+- Text: *"Unlimited projects and automated reports"*.
+- Circular button with an up arrow (`aria-label="Upgrade now"`).
 
-> En la cuenta documentada, pulsar el botón **no abre ninguna pantalla ni modal** (no hay flujo de pago expuesto para este rol). Se documenta como aviso comercial.
+> In the documented account, pressing the button **does not open any screen or modal** (there is no payment flow exposed for this role). It is documented as a commercial notice.
 
 ---
 
-## 3. Cabecera (topbar)
+## 3. Header (topbar)
 
-De izquierda a derecha:
+From left to right:
 
-1. **Botón de menú** (`aria-label="Open menu"`) — visible en pantallas estrechas; colapsa/expande la barra lateral.
-2. **Breadcrumb**: `Grupo Dominican Watchman / <Página actual>`. Ejemplos: `Grupo Dominican Watchman / Task board`, `… / Settings`.
-3. **Buscador global** (`Search tasks, people, docs…`): al enviar lleva a `/board?q=<texto>`. En ventanas estrechas se oculta por espacio.
-4. **Icono de mensajes** (globo de chat) — acceso directo a `/messages`.
-5. **Campana de notificaciones** — muestra un contador rojo con las no leídas (en la captura, **4**).
-6. **Chip de usuario**: avatar con iniciales, nombre y rol (`Leandro Sepulveda` / `Miembro`); al pulsarlo abre el menú de usuario.
+1. **Menu button** (`aria-label="Open menu"`) — visible on narrow screens; collapses/expands the sidebar.
+2. **Breadcrumb**: `Grupo Dominican Watchman / <Current page>`. Examples: `Grupo Dominican Watchman / Task board`, `… / Settings`.
+3. **Global search** (`Search tasks, people, docs…`): submitting it goes to `/board?q=<text>`. On narrow windows it is hidden for space reasons.
+4. **Messages icon** (chat bubble) — direct access to `/messages`.
+5. **Notifications bell** — shows a red counter with the unread ones (in the screenshot, **4**).
+6. **User chip**: avatar with initials, name and role (`Leandro Sepulveda` / `Miembro`); pressing it opens the user menu.
 
-### Menú de usuario
-![Menú de usuario](img/menu-usuario.jpeg)
+### User menu
+![User menu](img/menu-usuario.jpeg)
 
-| Opción | Acción |
+| Option | Action |
 |---|---|
-| **My profile** | Va a *Settings → Profile* |
-| **Settings** | Va a *Settings* |
-| **Log out** | Cierra sesión |
-| **Language** | Conmutador **ES / EN** |
+| **My profile** | Goes to *Settings → Profile* |
+| **Settings** | Goes to *Settings* |
+| **Log out** | Logs out |
+| **Language** | **ES / EN** toggle |
 
 ---
 
-## 4. Contenido de página
+## 4. Page content
 
-Cada página sigue el mismo patrón:
+Every page follows the same pattern:
 
-1. **Título grande** (p. ej. *"Task board"*).
-2. **Subtítulo** con contexto y métricas resumidas (p. ej. *"All projects · Backlog · 14 tasks"*).
-3. **Acciones** a la derecha (filtros, botones como **"New task"**, **"New event"**, **"Export CSV"**…).
-4. **Tarjetas / tablas / gráficos** con los datos.
-
----
-
-## 5. Comportamiento responsive
-
-- En anchos reducidos, la barra lateral se oculta y aparece el botón **"Open menu"** en la cabecera para abrirla.
-- Las columnas del tablero y las tablas se comprimen; algunas columnas quedan fuera de pantalla y se alcanzan desplazando horizontalmente la página o la tarjeta.
-- Los modales se adaptan al ancho disponible.
+1. **Large title** (e.g. *"Task board"*).
+2. **Subtitle** with context and summary metrics (e.g. *"All projects · Backlog · 14 tasks"*).
+3. **Actions** on the right (filters, buttons such as **"New task"**, **"New event"**, **"Export CSV"**…).
+4. **Cards / tables / charts** with the data.
 
 ---
 
-## 6. Patrones de interacción comunes
+## 5. Responsive behavior
 
-| Patrón | Dónde aparece | Cómo se usa |
+- At narrow widths, the sidebar is hidden and the **"Open menu"** button appears in the header to open it.
+- Board columns and tables compress; some columns end up off screen and are reached by scrolling the page or the card horizontally.
+- Modals adapt to the available width.
+
+---
+
+## 6. Common interaction patterns
+
+| Pattern | Where it appears | How it is used |
 |---|---|---|
-| **Chips de filtro** | Proyectos, Reportes | Pulsar para filtrar; el chip activo se resalta y muestra un contador |
-| **Selects tipo chip** | Tablero (`All projects`, `Everyone`), Reportes | Desplegable nativo con opciones |
-| **Modales** | New task, New event, detalle de tarea, detalle de evento | Se cierran con la X, con **Cancel** o haciendo clic fuera |
-| **Paneles inline** | *Edit team*, *Edit* de tarea | El formulario sustituye el contenido; **Cancel** descarta cambios |
-| **Toasts** | Al guardar acciones | Mensaje breve de confirmación |
-| **Estados vacíos** | Mensajes, Timeline, Milestones | Explican qué falta y cómo continuar |
-| **Estados de carga** | Toda la app | Texto "Loading…" / "Restoring session" / spinners |
+| **Filter chips** | Projects, Reports | Press to filter; the active chip is highlighted and shows a counter |
+| **Chip-style selects** | Board (`All projects`, `Everyone`), Reports | Native dropdown with options |
+| **Modals** | New task, New event, task detail, event detail | Closed with the X, with **Cancel** or by clicking outside |
+| **Inline panels** | *Edit team*, task *Edit* | The form replaces the content; **Cancel** discards changes |
+| **Toasts** | When saving actions | Brief confirmation message |
+| **Empty states** | Messages, Timeline, Milestones | Explain what is missing and how to continue |
+| **Loading states** | The whole app | "Loading…" / "Restoring session" / spinners |
 
 ---
 
-## 7. Atajos de navegación
+## 7. Navigation shortcuts
 
-- **Breadcrumb** de la cabecera: no siempre es clicable; sirve de contexto.
-- En el detalle de proyecto, el enlace **"← Projects"** vuelve al listado.
-- En el detalle de proyecto, las pestañas cambian la URL: `?tab=Overview|Dashboard|Board|Timeline|Calendar|Team|Documents`.
-- En el tablero, abrir una tarea agrega `?task=<id>` a la URL (se puede compartir el enlace directo a una tarea).
-- En ajustes, la sección se refleja en `?section=profile|preferences|mailbox`.
+- The header **Breadcrumb**: it is not always clickable; it serves as context.
+- In the project detail, the **"← Projects"** link goes back to the listing.
+- In the project detail, the tabs change the URL: `?tab=Overview|Dashboard|Board|Timeline|Calendar|Team|Documents`.
+- On the board, opening a task adds `?task=<id>` to the URL (the direct link to a task can be shared).
+- In settings, the section is reflected in `?section=profile|preferences|mailbox`.

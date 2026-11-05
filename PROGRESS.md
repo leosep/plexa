@@ -63,6 +63,8 @@ Defects found and fixed:
 12. Hardcoded placeholders (`user@company.com`, `smtp.office365.com`) moved to EN/ES `.resx`.
 13. Board, projects, timer, calendar, settings and administration toasts and `TempData` notices were fixed in English;
     they now go through `ITranslator` and there is an ES regression test (`Settings_SuccessMessage_IsLocalized_InSpanish`).
+14. The tag option list was hardcoded in Spanish (`Base de datos`, `Diseño`, `Investigación`, `Rendimiento`); it is now
+    English (`Database`, `Design`, `Research`, `Performance`) to match the English-default UI.
 
 Demo data: the workspace is called **Plexa Studio** and the seed project **Internal Training Platform** (the UI never uses the
 original app's name). The development database is clean of QA artifacts after the audit: 14 tasks, 1 event, 0 sprints,
@@ -95,5 +97,6 @@ original app's name). The development database is clean of QA artifacts after th
 - **[ASSUMPTION] Persisted text**: activity and notifications are written in English in the database (the default language)
   so the history does not change when switching EN/ES; the UI that displays them is localized.
 - **[ASSUMPTION] Seed names**: workspace **Plexa Studio** and project **Internal Training Platform**, to avoid reusing the
-  original app's identity. `spec/` is kept untouched as the reference manual (in Spanish).
+  original app's identity. `spec/` is kept as the reference manual (now in English, with its original data and proper
+  names preserved).
 - **Brand**: the product is **Plexa** in the UI, emails, titles and metadata; support `support@plexa.app`.

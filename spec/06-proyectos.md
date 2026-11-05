@@ -1,249 +1,249 @@
-# 06 · Proyectos
+# 06 · Projects
 
-Ruta de listado: `/projects` · Elemento **"Project detail"** del menú.
-Ruta de detalle: `/projects/<id>?tab=Overview|Dashboard|Board|Timeline|Calendar|Team|Documents`
+Listing route: `/projects` · **"Project detail"** menu item.
+Detail route: `/projects/<id>?tab=Overview|Dashboard|Board|Timeline|Calendar|Team|Documents`
 
 ---
 
-## 1. Listado de proyectos
+## 1. Project list
 
-![Listado de proyectos](img/proyectos.jpeg)
+![Project list](img/proyectos.jpeg)
 
-### Cabecera
-- Título **"Projects"**.
-- Subtítulo: *"Manage the portfolio: create, edit, archive and open each project."*
+### Header
+- Title **"Projects"**.
+- Subtitle: *"Manage the portfolio: create, edit, archive and open each project."*
 
-### Tarjetas KPI
-| KPI | Ejemplo | Significado |
+### KPI cards
+| KPI | Example | Meaning |
 |---|---|---|
-| **Active projects** | `1` | Proyectos en curso |
-| **At risk** | `1` | Proyectos con salud en riesgo |
-| **Budget in progress** | `US$0` | Presupuesto de proyectos en curso |
-| **Average progress** | `17%` | Progreso promedio |
+| **Active projects** | `1` | Projects in progress |
+| **At risk** | `1` | Projects whose health is at risk |
+| **Budget in progress** | `US$0` | Budget of the projects in progress |
+| **Average progress** | `17%` | Average progress |
 
-### Filtros por estado (chips con contador)
+### Status filters (chips with counter)
 `All 1` · `In progress 0` · `At risk 1` · `Planning 0` · `On hold 0` · `Completed 0` · `Archived 0`
 
-- **All**: todos.
-- **In progress**: en ejecución.
-- **At risk**: con problemas (fechas, carga, dependencias…).
-- **Planning**: aún en planificación.
-- **On hold**: pausados.
-- **Completed**: terminados.
-- **Archived**: archivados (fuera de la vista operativa).
+- **All**: every project.
+- **In progress**: being executed.
+- **At risk**: with problems (dates, workload, dependencies…).
+- **Planning**: still being planned.
+- **On hold**: paused.
+- **Completed**: finished.
+- **Archived**: archived (outside the operational view).
 
-### Búsqueda
-Campo *"Search a project or c…"* (nombre o cliente). Filtra la tabla al escribir.
+### Search
+Field *"Search a project or c…"* (name or client). Filters the table as you type.
 
-### Tabla
-| Columna | Contenido |
+### Table
+| Column | Content |
 |---|---|
-| **PROJECT** | Icono/iniciales, nombre y código (`PRY-01`) |
-| **CLIENT** | Cliente (`Internal development`) |
-| **LEAD** | Líder con avatar |
-| **STATUS** | Chip de estado (`At risk`, `In progress`…) |
-| **PROGRESS** | Barra + % |
-| **BUDGET** | Presupuesto (`—` si no definido) |
-| **DELIVERY** | Fecha de entrega (`30 Nov`) |
-| **ACTIONS** | Abrir detalle |
+| **PROJECT** | Icon/initials, name and code (`PRY-01`) |
+| **CLIENT** | Client (`Internal development`) |
+| **LEAD** | Lead with avatar |
+| **STATUS** | Status chip (`At risk`, `In progress`…) |
+| **PROGRESS** | Bar + % |
+| **BUDGET** | Budget (`—` if not defined) |
+| **DELIVERY** | Delivery date (`30 Nov`) |
+| **ACTIONS** | Open detail |
 
-Pie: **"1 of 1 projects"** y ayuda **"Click a name to open its detail"**.
+Footer: **"1 of 1 projects"** and the hint **"Click a name to open its detail"**.
 
-### Abrir un proyecto
-Pulsa el **nombre** del proyecto (o su fila) → se abre el detalle con 7 pestañas.
+### Opening a project
+Click the project **name** (or its row) → the detail opens with 7 tabs.
 
-> En el rol **Member** no aparece un botón "New project". La creación/edición/archivo se hace con permisos de administrador (el subtítulo de la página lo menciona).
+> In the **Member** role there is no "New project" button. Creation/editing/archiving is done with administrator permissions (the page subtitle mentions it).
 
 ---
 
-## 2. Detalle de proyecto — cabecera común
+## 2. Project detail — shared header
 
-Todas las pestañas comparten una cabecera:
+All tabs share one header:
 
-![Detalle · Overview](img/proyecto-overview.jpeg)
+![Detail · Overview](img/proyecto-overview.jpeg)
 
-- Enlace **"← Projects"** para volver.
-- Pestañas: **Overview · Dashboard · Board · Timeline · Calendar · Team · Documents**.
-- Tarjeta de identidad:
-  - Iniciales/cuadrado `SD`.
-  - Nombre: **Sistema de Gestión de Capacitaciones Internas**.
-  - Chip de salud: **At risk**.
-  - Línea meta: `INTERNAL DEVELOPMENT · PRY-01 · 01 Oct → 30 Nov · 3/14 tasks`.
+- **"← Projects"** link to go back.
+- Tabs: **Overview · Dashboard · Board · Timeline · Calendar · Team · Documents**.
+- Identity card:
+  - Initials/square `SD`.
+  - Name: **Sistema de Gestión de Capacitaciones Internas**.
+  - Health chip: **At risk**.
+  - Meta line: `INTERNAL DEVELOPMENT · PRY-01 · 01 Oct → 30 Nov · 3/14 tasks`.
   - **LEAD**: Leandro Sepulveda.
   - **PROGRESS**: 17%.
   - **HEALTH**: At risk.
 
-Las pestañas cambian la URL (`?tab=…`) y se pueden enlazar directamente.
+The tabs change the URL (`?tab=…`) and can be linked directly.
 
 ---
 
-## 3. Pestaña Overview
+## 3. Overview tab
 
-Resumen ejecutivo y operativo.
+Executive and operational summary.
 
 ### Project timeline
-- Rango `01 Oct → 30 Nov`.
-- Si no hay fases: **"No phases defined yet."** (las fases se definen con permisos de gestión).
+- Range `01 Oct → 30 Nov`.
+- If there are no phases: **"No phases defined yet."** (phases are defined with management permissions).
 
 ### Tasks and actions
-Mini-tablero embebido con las 4 columnas y sus tarjetas (To do 1, In progress 0, Review 1, Completed 1). Permite ver el estado sin salir del proyecto.
+Embedded mini-board with the 4 columns and their cards (To do 1, In progress 0, Review 1, Completed 1). It lets you see the status without leaving the project.
 
 ### Project activity
-Cronología de acciones, de la más reciente a la más antigua:
+Chronology of actions, from the most recent to the oldest:
 - *Task "Backend núcleo [1]" moved to In review* — Gerson Cabreja · 28 Oct
 - *Task "Análisis y diseño" marked done* — Gerson Cabreja · 28 Oct
 - *Task "Wireframes y validación con RRHH" marked done* — Gerson Cabreja · 28 Oct
 - *Task "Modelo de datos, reglas y contrato de API" marked done* — Gerson Cabreja · 28 Oct
 - *Task "Análisis y diseño" moved to In review* — Leandro Sepulveda · 27 Oct
 - *Task "CRUD de Usuarios y Sucursales" created* — Gerson Cabreja · 06 Oct
-- … (creaciones y movimientos desde el 01 Oct)
+- … (creations and moves since 01 Oct)
 
-**Uso:** auditar quién hizo qué y cuándo; detectar trabajo sin movimiento.
+**Use:** audit who did what and when; spot work with no movement.
 
 ---
 
-## 4. Pestaña Dashboard
+## 4. Dashboard tab
 
-![Detalle · Dashboard](img/proyecto-dashboard.jpeg)
+![Detail · Dashboard](img/proyecto-dashboard.jpeg)
 
-Métricas del proyecto:
+Project metrics:
 
-| Métrica | Ejemplo | Lectura |
+| Metric | Example | Reading |
 |---|---|---|
-| **Tasks completed** | `3 / 14` · `21% of the project` | Avance por tareas |
-| **Points delivered** | `3 / 9` | Avance por story points |
-| **Estimated effort** | `42h 00m` · `11 open tasks` | Esfuerzo estimado pendiente |
-| **Overdue** | `5` · `Review today` | Tareas vencidas y por revisar hoy |
+| **Tasks completed** | `3 / 14` · `21% of the project` | Progress by tasks |
+| **Points delivered** | `3 / 9` | Progress by story points |
+| **Estimated effort** | `42h 00m` · `11 open tasks` | Estimated effort still pending |
+| **Overdue** | `5` · `Review today` | Overdue tasks and tasks to review today |
 
 ### Milestones
-Sección para hitos del proyecto. En el ejemplo aparece vacía.
+Section for project milestones. In the example it appears empty.
 
 ### Project activity
-La misma cronología del Overview.
+The same chronology as in the Overview.
 
-**Uso:** responder "¿cuánto falta?" con dos unidades (tareas y puntos) y ver si el esfuerzo pendiente es alto.
-
----
-
-## 5. Pestaña Board
-
-![Detalle · Board](img/proyecto-board.jpeg)
-
-- Es el **mismo tablero Kanban** que `/board`, pero **filtrado a este proyecto**.
-- Columnas To do / In progress / Review / Completed con sus tarjetas.
-- Permite abrir tareas, moverlas, asignar y añadir tareas al proyecto.
-- El encabezado del tablero global (`All projects · Backlog · 14 tasks`) cambia aquí al contexto del proyecto.
-
-**Uso:** trabajar el día a día del proyecto sin ruido de otros proyectos.
+**Use:** answer "how much is left?" with two units (tasks and points) and see whether the pending effort is high.
 
 ---
 
-## 6. Pestaña Timeline
+## 5. Board tab
 
-![Detalle · Timeline](img/proyecto-timeline.jpeg)
+![Detail · Board](img/proyecto-board.jpeg)
 
-- Título **"Project timeline"** con el rango de fechas.
-- Muestra **fases** del proyecto en una línea temporal.
-- Si no hay fases: **"No phases defined yet."**
+- It is the **same Kanban board** as `/board`, but **filtered to this project**.
+- To do / In progress / Review / Completed columns with their cards.
+- It lets you open tasks, move them, assign them and add tasks to the project.
+- The global board header (`All projects · Backlog · 14 tasks`) changes here to the project context.
 
-**Uso:** comunicar el plan por etapas (descubrimiento, diseño, desarrollo, QA, entrega) y comparar con las fechas de las tareas.
-
----
-
-## 7. Pestaña Calendar
-
-![Detalle · Calendar](img/proyecto-calendar.jpeg)
-
-- Lista **"Project events"** del proyecto.
-- Enlace **"Open calendar"** → calendario global.
-- Cada evento muestra fecha/hora, título y tipo (`Meeting`).
-
-Ejemplo: `09 Oct · 15:00 — sprint-revision_proyectos — Meeting`.
-
-**Uso:** ver reuniones y deadlines del proyecto sin filtrar el calendario completo.
+**Use:** work on the project day to day without noise from other projects.
 
 ---
 
-## 8. Pestaña Team
+## 6. Timeline tab
 
-![Detalle · Team](img/proyecto-team.jpeg)
+![Detail · Timeline](img/proyecto-timeline.jpeg)
 
-### Vista de solo lectura
-- **DEPARTMENT**: departamento y área (`Software Development · Area lead: Gerson Cabreja`).
-- **PROJECT LEAD**: líder del proyecto con su puesto (`Leandro Sepulveda · Full-Stack Developer · Lead`).
-- **COLLABORATORS**: colaboradores (o **"No collaborators yet."**).
-- Nota: *"Only the team and people allowed to see every project can open this project and its tasks."*
+- Title **"Project timeline"** with the date range.
+- Shows the project **phases** on a timeline.
+- If there are no phases: **"No phases defined yet."**
 
-### Editar equipo
-Botón **"Edit team"** → formulario inline:
+**Use:** communicate the plan by stages (discovery, design, development, QA, delivery) and compare it with the task dates.
 
-![Editar equipo](img/equipo-editar.jpeg)
+---
 
-| Campo | Opciones |
+## 7. Calendar tab
+
+![Detail · Calendar](img/proyecto-calendar.jpeg)
+
+- Project **"Project events"** list.
+- **"Open calendar"** link → global calendar.
+- Each event shows date/time, title and type (`Meeting`).
+
+Example: `09 Oct · 15:00 — sprint-revision_proyectos — Meeting`.
+
+**Use:** see the project meetings and deadlines without filtering the whole calendar.
+
+---
+
+## 8. Team tab
+
+![Detail · Team](img/proyecto-team.jpeg)
+
+### Read-only view
+- **DEPARTMENT**: department and area (`Software Development · Area lead: Gerson Cabreja`).
+- **PROJECT LEAD**: project lead with their position (`Leandro Sepulveda · Full-Stack Developer · Lead`).
+- **COLLABORATORS**: collaborators (or **"No collaborators yet."**).
+- Note: *"Only the team and people allowed to see every project can open this project and its tasks."*
+
+### Editing the team
+**"Edit team"** button → inline form:
+
+![Edit team](img/equipo-editar.jpeg)
+
+| Field | Options |
 |---|---|
 | **Department** | `Choose a department`, `Software Development`… |
-| **Project lead** | `No lead` o cualquier miembro |
-| **Collaborators** | Chips de miembros (selección múltiple) |
-| **Cancel / Save team** | Descartar / guardar |
+| **Project lead** | `No lead` or any member |
+| **Collaborators** | Member chips (multiple selection) |
+| **Cancel / Save team** | Discard / save |
 
-**Importante:** el acceso al proyecto depende de esta configuración. Si no eres del equipo (ni tienes permiso global), no verás el proyecto ni sus tareas.
+**Important:** access to the project depends on this configuration. If you are not on the team (and have no global permission), you will not see the project or its tasks.
 
 ---
 
-## 9. Pestaña Documents
+## 9. Documents tab
 
-![Detalle · Documents](img/proyecto-documents.jpeg)
+![Detail · Documents](img/proyecto-documents.jpeg)
 
-### Qué acepta
-Texto de la pantalla:
+### What it accepts
+Screen text:
 > *"PDF, Office, OpenDocument, images, text, CSV, Markdown or ZIP · several at once, up to 25 MB each"*
 
-Tipos permitidos (atributo del selector de archivos):
+Allowed types (file picker attribute):
 `.pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .odt, .ods, .png, .jpg, .jpeg, .gif, .webp, .txt, .md, .csv, .zip`
 
-- **Varios archivos a la vez**.
-- **Máximo 25 MB por archivo**.
+- **Several files at once**.
+- **Maximum 25 MB per file**.
 
-### Subir
-1. Pulsa **"Attach documents"**.
-2. Selecciona uno o varios archivos.
-3. Se suben y aparecen en la lista.
+### Uploading
+1. Click **"Attach documents"**.
+2. Select one or more files.
+3. They are uploaded and appear in the list.
 
-### Lista de documentos
-Cada archivo muestra:
-- Icono por tipo.
-- Nombre (`SGCI_Presentacion_Wireframes.pdf`).
-- Tamaño · autor · fecha (`4.8 MB · Gerson Cabreja · 14 Oct`).
+### Document list
+Each file shows:
+- Icon by type.
+- Name (`SGCI_Presentacion_Wireframes.pdf`).
+- Size · author · date (`4.8 MB · Gerson Cabreja · 14 Oct`).
 - **Download**.
-- **Delete** (con confirmación; requiere permisos).
+- **Delete** (with confirmation; requires permissions).
 
-**Uso:** centralizar entregables, contratos, wireframes y evidencias junto al proyecto.
-
----
-
-## 10. Flujo recomendado de un proyecto
-
-1. **Listado** → filtra por estado y busca el proyecto.
-2. **Overview** → entiende salud, fechas, avance y actividad reciente.
-3. **Dashboard** → revisa tareas/puntos y vencidos.
-4. **Board** → trabaja las tareas del día.
-5. **Timeline** → valida el plan por fases.
-6. **Team** → confirma quién participa y ajusta colaboradores (si tienes permiso).
-7. **Calendar** → revisa reuniones y deadlines.
-8. **Documents** → guarda y comparte entregables.
+**Use:** keep deliverables, contracts, wireframes and evidence together with the project.
 
 ---
 
-## 11. Preguntas frecuentes
+## 10. Recommended project workflow
 
-**¿Por qué no veo un proyecto?**
-Porque no eres del equipo y no tienes permiso para ver todos los proyectos. Pide que te añadan en **Team → Edit team**.
+1. **List** → filter by status and find the project.
+2. **Overview** → understand health, dates, progress and recent activity.
+3. **Dashboard** → review tasks/points and overdue items.
+4. **Board** → work on the day's tasks.
+5. **Timeline** → validate the plan by phases.
+6. **Team** → confirm who takes part and adjust collaborators (if you have permission).
+7. **Calendar** → review meetings and deadlines.
+8. **Documents** → store and share deliverables.
 
-**¿Por qué el progreso es 17% si hay 3 de 14 tareas?**
-21% por tareas, pero el progreso del proyecto (17%) puede ponderar por horas o puntos.
+---
 
-**¿Quién puede crear proyectos?**
-El subtítulo indica que se crean/editan/archivan desde esta página; en el rol Member no aparece la acción. Lo hace un administrador.
+## 11. Frequently asked questions
 
-**¿Se pueden mover tareas entre proyectos?**
-Sí, desde **Edit** de la tarea, siempre que no haya empezado. Sus subtareas se mueven con ella y **se pierden las dependencias**.
+**Why don't I see a project?**
+Because you are not on the team and you do not have permission to see every project. Ask to be added under **Team → Edit team**.
+
+**Why is the progress 17% if there are 3 of 14 tasks?**
+21% by tasks, but the project progress (17%) may be weighted by hours or points.
+
+**Who can create projects?**
+The subtitle states that they are created/edited/archived from this page; in the Member role the action is not shown. An administrator does it.
+
+**Can tasks be moved between projects?**
+Yes, from the task's **Edit**, as long as it has not started. Its subtasks move with it and **the dependencies are lost**.

@@ -1,71 +1,71 @@
-# 11 · Mensajes (Messages)
+# 11 · Messages
 
-Ruta: `/messages` · Icono de chat en la cabecera o elemento **"Messages"** del menú.
+Route: `/messages` · Chat icon in the header or **"Messages"** item in the menu.
 
-Concentra los **canales de proyecto y de equipo**, las menciones y los hilos con clientes.
+It brings together **project and team channels**, mentions and client threads.
 
-![Mensajes — estado vacío](img/mensajes.jpeg)
+![Messages — empty state](img/mensajes.jpeg)
 
 ---
 
-## 1. Qué muestra
+## 1. What it shows
 
-- Título **"Messages"**.
-- Subtítulo: *"Project channels, mentions and client threads."*
+- Title **"Messages"**.
+- Subtitle: *"Project channels, mentions and client threads."*
 
-### Estado vacío
-Cuando no hay hilos:
+### Empty state
+When there are no threads:
 
 > **"No threads yet"**
 > *"Managers can open a project or team channel from a project page."*
 
-Esto indica:
-1. No existen conversaciones abiertas en el espacio.
-2. La creación de canales la hacen **managers/administradores** desde la página de un proyecto.
+This indicates:
+1. There are no open conversations in the workspace.
+2. Channels are created by **managers/administrators** from a project page.
 
 ---
 
-## 2. Cómo se usa (según la app)
+## 2. How it is used (according to the app)
 
-### Como miembro
-- Verás aquí los hilos en los que participas y las menciones.
-- Puedes leer y responder dentro de cada hilo.
-- Las notificaciones de menciones llegan a la **campana** de la cabecera.
+### As a member
+- Here you will see the threads you take part in and the mentions.
+- You can read and reply within each thread.
+- Mention notifications arrive at the header **bell**.
 
-### Como manager/administrador
-1. Abre un **proyecto**.
-2. Crea/abre el **canal del proyecto** o del equipo.
-3. El canal aparece en **Messages** para los participantes.
-4. Invita a miembros del proyecto o del departamento.
+### As a manager/administrator
+1. Open a **project**.
+2. Create/open the **project** or team **channel**.
+3. The channel appears in **Messages** for the participants.
+4. Invite members of the project or the department.
 
-> En la cuenta documentada (rol **Member**) la bandeja está vacía y no se ofrece botón de creación, coherente con el mensaje de la pantalla.
+> In the documented account (role **Member**) the inbox is empty and no creation button is offered, consistent with the message on the screen.
 
 ---
 
-## 3. Relación con notificaciones
+## 3. Relationship with notifications
 
-| Evento | Dónde se ve |
+| Event | Where it is seen |
 |---|---|
-| Mención en un hilo | Campana (contador rojo) + Messages |
-| Nuevo mensaje en un canal | Contador en el icono de chat/campana |
-| Actividad de tareas | Campana → Recent activity |
+| Mention in a thread | Bell (red counter) + Messages |
+| New message in a channel | Counter on the chat/bell icon |
+| Task activity | Bell → Recent activity |
 
-Ver [13 · Notificaciones](13-notificaciones-y-menu.md).
-
----
-
-## 4. Buenas prácticas
-
-- **Un canal por proyecto**: evita mezclar contextos.
-- **Canal de equipo** para anuncios que afectan a todos.
-- **Menciona** a la persona concreta cuando necesites acción.
-- **Resume decisiones** en la tarea o en Documents, no solo en el chat.
-- **No compartas credenciales** ni datos sensibles por el chat.
+See [13 · Notifications](13-notificaciones-y-menu.md).
 
 ---
 
-## 5. Limitaciones observadas
+## 4. Best practices
 
-- Sin hilos, no hay buscador ni filtros visibles.
-- La creación de canales no está expuesta al rol Member.
-- El icono de la cabecera abre esta misma pantalla.
+- **One channel per project**: avoids mixing contexts.
+- **Team channel** for announcements that affect everyone.
+- **Mention** the specific person when you need action.
+- **Summarise decisions** in the task or in Documents, not only in the chat.
+- **Do not share credentials** or sensitive data over chat.
+
+---
+
+## 5. Observed limitations
+
+- Without threads, there is no visible search or filters.
+- Channel creation is not exposed to the Member role.
+- The header icon opens this same screen.

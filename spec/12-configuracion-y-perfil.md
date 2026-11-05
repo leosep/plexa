@@ -1,136 +1,136 @@
-# 12 · Configuración y perfil (Settings)
+# 12 · Settings and profile
 
-Ruta: `/settings` · Menú lateral **Settings**.
+Route: `/settings` · **Settings** side menu.
 
-La configuración se divide en secciones que se abren en el submenú de la izquierda y se reflejan en la URL (`?section=profile|preferences|mailbox`).
+Settings are divided into sections that open in the left submenu and are reflected in the URL (`?section=profile|preferences|mailbox`).
 
-Secciones disponibles para el rol **Member**:
+Sections available to the **Member** role:
 
 1. **Profile**
 2. **Preferences**
 3. **My mailbox**
 
-> El espacio muestra además referencias a *Settings → Sprints* (para crear sprints), pero esa sección **no aparece** con el rol Member; la gestiona un administrador.
+> The workspace also shows references to *Settings → Sprints* (to create sprints), but that section **does not appear** for the Member role; it is managed by an administrator.
 
 ---
 
 ## 1. Profile
 
-Ruta: `/settings?section=profile`
+Route: `/settings?section=profile`
 
 ![Settings · Profile](img/ajustes-perfil.jpeg)
 
-### Qué contiene
+### What it contains
 - **Profile picture**
-  - Formatos: **PNG, JPEG o GIF**.
-  - Tamaño máximo: **2 MB**.
-  - Se recorta a un **cuadrado**.
-  - Botón **"Choose image"** para subir/cambiar la foto.
-- **Nombre**: Leandro Sepulveda.
+  - Formats: **PNG, JPEG or GIF**.
+  - Maximum size: **2 MB**.
+  - It is cropped to a **square**.
+  - **"Choose image"** button to upload/change the photo.
+- **Name**: Leandro Sepulveda.
 - **Email**: `lsepulveda@dwn.com.do`.
-- **Puesto y rol**: `Full-Stack Developer · Member`.
-- Nota: *"Ask a workspace admin to change your name, title or capacity."*
+- **Title and role**: `Full-Stack Developer · Member`.
+- Note: *"Ask a workspace admin to change your name, title or capacity."*
 
-### Cambiar la foto
-1. Pulsa **"Choose image"**.
-2. Selecciona un archivo PNG/JPEG/GIF de hasta 2 MB.
-3. Ajusta el recorte cuadrado si la app lo solicita.
-4. Guarda. La nueva imagen aparece en la cabecera, tarjetas y tablas.
+### Changing the photo
+1. Click **"Choose image"**.
+2. Select a PNG/JPEG/GIF file of up to 2 MB.
+3. Adjust the square crop if the app requests it.
+4. Save. The new image appears in the header, cards and tables.
 
-### Qué no puedes cambiar tú
-- **Nombre**, **puesto** y **capacidad**: los modifica un administrador del espacio.
-- **Email**: ligado a la cuenta; gestión por administrador.
+### What you cannot change yourself
+- **Name**, **title** and **capacity**: these are modified by a workspace administrator.
+- **Email**: tied to the account; managed by an administrator.
 
 ---
 
 ## 2. Preferences
 
-Ruta: `/settings?section=preferences`
+Route: `/settings?section=preferences`
 
 ![Settings · Preferences](img/ajustes-preferencias.jpeg)
 
-### Layout (paneles configurables)
-Dos casillas:
+### Layout (configurable panels)
+Two checkboxes:
 
-| Opción | Efecto |
+| Option | Effect |
 |---|---|
-| **"Show the insights panel on project pages"** | Muestra/oculta el panel de insights en las páginas de proyecto |
-| **"Show the upgrade block in the sidebar"** | Muestra/oculta la tarjeta **Upgrade to Pro** en la barra lateral |
+| **"Show the insights panel on project pages"** | Shows/hides the insights panel on project pages |
+| **"Show the upgrade block in the sidebar"** | Shows/hides the **Upgrade to Pro** card in the sidebar |
 
-> **"Saved in this browser only."** → estas preferencias son locales del navegador; no afectan a otros usuarios ni a otros dispositivos.
+> **"Saved in this browser only."** → these preferences are local to the browser; they do not affect other users or other devices.
 
 ### Language
 - **"Interface language for this browser"**.
-- Botones **ES** / **EN**.
-- Cambia los textos de la interfaz en este navegador.
+- **ES** / **EN** buttons.
+- Changes the interface texts in this browser.
 
-### Cómo usarlas
-1. Entra en **Settings → Preferences**.
-2. Marca/desmarca las casillas según tu espacio de trabajo ideal.
-3. Elige **ES** o **EN**.
-4. Los cambios se aplican al instante y se guardan en el navegador.
+### How to use them
+1. Go to **Settings → Preferences**.
+2. Check/uncheck the boxes according to your ideal workspace.
+3. Choose **ES** or **EN**.
+4. Changes are applied instantly and saved in the browser.
 
 ---
 
 ## 3. My mailbox
 
-Ruta: `/settings?section=mailbox`
+Route: `/settings?section=mailbox`
 
 ![Settings · My mailbox](img/ajustes-buzon.jpeg)
 
-Sirve para que **los reportes que envías desde la app salgan desde tu propio buzón**.
+It is used so that **the reports you send from the app go out from your own mailbox**.
 
-### Texto de la pantalla
+### Screen text
 > *"The mail you send from Syncra leaves from this address, through your organisation's server. The password is stored encrypted and never shown."*
 
-### Campos
-| Campo | Descripción |
+### Fields
+| Field | Description |
 |---|---|
-| **Email** | Dirección desde la que saldrán los envíos |
-| **Password** | Contraseña o **app password** del buzón |
-| **Save mailbox** | Guarda la configuración |
+| **Email** | Address from which the messages will be sent |
+| **Password** | Password or **app password** for the mailbox |
+| **Save mailbox** | Saves the configuration |
 
-### Nota importante
+### Important note
 > *"If your provider uses two-step verification (Gmail, Outlook), use an app password."*
 
-Si tu proveedor tiene verificación en dos pasos, **genera una contraseña de aplicación** y pégala aquí; no uses tu contraseña normal.
+If your provider uses two-step verification, **generate an app password** and paste it here; do not use your normal password.
 
-### Cómo configurarlo
-1. Abre **Settings → My mailbox**.
-2. Escribe el **email** desde el que quieres enviar.
-3. Escribe la **contraseña de aplicación**.
-4. Pulsa **"Save mailbox"**.
-5. Envía un reporte de prueba para confirmar.
+### How to configure it
+1. Open **Settings → My mailbox**.
+2. Enter the **email** from which you want to send.
+3. Enter the **app password**.
+4. Click **"Save mailbox"**.
+5. Send a test report to confirm.
 
-### Seguridad
-- La contraseña se guarda **cifrada** y **nunca se muestra**.
-- Si cambias la contraseña del correo, actualízala aquí.
-- Si el envío falla, revisa: servidor SMTP de la organización, contraseña de aplicación, y que el buzón permita envío.
+### Security
+- The password is stored **encrypted** and **never shown**.
+- If you change your email password, update it here.
+- If sending fails, check: the organisation's SMTP server, the app password, and that the mailbox allows sending.
 
 ---
 
-## 4. Secciones de administración (no visibles para Member)
+## 4. Administration sections (not visible to Member)
 
-La app menciona estas capacidades en distintos lugares; pertenecen a administradores:
+The app mentions these capabilities in different places; they belong to administrators:
 
-| Sección | Dónde se menciona | Para qué sirve |
+| Section | Where it is mentioned | What it is for |
 |---|---|---|
-| **Sprints** | Tarjeta *Active sprint*: *"Create one in Settings → Sprints"* | Crear/cerrar sprints, capacidad, compromiso de puntos |
-| **Members / equipo** | *"Ask a workspace admin to change your name, title or capacity"* | Altas, roles, puestos, capacidad |
-| **Projects** | *"Manage the portfolio: create, edit, archive…"* | Alta/edición/archivo de proyectos |
-| **Billing / Pro** | Tarjeta *Upgrade to Pro* | Plan y facturación |
+| **Sprints** | *Active sprint* card: *"Create one in Settings → Sprints"* | Create/close sprints, capacity, point commitment |
+| **Members / team** | *"Ask a workspace admin to change your name, title or capacity"* | Onboarding, roles, titles, capacity |
+| **Projects** | *"Manage the portfolio: create, edit, archive…"* | Creating/editing/archiving projects |
+| **Billing / Pro** | *Upgrade to Pro* card | Plan and billing |
 
-Si necesitas alguna de estas acciones, contacta con un administrador (en este espacio, **Gerson Cabreja**).
+If you need any of these actions, contact an administrator (in this workspace, **Gerson Cabreja**).
 
 ---
 
-## 5. Resumen rápido
+## 5. Quick summary
 
-| Quiero… | Voy a… |
+| I want to… | I go to… |
 |---|---|
-| Cambiar mi foto | Settings → Profile → Choose image |
-| Ocultar el bloque de upgrade | Settings → Preferences |
-| Ocultar insights en proyectos | Settings → Preferences |
-| Cambiar idioma | Menú de usuario o Settings → Preferences → ES/EN |
-| Enviar reportes desde mi correo | Settings → My mailbox |
-| Cambiar mi nombre/puesto | Pedirlo a un administrador |
+| Change my photo | Settings → Profile → Choose image |
+| Hide the upgrade block | Settings → Preferences |
+| Hide insights in projects | Settings → Preferences |
+| Change language | User menu or Settings → Preferences → ES/EN |
+| Send reports from my email | Settings → My mailbox |
+| Change my name/title | Ask an administrator |

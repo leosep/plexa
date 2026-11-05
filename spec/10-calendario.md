@@ -1,137 +1,137 @@
-# 10 · Calendario (Calendar)
+# 10 · Calendar
 
-Ruta: `/calendar` · Elemento **"Calendar"** del menú.
+Route: `/calendar` · **"Calendar"** item in the menu.
 
-Calendario compartido del espacio de trabajo: reuniones, revisiones, demos, deadlines y retros, vinculables a proyectos, personas y departamentos.
+Shared workspace calendar: meetings, reviews, demos, deadlines and retros, linkable to projects, people and departments.
 
-![Calendario — vista semanal](img/calendario.jpeg)
+![Calendar — week view](img/calendario.jpeg)
 
 ---
 
-## 1. Encabezado
+## 1. Header
 
-- Título **"Calendar"**.
-- Rango visible y número de eventos: *"26 Oct – 1 Nov · 0 events"* (o *"1 event"*).
-- Conmutador de vista: **Week** · **2 weeks** · **Month**.
-- Navegación: **← Prev** · **Today** · **Next →**.
-- Botón **"New event"**.
+- Title **"Calendar"**.
+- Visible range and number of events: *"26 Oct – 1 Nov · 0 events"* (or *"1 event"*).
+- View switcher: **Week** · **2 weeks** · **Month**.
+- Navigation: **← Prev** · **Today** · **Next →**.
+- **"New event"** button.
 
-### Vistas
-| Vista | Muestra |
+### Views
+| View | Shows |
 |---|---|
-| **Week** | 7 columnas (lun–dom) con los eventos de cada día |
-| **2 weeks** | 14 columnas |
-| **Month** | Rejilla mensual (p. ej. *October 2026*) con el número de eventos por día |
+| **Week** | 7 columns (Mon–Sun) with the events of each day |
+| **2 weeks** | 14 columns |
+| **Month** | Monthly grid (e.g. *October 2026*) with the number of events per day |
 
-En **Month**, cada celda muestra el día y un contador; al pulsar un día se accede a su detalle/creación.
-
----
-
-## 2. Celdas de día
-
-Cada columna muestra:
-- Número de día y abreviatura (`26 Mon`, `27 Tue`…).
-- Chip **"Today"** en el día actual.
-- Contador de eventos (`0`, `1`…).
-- Los eventos como tarjetas con título y hora.
-- Botón punteado **"+ Add event"** al pie.
-
-Al pulsar **"+ Add event"** de un día se abre **New event** con la fecha precargada.
+In **Month**, each cell shows the day and a counter; clicking a day opens its detail/creation.
 
 ---
 
-## 3. Eventos existentes
+## 2. Day cells
 
-Ejemplo real del espacio: en la semana del **5–11 Oct** hay un evento:
+Each column shows:
+- Day number and abbreviation (`26 Mon`, `27 Tue`…).
+- **"Today"** chip on the current day.
+- Event counter (`0`, `1`…).
+- The events as cards with title and time.
+- Dotted **"+ Add event"** button at the bottom.
+
+Clicking **"+ Add event"** on a day opens **New event** with the date preloaded.
+
+---
+
+## 3. Existing events
+
+Real example from the workspace: in the week of **5–11 Oct** there is one event:
 
 - **sprint-revision_proyectos**
 - **09 Oct · 15:00 – 16:00**
-- Tipo: **Meeting**
-- Proyecto: **PRY-01 · Sistema de Gestión de Capacitaciones Internas**
+- Kind: **Meeting**
+- Project: **PRY-01 · Sistema de Gestión de Capacitaciones Internas**
 - Place: None · Members: None · Departments: None
 
-![Detalle de evento](img/calendario-evento.jpeg)
+![Event detail](img/calendario-evento.jpeg)
 
-### Ver el detalle
-Pulsa la tarjeta del evento → modal con:
-| Campo | Ejemplo |
+### Viewing the detail
+Click the event card → modal with:
+| Field | Example |
 |---|---|
-| Título | sprint-revision_proyectos |
-| Fecha y hora | 09 Oct · 15:00 – 16:00 |
+| Title | sprint-revision_proyectos |
+| Date and time | 09 Oct · 15:00 – 16:00 |
 | **Kind** | Meeting |
 | **Place** | None |
 | **Project** | PRY-01 · … |
 | **Members** | None |
 | **Departments** | None |
 
-> En la cuenta documentada el modal es de **solo lectura** (no muestra editar/eliminar). La gestión completa depende de permisos.
+> In the documented account the modal is **read-only** (it does not show edit/delete). Full management depends on permissions.
 
 ---
 
-## 4. Crear un evento
+## 4. Creating an event
 
-Botón **"New event"** (o **"+ Add event"** de un día).
+**"New event"** button (or **"+ Add event"** on a day).
 
-### Formulario
-| Campo | Tipo | Opciones / valores |
+### Form
+| Field | Type | Options / values |
 |---|---|---|
-| **Title** | texto | Placeholder `Client demo` |
-| **Date** | selector de día | Por defecto, hoy (`30.10.2026` en el ejemplo) |
-| **Starts** | selector de hora | Por defecto `10:00` |
-| **Ends** | selector de hora | Por defecto `11:00` |
+| **Title** | text | Placeholder `Client demo` |
+| **Date** | day picker | By default, today (`30.10.2026` in the example) |
+| **Starts** | time picker | By default `10:00` |
+| **Ends** | time picker | By default `11:00` |
 | **Kind** | select | `Meeting`, `Review`, `Demo`, `Deadline`, `Retro`, `Other` |
-| **Place / tool** | select | `No place` u opciones de lugar/herramienta |
-| **Project** | select | `No project` o cualquier proyecto |
-| **Members** | select múltiple | `Add a member…` |
-| **Departments** | select múltiple | `Add a department…` |
-| **Cancel / Add event** | botones | Descartar / crear |
+| **Place / tool** | select | `No place` or place/tool options |
+| **Project** | select | `No project` or any project |
+| **Members** | multi-select | `Add a member…` |
+| **Departments** | multi-select | `Add a department…` |
+| **Cancel / Add event** | buttons | Discard / create |
 
-### Paso a paso
-1. Pulsa **"New event"** (o el **+ Add event** del día).
-2. Escribe el **título**.
-3. Confirma **fecha**, **hora de inicio** y **fin**.
-4. Elige el **tipo** (Meeting, Review, Demo, Deadline, Retro, Other).
-5. Indica **lugar o herramienta** (sala, Zoom, Meet…).
-6. Vincula el **proyecto** si aplica.
-7. Añade **miembros** y/o **departamentos** invitados.
-8. Pulsa **"Add event"**.
+### Step by step
+1. Click **"New event"** (or the day's **+ Add event**).
+2. Type the **title**.
+3. Confirm **date**, **start time** and **end**.
+4. Choose the **kind** (Meeting, Review, Demo, Deadline, Retro, Other).
+5. Indicate the **place or tool** (room, Zoom, Meet…).
+6. Link the **project** if applicable.
+7. Add invited **members** and/or **departments**.
+8. Click **"Add event"**.
 
-> **Consejo:** usa `Deadline` para hitos de entrega y `Review`/`Demo` para ceremonias; así el calendario comunica el plan además de las reuniones.
-
----
-
-## 5. Navegación temporal
-
-- **← Prev / Next →**: avanza o retrocede según la vista (semana, 2 semanas o mes).
-- **Today**: vuelve a la fecha actual.
-- El rango se muestra siempre en el subtítulo.
-- En **Month** se ven los días de los meses adyacentes con contador.
+> **Tip:** use `Deadline` for delivery milestones and `Review`/`Demo` for ceremonies; that way the calendar communicates the plan as well as the meetings.
 
 ---
 
-## 6. Integración con proyectos
+## 5. Time navigation
 
-- La pestaña **Calendar** del proyecto lista solo sus eventos y ofrece **"Open calendar"**.
-- Al crear un evento puedes vincularlo a un proyecto, y aparecerá en ambos sitios.
-- Los eventos con **Members** o **Departments** se muestran a esas personas.
+- **← Prev / Next →**: moves forward or backward depending on the view (week, 2 weeks or month).
+- **Today**: returns to the current date.
+- The range is always shown in the subtitle.
+- In **Month**, the days of adjacent months are shown with a counter.
 
 ---
 
-## 7. Casos de uso
+## 6. Integration with projects
 
-| Necesidad | Configuración sugerida |
+- The project's **Calendar** tab lists only its events and offers **"Open calendar"**.
+- When creating an event you can link it to a project, and it will appear in both places.
+- Events with **Members** or **Departments** are shown to those people.
+
+---
+
+## 7. Use cases
+
+| Need | Suggested setup |
 |---|---|
-| Daily / weekly | `Meeting`, recurrencia manual, miembros del equipo |
-| Revisión de sprint | `Review`, proyecto, día de cierre |
-| Demo al cliente | `Demo`, proyecto, lugar/herramienta |
-| Fecha de entrega | `Deadline`, proyecto, sin hora o al final del día |
-| Retrospectiva | `Retro`, equipo/departamento |
-| Bloqueo de agenda | `Other` + título descriptivo |
+| Daily / weekly | `Meeting`, manual recurrence, team members |
+| Sprint review | `Review`, project, closing day |
+| Client demo | `Demo`, project, place/tool |
+| Delivery date | `Deadline`, project, no time or end of day |
+| Retrospective | `Retro`, team/department |
+| Calendar block | `Other` + descriptive title |
 
 ---
 
-## 8. Notas
+## 8. Notes
 
-- El calendario global muestra **0 eventos** en la semana actual del ejemplo; el evento de octubre aparece al navegar a esa semana.
-- Si un evento no aparece, revisa el rango de fechas y los filtros de proyecto/miembros del evento.
-- Los eventos sin miembros ni departamentos son visibles para quien tenga acceso al proyecto/espacio.
+- The global calendar shows **0 events** in the current week of the example; the October event appears when navigating to that week.
+- If an event does not appear, check the date range and the event's project/member filters.
+- Events without members or departments are visible to anyone with access to the project/workspace.

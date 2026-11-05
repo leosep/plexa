@@ -1,51 +1,51 @@
-# 08 · Reportes (Reports)
+# 08 · Reports
 
-Ruta: `/reports` · Elemento **"Reports"** del menú.
+Route: `/reports` · **"Reports"** menu item.
 
-Compara el **tiempo estimado (task time)** con el **tiempo registrado (logged)** y ofrece un reporte por departamento. Los exports respetan los filtros activos.
+It compares **estimated time (task time)** with **logged time** and offers a report by department. Exports respect the active filters.
 
-![Reportes](img/reportes.jpeg)
+![Reports](img/reportes.jpeg)
 
 ---
 
-## 1. Encabezado y acciones
+## 1. Header and actions
 
-- Título **"Reports"**.
-- Subtítulo: *"Task time vs logged time (informative). Exports carry the filters you set here."*
-- Botones:
-  - **"Hours report"** (botón naranja, activo por defecto): vista de horas por tarea.
+- Title **"Reports"**.
+- Subtitle: *"Task time vs logged time (informative). Exports carry the filters you set here."*
+- Buttons:
+  - **"Hours report"** (orange button, active by default): hours view by task.
   - **"Export CSV"**.
   - **"Export Excel"**.
   - **"Export PDF"**.
 
 ---
 
-## 2. Filtros
+## 2. Filters
 
-| Filtro | Opciones | Efecto |
+| Filter | Options | Effect |
 |---|---|---|
-| **Sprint** | `Active sprint`, otros sprints | Limita al sprint seleccionado |
-| **Member** | `All members`, cada persona | Solo tareas de esa persona |
-| **Tag** | `All tags`, `Backend`, … | Solo tareas con esa etiqueta |
-| **Time logged** (botón) | on/off | Muestra solo tareas **con tiempo registrado** |
-| **Variance > 0** (botón) | on/off | Muestra solo tareas donde lo registrado **supera** lo estimado (sobreconsumo) |
+| **Sprint** | `Active sprint`, other sprints | Restricts to the selected sprint |
+| **Member** | `All members`, each person | Only that person's tasks |
+| **Tag** | `All tags`, `Backend`, … | Only tasks with that tag |
+| **Time logged** (button) | on/off | Shows only tasks **with logged time** |
+| **Variance > 0** (button) | on/off | Shows only tasks where logged time **exceeds** the estimate (overconsumption) |
 
-Los filtros se combinan y se reflejan en la tabla, en los totales y en los archivos exportados.
+The filters combine and are reflected in the table, in the totals and in the exported files.
 
 ---
 
-## 3. Tabla "Hours report"
+## 3. "Hours report" table
 
-| Columna | Significado |
+| Column | Meaning |
 |---|---|
-| **TASK** | Nombre de la tarea |
-| **OWNER** | Responsable |
-| **TAG** | Etiqueta (`Backend` o `—`) |
-| **TASK TIME** | Horas estimadas |
-| **LOGGED** | Tiempo registrado |
-| **VARIANCE** | Diferencia registrado − estimado (`+1m` en rojo si hay exceso, `—` si no aplica) |
+| **TASK** | Task name |
+| **OWNER** | Owner |
+| **TAG** | Tag (`Backend` or `—`) |
+| **TASK TIME** | Estimated hours |
+| **LOGGED** | Logged time |
+| **VARIANCE** | Difference logged − estimated (`+1m` in red if there is an excess, `—` if not applicable) |
 
-### Datos observados (extracto)
+### Observed data (excerpt)
 
 | Task | Owner | Tag | Task time | Logged | Variance |
 |---|---|---|---|---|---|
@@ -63,85 +63,85 @@ Los filtros se combinan y se reflejan en la tabla, en los totales y en los archi
 | Wireframes y validación con RRHH | Leandro Sepulveda | — | 3h 00m | 0h 00m | — |
 | **Total** | | | **42h 00m** | **1m** | **-41h 59m** |
 
-Pie de tabla: **"Showing 12 tasks · Backlog · 1 with time logged"**.
+Table footer: **"Showing 12 tasks · Backlog · 1 with time logged"**.
 
-### Cómo leer la varianza
-- **—**: no hay registro o no aplica comparación.
-- **+X**: se registró **más** de lo estimado (sobreconsumo).
-- **−X** (en el total): queda mucho tiempo estimado sin registrar.
+### How to read the variance
+- **—**: there is no log or the comparison does not apply.
+- **+X**: **more** was logged than estimated (overconsumption).
+- **−X** (in the total): a lot of estimated time is still unlogged.
 
-> El total `-41h 59m` no es un error: indica que la mayoría de las tareas estimadas **aún no tienen tiempo registrado**.
+> The `-41h 59m` total is not an error: it means that most of the estimated tasks **do not have logged time yet**.
 
 ---
 
-## 4. Exportaciones
+## 4. Exports
 
-Tres formatos, mismos datos y filtros:
+Three formats, same data and filters:
 
-| Botón | Formato | Cuándo usarlo |
+| Button | Format | When to use it |
 |---|---|---|
-| **Export CSV** | CSV | Análisis en Excel/Sheets, importar a BI |
-| **Export Excel** | XLSX | Compartir con formato y varias hojas |
-| **Export PDF** | PDF | Enviar a cliente/dirección sin edición |
+| **Export CSV** | CSV | Analysis in Excel/Sheets, importing into BI |
+| **Export Excel** | XLSX | Sharing with formatting and several sheets |
+| **Export PDF** | PDF | Sending to a client/management without editing |
 
-**Cómo exportar:**
-1. Ajusta **Sprint / Member / Tag** y los toggles.
-2. Pulsa el botón de formato.
-3. Se descarga el archivo con **los filtros aplicados**.
+**How to export:**
+1. Adjust **Sprint / Member / Tag** and the toggles.
+2. Click the format button.
+3. The file is downloaded **with the filters applied**.
 
-> El export se hace desde el navegador; si el navegador bloquea descargas, revisa el aviso de descarga.
+> The export is done from the browser; if the browser blocks downloads, check the download prompt.
 
 ---
 
-## 5. Reporte "By department"
+## 5. "By department" report
 
-Debajo de la tabla principal:
+Below the main table:
 
 > *"Last 30 days. Only tasks whose completion was approved count, with their time."*
 
-| Columna | Significado |
+| Column | Meaning |
 |---|---|
-| **DEPARTMENT** | Departamento y líder |
-| **ACTIVE PROJECTS** | Proyectos activos del departamento |
-| **MEMBERS** | Personas |
-| **COMPLETED TASKS** | Tareas completadas y aprobadas en 30 días |
-| **AWAITING APPROVAL** | Completadas pendientes de aprobación |
-| **HOURS** | Horas registradas en esas tareas |
+| **DEPARTMENT** | Department and lead |
+| **ACTIVE PROJECTS** | Active projects of the department |
+| **MEMBERS** | People |
+| **COMPLETED TASKS** | Tasks completed and approved in 30 days |
+| **AWAITING APPROVAL** | Completed tasks awaiting approval |
+| **HOURS** | Hours logged on those tasks |
 
-Ejemplo observado:
+Observed example:
 
 | Department | Active projects | Members | Completed | Awaiting approval | Hours |
 |---|---|---|---|---|---|
 | Software Development (Lead: Gerson Cabreja) | 1 | 3 | 3 | 1 | 7.0 |
 
-**Uso:** reporte de gestión por área, útil para dirección y facturación.
+**Use:** management report by area, useful for leadership and billing.
 
 ---
 
-## 6. Flujos típicos
+## 6. Typical flows
 
-### Revisar desviaciones de un proyecto
-1. Filtra por **Sprint** (o deja *Active sprint*).
-2. Activa **"Variance > 0"** para ver solo sobreconsumos.
-3. Ordena mentalmente por magnitud y revisa las tareas con `+`.
-4. Exporta a PDF para la reunión.
+### Reviewing deviations in a project
+1. Filter by **Sprint** (or leave *Active sprint*).
+2. Turn on **"Variance > 0"** to see only overconsumption.
+3. Mentally sort by magnitude and review the tasks with `+`.
+4. Export to PDF for the meeting.
 
-### Reporte mensual de horas
-1. Filtra por **Member** o deja *All members*.
-2. Activa **"Time logged"**.
-3. Exporta **Excel**.
-4. Adjunta el archivo al informe.
+### Monthly hours report
+1. Filter by **Member** or leave *All members*.
+2. Turn on **"Time logged"**.
+3. Export to **Excel**.
+4. Attach the file to the report.
 
-### Ver trabajo sin registrar
-1. Desactiva **"Time logged"**.
-2. Busca filas con `LOGGED 0h 00m` y `TASK TIME` alto → trabajo estimado sin registro.
-3. Recuerda al equipo usar **Start timer**.
+### Seeing work with no logged time
+1. Turn off **"Time logged"**.
+2. Look for rows with `LOGGED 0h 00m` and a high `TASK TIME` → estimated work with no log.
+3. Remind the team to use **Start timer**.
 
 ---
 
-## 7. Limitaciones y notas
+## 7. Limitations and notes
 
-- La pantalla lo dice: los datos son **informativos**; no sustituyen una herramienta de facturación.
-- Solo cuentan para *By department* las tareas cuya **finalización fue aprobada**.
-- Si no hay sprint activo, el filtro *Active sprint* puede devolver el backlog completo.
-- Los porcentajes y varianzas dependen de que las estimaciones estén bien cargadas.
+- The screen says it: the data is **informative**; it does not replace a billing tool.
+- Only tasks whose **completion was approved** count for *By department*.
+- If there is no active sprint, the *Active sprint* filter may return the whole backlog.
+- The percentages and variances depend on the estimates being entered correctly.

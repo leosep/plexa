@@ -1,249 +1,249 @@
-# 16 · Mapa de rutas y glosario
+# 16 · Route map and glossary
 
-Referencia rápida de rutas, parámetros, estados, etiquetas y términos usados en Syncra.
-
----
-
-## 1. Rutas de la aplicación
-
-| Ruta | Pantalla | Acceso |
-|---|---|---|
-| `/login` | Inicio de sesión | Público |
-| `/forgot-password` | Recuperar contraseña | Público |
-| `/invitations` | Aceptar invitación | Público |
-| `/dashboard` | Dashboard | Autenticado |
-| `/board` | Tablero global | Autenticado |
-| `/board?task=<id>` | Tablero con detalle de tarea abierto | Autenticado |
-| `/board?q=<texto>` | Tablero filtrado por búsqueda de texto | Autenticado |
-| `/projects` | Listado de proyectos | Autenticado |
-| `/projects/<projectId>` | Detalle de proyecto (Overview por defecto) | Miembro del proyecto o permiso global |
-| `/projects/<projectId>?tab=Overview` | Resumen del proyecto | idem |
-| `/projects/<projectId>?tab=Dashboard` | Métricas del proyecto | idem |
-| `/projects/<projectId>?tab=Board` | Tablero del proyecto | idem |
-| `/projects/<projectId>?tab=Timeline` | Línea de tiempo / fases | idem |
-| `/projects/<projectId>?tab=Calendar` | Eventos del proyecto | idem |
-| `/projects/<projectId>?tab=Team` | Equipo del proyecto | idem |
-| `/projects/<projectId>?tab=Documents` | Documentos del proyecto | idem |
-| `/team` | Team workload | Autenticado |
-| `/reports` | Reportes | Autenticado |
-| `/analytics` | Analítica | Autenticado |
-| `/calendar` | Calendario | Autenticado |
-| `/messages` | Mensajes | Autenticado |
-| `/settings` | Configuración (Profile por defecto) | Autenticado |
-| `/settings?section=profile` | Perfil | Autenticado |
-| `/settings?section=preferences` | Preferencias | Autenticado |
-| `/settings?section=mailbox` | Buzón de envío | Autenticado |
-
-### Parámetros
-- `tab`: pestaña del detalle de proyecto.
-- `section`: sección de Settings.
-- `task`: id de tarea abierta en el tablero.
+Quick reference of the routes, parameters, statuses, labels and terms used in Syncra.
 
 ---
 
-## 2. Estados de tarea
+## 1. Application routes
 
-| Estado | Significado | Color |
+| Route | Screen | Access |
 |---|---|---|
-| **To do** | Pendiente de empezar | Gris |
-| **In progress** | En desarrollo | Celeste |
-| **Review** | En revisión/validación | Durazno |
-| **Completed** | Terminada | Verde |
+| `/login` | Sign in | Public |
+| `/forgot-password` | Password recovery | Public |
+| `/invitations` | Accept invitation | Public |
+| `/dashboard` | Dashboard | Authenticated |
+| `/board` | Global board | Authenticated |
+| `/board?task=<id>` | Board with the task detail open | Authenticated |
+| `/board?q=<text>` | Board filtered by text search | Authenticated |
+| `/projects` | Project listing | Authenticated |
+| `/projects/<projectId>` | Project detail (Overview by default) | Project member or global permission |
+| `/projects/<projectId>?tab=Overview` | Project summary | idem |
+| `/projects/<projectId>?tab=Dashboard` | Project metrics | idem |
+| `/projects/<projectId>?tab=Board` | Project board | idem |
+| `/projects/<projectId>?tab=Timeline` | Timeline / phases | idem |
+| `/projects/<projectId>?tab=Calendar` | Project events | idem |
+| `/projects/<projectId>?tab=Team` | Project team | idem |
+| `/projects/<projectId>?tab=Documents` | Project documents | idem |
+| `/team` | Team workload | Authenticated |
+| `/reports` | Reports | Authenticated |
+| `/analytics` | Analytics | Authenticated |
+| `/calendar` | Calendar | Authenticated |
+| `/messages` | Messages | Authenticated |
+| `/settings` | Settings (Profile by default) | Authenticated |
+| `/settings?section=profile` | Profile | Authenticated |
+| `/settings?section=preferences` | Preferences | Authenticated |
+| `/settings?section=mailbox` | Sending mailbox | Authenticated |
 
-### Transiciones vistas
+### Parameters
+- `tab`: tab of the project detail.
+- `section`: section of Settings.
+- `task`: id of the task open on the board.
+
+---
+
+## 2. Task statuses
+
+| Status | Meaning | Color |
+|---|---|---|
+| **To do** | Pending start | Gray |
+| **In progress** | In development | Sky blue |
+| **Review** | Under review/validation | Peach |
+| **Completed** | Finished | Green |
+
+### Transitions observed
 - To do → In progress, Review
 - In progress → To do, Review
-- Review → To do, In progress (y Completed con aprobación)
-- Completed → reapertura
+- Review → To do, In progress (and Completed with approval)
+- Completed → reopening
 
 ---
 
-## 3. Prioridades
+## 3. Priorities
 
-| Valor | Uso recomendado |
+| Value | Recommended use |
 |---|---|
-| **High** | Bloquea a otras personas, fecha crítica o cliente esperando |
-| **Medium** | Trabajo normal del sprint (valor por defecto) |
-| **Low** | Mejoras, deuda técnica no urgente |
+| **High** | Blocks other people, critical date or a client waiting |
+| **Medium** | Normal sprint work (default value) |
+| **Low** | Improvements, non-urgent technical debt |
 
 ---
 
-## 4. Etiquetas (tags)
+## 4. Labels (tags)
 
-`Backend`, `Base de datos`, `Diseño`, `Frontend`, `Investigación`, `QA`, `Rendimiento` — además de `None`.
+`Backend`, `Database`, `Design`, `Frontend`, `Research`, `QA`, `Performance` — in addition to `None`.
 
-Sirven para:
-- Filtrar en el tablero y en reportes.
-- Agrupar la exactitud de estimaciones en Analytics (*"Logged vs estimated hours per tag"*).
+They are used to:
+- Filter on the board and in reports.
+- Group estimate accuracy in Analytics (*"Logged vs estimated hours per tag"*).
 
 ---
 
-## 5. Estados de proyecto
+## 5. Project statuses
 
-| Estado | Significado |
+| Status | Meaning |
 |---|---|
-| **Planning** | Definición/planificación |
-| **In progress** | En ejecución |
-| **At risk** | Con riesgo (fechas, carga, bloqueos) |
-| **On hold** | Pausado |
-| **Completed** | Terminado |
-| **Archived** | Archivado |
+| **Planning** | Definition/planning |
+| **In progress** | In execution |
+| **At risk** | At risk (dates, load, blockers) |
+| **On hold** | Paused |
+| **Completed** | Finished |
+| **Archived** | Archived |
 
-### Salud (health)
-- **On track**: según el plan.
-- **At risk**: desviación que requiere atención.
+### Health
+- **On track**: according to the plan.
+- **At risk**: a deviation that requires attention.
 
 ---
 
-## 6. Estados de capacidad (equipo)
+## 6. Capacity statuses (team)
 
-| Señal | Significado |
+| Signal | Meaning |
 |---|---|
-| **On track** | Carga dentro de lo esperado |
-| **At risk** | Cerca del límite o con vencidos |
-| **Overloaded** | Por encima de la capacidad |
-| **Available** | Con margen para más trabajo |
+| **On track** | Load within what is expected |
+| **At risk** | Close to the limit or with overdue items |
+| **Overloaded** | Above capacity |
+| **Available** | With room for more work |
 
 ---
 
-## 7. Modos de progreso de una tarea
+## 7. Progress modes of a task
 
-| Modo | Cálculo |
+| Mode | Calculation |
 |---|---|
-| **Hours** | Cada subtarea pesa según sus horas estimadas |
-| **Percentage** | Cada subtarea pesa igual |
+| **Hours** | Each subtask weighs according to its estimated hours |
+| **Percentage** | Each subtask weighs the same |
 
-Se elige al crear (`Measure progress by`) y **no se puede cambiar** si ya existen subtareas.
+It is chosen when creating the task (`Measure progress by`) and **cannot be changed** if subtasks already exist.
 
 ---
 
-## 8. Tipos de evento de calendario
+## 8. Calendar event types
 
-| Kind | Uso |
+| Kind | Use |
 |---|---|
-| **Meeting** | Reuniones de equipo/cliente |
-| **Review** | Revisiones de sprint o entregables |
-| **Demo** | Demostraciones |
-| **Deadline** | Fechas límite |
-| **Retro** | Retrospectivas |
-| **Other** | Cualquier otro bloqueo |
+| **Meeting** | Team/client meetings |
+| **Review** | Sprint or deliverable reviews |
+| **Demo** | Demonstrations |
+| **Deadline** | Deadlines |
+| **Retro** | Retrospectives |
+| **Other** | Any other block |
 
-Campos adicionales: **Place / tool**, **Project**, **Members**, **Departments**.
+Additional fields: **Place / tool**, **Project**, **Members**, **Departments**.
 
 ---
 
-## 9. Glosario de métricas
+## 9. Metrics glossary
 
-| Término | Definición |
+| Term | Definition |
 |---|---|
-| **Active tasks** | Tareas abiertas (no completadas) |
-| **Overdue** | Tareas con fecha límite pasada y sin completar |
-| **Completed this sprint** | Tareas completadas dentro del sprint / total del sprint |
-| **Hours closed (7d)** | Horas registradas y cerradas en 7 días, con comparación semanal |
-| **Task status distribution** | Reparto del backlog por estado |
-| **Team activity** | Acciones por día/semana en las últimas 4 semanas |
-| **Task priority** | Distribución de tareas abiertas por prioridad |
-| **Capacity** | % de capacidad usada respecto a la disponible |
-| **Tracked today** | Tiempo registrado hoy en el cronómetro |
-| **Task time** | Horas estimadas de la tarea |
-| **Logged** | Tiempo realmente registrado |
-| **Variance** | Logged − Task time (positivo = sobreconsumo) |
-| **Tasks closed** | Tareas cerradas en el periodo |
-| **Cycle time** | Tiempo medio desde el inicio hasta el cierre |
-| **Rework** | % de trabajo reabierto/rehecho |
-| **Throughput** | Tareas completadas por semana |
-| **Cumulative flow** | Evolución acumulada de tareas por estado |
-| **Estimate reliability** | % de estimaciones dentro de ±20% |
-| **Delivery / plan** | Cumplimiento del plan (target 1.00) |
-| **Sprint velocity** | Puntos entregados vs. comprometidos |
-| **Load per member** | Carga activa por persona |
-| **Estimate accuracy** | Comparación registrado vs. estimado por tag |
-| **WIP** | Trabajo en curso (tarjetas en *In progress*) |
+| **Active tasks** | Open (not completed) tasks |
+| **Overdue** | Tasks with a past due date that are not completed |
+| **Completed this sprint** | Tasks completed within the sprint / sprint total |
+| **Hours closed (7d)** | Hours logged and closed in 7 days, with a weekly comparison |
+| **Task status distribution** | Distribution of the backlog by status |
+| **Team activity** | Actions per day/week over the last 4 weeks |
+| **Task priority** | Distribution of open tasks by priority |
+| **Capacity** | % of capacity used relative to the available capacity |
+| **Tracked today** | Time logged today with the timer |
+| **Task time** | Estimated hours of the task |
+| **Logged** | Time actually logged |
+| **Variance** | Logged − Task time (positive = overconsumption) |
+| **Tasks closed** | Tasks closed in the period |
+| **Cycle time** | Average time from start to close |
+| **Rework** | % of work reopened/redone |
+| **Throughput** | Tasks completed per week |
+| **Cumulative flow** | Cumulative evolution of tasks by status |
+| **Estimate reliability** | % of estimates within ±20% |
+| **Delivery / plan** | Compliance with the plan (target 1.00) |
+| **Sprint velocity** | Points delivered vs. committed |
+| **Load per member** | Active load per person |
+| **Estimate accuracy** | Comparison of logged vs. estimated by tag |
+| **WIP** | Work in progress (cards in *In progress*) |
 
 ---
 
-## 10. Glosario de interfaz
+## 10. Interface glossary
 
-| Elemento | Significado |
+| Element | Meaning |
 |---|---|
-| **Breadcrumb** | Ruta de contexto en la cabecera (`Espacio / Página`) |
-| **Chip** | Etiqueta compacta clicable o informativa (estado, prioridad, tag) |
-| **KPI card** | Tarjeta con un número grande y su contexto |
-| **Modal** | Ventana superpuesta (New task, New event, detalle) |
-| **Panel inline** | Formulario que sustituye el contenido (Edit team, Edit task) |
-| **Toast** | Aviso breve tras una acción |
-| **Empty state** | Mensaje cuando no hay datos ("No threads yet") |
-| **Skeleton/Loading** | Estados de carga ("Loading…", "Restoring session") |
-| **Loose task** | Tarea sin proyecto |
-| **Backlog** | Conjunto de tareas pendientes, aún sin sprint |
-| **Sprint** | Iteración con fechas, capacidad y puntos comprometidos |
-| **Story points** | Unidad relativa de esfuerzo/complejidad |
-| **Blocked** | Tarea que espera una dependencia |
-| **Depends on** | Dependencias de una tarea |
-| **Owner** | Responsable de la tarea |
-| **Lead** | Líder del proyecto |
-| **Collaborators** | Miembros del proyecto además del lead |
-| **Department** | Área de la organización (p. ej. Software Development) |
+| **Breadcrumb** | Context path in the header (`Workspace / Page`) |
+| **Chip** | Compact clickable or informational label (status, priority, tag) |
+| **KPI card** | Card with a large number and its context |
+| **Modal** | Overlay window (New task, New event, detail) |
+| **Panel inline** | Form that replaces the content (Edit team, Edit task) |
+| **Toast** | Brief notice after an action |
+| **Empty state** | Message when there is no data ("No threads yet") |
+| **Skeleton/Loading** | Loading states ("Loading…", "Restoring session") |
+| **Loose task** | Task without a project |
+| **Backlog** | Set of pending tasks, not yet in a sprint |
+| **Sprint** | Iteration with dates, capacity and committed points |
+| **Story points** | Relative unit of effort/complexity |
+| **Blocked** | Task that is waiting for a dependency |
+| **Depends on** | Dependencies of a task |
+| **Owner** | Person responsible for the task |
+| **Lead** | Project lead |
+| **Collaborators** | Project members besides the lead |
+| **Department** | Area of the organization (e.g. Software Development) |
 
 ---
 
-## 11. Observaciones de comportamiento (verificadas en el UI)
+## 11. Behavior observations (verified in the UI)
 
-1. **Sesión persistente**: con *Keep me signed in* la sesión se restaura al volver; se muestra *"Restoring session"*.
-2. **Deep links**: las pestañas de proyecto, secciones de Settings y tareas abiertas usan query params, por lo que se pueden compartir.
-3. **Las notificaciones se marcan como leídas al abrir el panel** (el contador desaparece y aparece *"You're all caught up"*).
-4. **El botón "Upgrade now"** no abre flujo en la cuenta Member (no hay pantalla de pago expuesta).
-5. **El enlace "Help & support"** es un `mailto:support@syncra.app`: abre el cliente de correo.
-6. **Un solo cronómetro** activo a la vez; el Dashboard muestra el estado *Paused* cuando no corre.
-7. **"Add to backlog"** viene marcado por defecto en New task.
-8. **Valores por defecto de New task**: Priority `Medium`, Estimate `4`, Story points `3`, progreso `Hours`.
-9. **Las tarjetas del tablero muestran el proyecto** con su código (`PRY-01`) y el nombre truncado.
-10. **Los documentos** aceptan hasta **25 MB** por archivo y varios a la vez.
-11. **El calendario global** puede mostrar 0 eventos en la semana actual y sí eventos al navegar a otras semanas.
-12. **La app es una SPA** (React): la navegación no recarga la página completa; los estados de carga son breves.
-13. **Búsqueda global**: la cabecera tiene un buscador que envía a `/board?q=<texto>`; los resultados incluyen subtareas con la ruta `↳ Tarea padre` y un enlace **clear** para limpiar.
-14. **"+ Add task"** de una columna abre **New task** con el proyecto precargado (no fija el estado automáticamente).
-15. **El idioma y el layout** se guardan **en el navegador**, no en la cuenta.
-16. **La actividad del proyecto** registra creaciones, movimientos y finalizaciones con autor y fecha.
+1. **Persistent session**: with *Keep me signed in* the session is restored when you come back; *"Restoring session"* is shown.
+2. **Deep links**: project tabs, Settings sections and open tasks use query params, so they can be shared.
+3. **Notifications are marked as read when the panel is opened** (the counter disappears and *"You're all caught up"* appears).
+4. **The "Upgrade now" button** does not open a flow in the Member account (there is no payment screen exposed).
+5. **The "Help & support" link** is a `mailto:support@syncra.app`: it opens the mail client.
+6. **Only one timer** active at a time; the Dashboard shows the *Paused* status when it is not running.
+7. **"Add to backlog"** is checked by default in New task.
+8. **New task defaults**: Priority `Medium`, Estimate `4`, Story points `3`, progress `Hours`.
+9. **Board cards show the project** with its code (`PRY-01`) and the truncated name.
+10. **Documents** accept up to **25 MB** per file and several at the same time.
+11. **The global calendar** may show 0 events in the current week and events when you navigate to other weeks.
+12. **The app is an SPA** (React): navigation does not reload the whole page; loading states are brief.
+13. **Global search**: the header has a search box that sends to `/board?q=<text>`; the results include subtasks with the path `↳ Parent task` and a **clear** link to clear the search.
+14. **"+ Add task"** on a column opens **New task** with the project preloaded (it does not set the status automatically).
+15. **Language and layout** are saved **in the browser**, not in the account.
+16. **Project activity** records creations, moves and completions with author and date.
 
 ---
 
-## 12. Endpoints observados (referencia técnica)
+## 12. Observed endpoints (technical reference)
 
-Durante la navegación, la SPA consume una API REST bajo `/api/v1`. Ejemplos vistos en la pestaña de red:
+During navigation, the SPA consumes a REST API under `/api/v1`. Examples seen in the network tab:
 
-| Endpoint | Uso |
+| Endpoint | Use |
 |---|---|
-| `GET /api/v1/calendar/events?from=YYYY-MM-DD&to=YYYY-MM-DD` | Eventos del rango visible |
-| `GET /api/v1/time/timer` | Estado del cronómetro (204 si no hay) |
-| `GET /api/v1/notifications?limit=10` | Notificaciones recientes |
-| `GET /api/v1/threads` | Hilos de mensajes |
-| `GET /api/v1/media/<id>` | Imágenes/avatares y archivos |
+| `GET /api/v1/calendar/events?from=YYYY-MM-DD&to=YYYY-MM-DD` | Events in the visible range |
+| `GET /api/v1/time/timer` | Timer status (204 if there is none) |
+| `GET /api/v1/notifications?limit=10` | Recent notifications |
+| `GET /api/v1/threads` | Message threads |
+| `GET /api/v1/media/<id>` | Images/avatars and files |
 
-> Esta lista es solo ilustrativa; la documentación de uso no requiere conocer la API.
+> This list is illustrative only; using the documentation does not require knowing the API.
 
 ---
 
-## 13. Cobertura de esta documentación
+## 13. Coverage of this documentation
 
-| Área | Documentada | Evidencia |
+| Area | Documented | Evidence |
 |---|---|---|
-| Login / logout / sesión | ✅ | Pantallas y flujo |
-| Recuperar contraseña | ✅ | Pantalla |
-| Invitaciones | ✅ | Pantalla |
-| Dashboard | ✅ | Capturas y métricas |
-| Tablero | ✅ | Captura, tarjetas, filtros |
-| Crear/editar tarea | ✅ | Formularios completos |
-| Subtareas/dependencias/checklist | ✅ | Detalle de tarea |
-| Cronómetro | ✅ | Dashboard y detalle |
-| Proyectos (7 pestañas) | ✅ | Capturas de cada pestaña |
-| Documentos | ✅ | Lista, límites y acciones |
-| Equipo/capacidad | ✅ | Captura |
-| Reportes y exports | ✅ | Captura y tablas |
-| Analítica | ✅ | Capturas |
-| Calendario y eventos | ✅ | Capturas y formulario |
-| Mensajes | ✅ (estado vacío) | Captura |
-| Settings (3 secciones) | ✅ | Capturas |
-| Notificaciones y menú | ✅ | Capturas |
-| Roles y límites | ✅ | Evidencia en UI |
-| Admin (sprints, alta de proyectos, miembros, billing) | ⚠️ Referenciado, no accesible con el rol Member | Menciones en la UI |
+| Login / logout / session | ✅ | Screens and flow |
+| Password recovery | ✅ | Screen |
+| Invitations | ✅ | Screen |
+| Dashboard | ✅ | Screenshots and metrics |
+| Board | ✅ | Screenshot, cards, filters |
+| Create/edit task | ✅ | Complete forms |
+| Subtasks/dependencies/checklist | ✅ | Task detail |
+| Timer | ✅ | Dashboard and detail |
+| Projects (7 tabs) | ✅ | Screenshots of each tab |
+| Documents | ✅ | List, limits and actions |
+| Team/capacity | ✅ | Screenshot |
+| Reports and exports | ✅ | Screenshot and tables |
+| Analytics | ✅ | Screenshots |
+| Calendar and events | ✅ | Screenshots and form |
+| Messages | ✅ (empty state) | Screenshot |
+| Settings (3 sections) | ✅ | Screenshots |
+| Notifications and menu | ✅ | Screenshots |
+| Roles and limits | ✅ | Evidence in the UI |
+| Admin (sprints, project creation, members, billing) | ⚠️ Referenced, not accessible with the Member role | Mentions in the UI |

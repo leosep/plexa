@@ -1,126 +1,126 @@
-# 01 · Acceso y cuenta
+# 01 · Access and account
 
-Todo lo relacionado con entrar a Syncra, recuperar el acceso y aceptar una invitación.
+Everything related to signing in to Syncra, recovering access and accepting an invitation.
 
-![Pantalla de inicio de sesión](img/login.jpeg)
+![Login screen](img/login.jpeg)
 
 ---
 
-## 1. Pantalla de inicio de sesión
+## 1. Login screen
 
-Ruta: `/login`
+Route: `/login`
 
-La pantalla está dividida en dos mitades:
+The screen is split into two halves:
 
-### Panel izquierdo (informativo)
-- Saludo **"Hello!"**.
-- Lema: *"Syncra: all your team's work in one place."*
-- Lista de capacidades con checks:
+### Left panel (informational)
+- **"Hello!"** greeting.
+- Motto: *"Syncra: all your team's work in one place."*
+- List of capabilities with checks:
   - Projects, sprints and task board
   - Time tracking with a live timer
   - Real-time team workload
   - Estimated vs logged reports
   - Delivery analytics and a shared calendar
-- Ilustración del equipo de trabajo.
+- Illustration of the work team.
 
-### Panel derecho (formulario)
-- Selector de idioma **ES / EN** (esquina superior derecha).
-- Logo Syncra y subtítulo *"GESTIÓN DE PROYECTOS"*.
-- Campo **Email** con placeholder `user@company.com`.
-- Campo **Password** con placeholder de puntos y botón de ojo (👁) para **mostrar/ocultar** la contraseña.
-- Casilla **"Keep me signed in"** (mantener sesión iniciada), **marcada por defecto**.
-- Enlace **"Forgot your password?"**.
-- Botón **"Sign in"**.
-- Pie: **"Don't have an account?"** + enlace **"I have an invitation"**.
+### Right panel (form)
+- **ES / EN** language selector (top right corner).
+- Syncra logo and subtitle *"GESTIÓN DE PROYECTOS"*.
+- **Email** field with placeholder `user@company.com`.
+- **Password** field with a dots placeholder and an eye button (👁) to **show/hide** the password.
+- **"Keep me signed in"** checkbox, **checked by default**.
+- **"Forgot your password?"** link.
+- **"Sign in"** button.
+- Footer: **"Don't have an account?"** + **"I have an invitation"** link.
 
-### Cómo iniciar sesión
-1. Abre `https://syncra.liobella.com`.
-2. Escribe tu **correo corporativo**.
-3. Escribe tu **contraseña** (puedes usar el ojo para verificarla).
-4. Deja marcado **"Keep me signed in"** si quieres que la sesión persista al cerrar el navegador.
-5. Pulsa **"Sign in"**.
+### How to sign in
+1. Open `https://syncra.liobella.com`.
+2. Enter your **corporate email**.
+3. Enter your **password** (you can use the eye to verify it).
+4. Leave **"Keep me signed in"** checked if you want the session to persist when you close the browser.
+5. Press **"Sign in"**.
 
-Al autenticarse, la app redirige al **Dashboard** (`/dashboard`).
+Once authenticated, the app redirects to the **Dashboard** (`/dashboard`).
 
-### Pantalla intermedia de sesión
-Si ya había una sesión guardada, al entrar aparece brevemente un estado **"Restoring session"** (restaurando sesión) antes de mostrar la aplicación. No requiere acción.
+### Intermediate session screen
+If there was already a saved session, a **"Restoring session"** state appears briefly when you enter, before the application is shown. It requires no action.
 
-### Sesión persistente
-Con **"Keep me signed in"** activo, Syncra guarda la sesión y vuelve a entrar directamente en el Dashboard en visitas posteriores. Para terminar la sesión usa **Log out** (ver [13 · Notificaciones y menú](13-notificaciones-y-menu.md)).
+### Persistent session
+With **"Keep me signed in"** active, Syncra saves the session and goes straight back into the Dashboard on later visits. To end the session use **Log out** (see [13 · Notifications and menu](13-notificaciones-y-menu.md)).
 
-### Errores de acceso
-- Credenciales incorrectas: el formulario muestra el error y no avanza.
-- Sin sesión y con una URL interna (por ejemplo `/board`), la app redirige a `/login` y, al autenticarte, continúa en el Dashboard.
-
----
-
-## 2. Recuperar contraseña
-
-Ruta: `/forgot-password` — enlace **"Forgot your password?"** del login.
-
-![Recuperar contraseña](img/forgot-password.jpeg)
-
-### Cómo usarlo
-1. Pulsa **"Forgot your password?"**.
-2. En la pantalla **"Recover password"** escribe tu **correo de trabajo** en el campo *Work email*.
-3. Pulsa **"Send instructions"**.
-4. Revisa tu correo: Syncra envía un enlace para **crear una nueva contraseña**.
-5. Abre el enlace del correo y define la nueva contraseña.
-6. Vuelve al login con **"Back to sign in"**.
-
-> El texto de la pantalla lo indica: *"We'll send you a link to create a new password."*
+### Access errors
+- Incorrect credentials: the form shows the error and does not continue.
+- Without a session and with an internal URL (for example `/board`), the app redirects to `/login` and, once you authenticate, it continues on the Dashboard.
 
 ---
 
-## 3. Aceptar una invitación
+## 2. Recover password
 
-Ruta: `/invitations` — enlace **"I have an invitation"** del login.
+Route: `/forgot-password` — **"Forgot your password?"** link on the login screen.
 
-![Aceptar invitación](img/invitations.jpeg)
+![Recover password](img/forgot-password.jpeg)
 
-### Cómo usarlo
-1. Abre el correo de invitación que te envió un administrador del espacio.
-2. Copia el **código de invitación**.
-3. En el login pulsa **"I have an invitation"**.
-4. En **"Enter your invitation"** pega el código en el campo *Invitation code*.
-5. Pulsa **"Continue"**.
-6. Completa tu registro/acceso según indique la app (la pantalla de invitación válida la genera el backend al validar el código).
+### How to use it
+1. Press **"Forgot your password?"**.
+2. On the **"Recover password"** screen, enter your **work email** in the *Work email* field.
+3. Press **"Send instructions"**.
+4. Check your email: Syncra sends a link to **create a new password**.
+5. Open the link in the email and set the new password.
+6. Go back to the login with **"Back to sign in"**.
 
-Si el código no es válido o expiró, la app lo indicará y podrás volver con **"Back to sign in"**.
-
----
-
-## 4. Idioma de la interfaz (ES / EN)
-
-Hay dos lugares para cambiar el idioma:
-
-1. **Pantallas públicas** (login, recuperar contraseña, invitaciones): botones **ES** y **EN** arriba a la derecha.
-2. **Dentro de la app**: menú de usuario (arriba a la derecha) → fila **Language** con botones **ES / EN**; también en *Settings → Preferences*.
-
-El cambio afecta a **este navegador**. La preferencia se guarda localmente, por lo que no cambia el idioma de tus compañeros.
-
-> En este manual la interfaz se muestra en **EN** porque así estaba configurada la cuenta, pero todos los conceptos aplican igual en **ES**.
+> The screen text says so: *"We'll send you a link to create a new password."*
 
 ---
 
-## 5. Cerrar sesión
+## 3. Accept an invitation
 
-1. Pulsa tu **avatar/nombre** en la esquina superior derecha.
-2. En el menú elige **"Log out"**.
-3. Vuelves a `/login`.
+Route: `/invitations` — **"I have an invitation"** link on the login screen.
+
+![Accept invitation](img/invitations.jpeg)
+
+### How to use it
+1. Open the invitation email that a workspace administrator sent you.
+2. Copy the **invitation code**.
+3. On the login screen press **"I have an invitation"**.
+4. In **"Enter your invitation"** paste the code in the *Invitation code* field.
+5. Press **"Continue"**.
+6. Complete your registration/access as indicated by the app (the valid invitation screen is generated by the backend when validating the code).
+
+If the code is not valid or has expired, the app will say so and you can go back with **"Back to sign in"**.
 
 ---
 
-## 6. Datos de la cuenta visibles en la app
+## 4. Interface language (ES / EN)
 
-En **Settings → Profile** se muestra:
+There are two places to change the language:
 
-- Foto/avatar (iniciales si no hay imagen).
-- **Nombre**: Leandro Sepulveda.
+1. **Public screens** (login, recover password, invitations): **ES** and **EN** buttons at the top right.
+2. **Inside the app**: user menu (top right) → **Language** row with **ES / EN** buttons; also in *Settings → Preferences*.
+
+The change affects **this browser**. The preference is saved locally, so it does not change your colleagues' language.
+
+> In this manual the interface is shown in **EN** because that is how the account was configured, but all concepts apply the same in **ES**.
+
+---
+
+## 5. Log out
+
+1. Press your **avatar/name** in the top right corner.
+2. In the menu choose **"Log out"**.
+3. You return to `/login`.
+
+---
+
+## 6. Account data visible in the app
+
+In **Settings → Profile** the following is shown:
+
+- Photo/avatar (initials if there is no image).
+- **Name**: Leandro Sepulveda.
 - **Email**: `lsepulveda@dwn.com.do`.
-- **Puesto**: Full-Stack Developer.
-- **Rol en el espacio**: Member.
+- **Title**: Full-Stack Developer.
+- **Workspace role**: Member.
 
-El propio perfil indica: *"Ask a workspace admin to change your name, title or capacity."* → nombre, puesto y capacidad los gestiona un administrador.
+The profile itself states: *"Ask a workspace admin to change your name, title or capacity."* → name, title and capacity are managed by an administrator.
 
-Ver [12 · Configuración y perfil](12-configuracion-y-perfil.md).
+See [12 · Settings and profile](12-configuracion-y-perfil.md).

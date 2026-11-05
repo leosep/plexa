@@ -1,24 +1,24 @@
-# 07 · Equipo y capacidad (Team workload)
+# 07 · Team and capacity (Team workload)
 
-Ruta: `/team` · Elemento **"Team workload"** del menú. También se llega con **"See all"** desde el Dashboard.
+Route: `/team` · **"Team workload"** menu item. It can also be reached through **"See all"** from the Dashboard.
 
-Muestra cuánto trabajo tiene cada persona, cuánto está vencido y su señal de capacidad.
+It shows how much work each person has, how much of it is overdue and their capacity signal.
 
 ![Team workload](img/equipo.jpeg)
 
 ---
 
-## 1. Encabezado
+## 1. Header
 
-- Título **"Team workload"**.
-- Subtítulo: *"Capacity, pressure signal and availability across 3 people."*
-- No tiene filtros ni acciones: es una vista de lectura.
+- Title **"Team workload"**.
+- Subtitle: *"Capacity, pressure signal and availability across 3 people."*
+- It has no filters or actions: it is a read-only view.
 
 ---
 
-## 2. Tarjeta por persona
+## 2. Card per person
 
-Cada miembro aparece en una tarjeta:
+Each member appears in a card:
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -27,72 +27,72 @@ Cada miembro aparece en una tarjeta:
 │                                              │
 │   0          0            0%                 │
 │  Active    Overdue      Capacity             │
-│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  (barra)   │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  (bar)     │
 │                                              │
 │  ● On track                      Available   │
 └──────────────────────────────────────────────┘
 ```
 
-### Métricas
-| Métrica | Significado |
+### Metrics
+| Metric | Meaning |
 |---|---|
-| **Active** | Tareas activas asignadas |
-| **Overdue** | Tareas vencidas asignadas (en rojo) |
-| **Capacity** | % de capacidad consumida; barra de progreso |
-| **Señal** | Chip de estado: **On track**, *At risk*, *Overloaded*… |
-| **Disponibilidad** | Texto a la derecha: **Available** o el estado correspondiente |
+| **Active** | Active tasks assigned |
+| **Overdue** | Overdue tasks assigned (in red) |
+| **Capacity** | % of capacity consumed; progress bar |
+| **Signal** | Status chip: **On track**, *At risk*, *Overloaded*… |
+| **Availability** | Text on the right: **Available** or the corresponding status |
 
-### Datos observados
+### Observed data
 
-| Persona | Puesto | Active | Overdue | Capacity | Señal |
+| Person | Position | Active | Overdue | Capacity | Signal |
 |---|---|---|---|---|---|
 | Gerson Cabreja | Administrator | 0 | 0 | 0% | On track · Available |
 | Leandro Sepulveda | Full-Stack Developer | 10 | 4 | 0% | On track · Available |
 | Yoderick Emmanuel Montero Mejia | Full-Stack Developer | 0 | 0 | 0% | On track · Available |
 
-> **Nota:** la capacidad aparece en 0% porque no hay un sprint activo con capacidad comprometida. Al crear un sprint y asignar capacidad, estos porcentajes y señales cobran sentido.
+> **Note:** capacity shows 0% because there is no active sprint with committed capacity. Once a sprint is created and capacity is assigned, these percentages and signals become meaningful.
 
 ---
 
-## 3. Cómo interpretar la capacidad
+## 3. How to read capacity
 
-| Señal | Qué significa | Qué hacer |
+| Signal | What it means | What to do |
 |---|---|---|
-| **On track** | Carga dentro de lo esperado | Mantener |
-| **At risk** | Carga alta o vencidos acumulados | Revisar prioridades, reasignar |
-| **Overloaded** | Por encima de la capacidad | Mover trabajo a otra persona o al siguiente sprint |
-| **Available** | Con margen | Puede asumir trabajo nuevo |
+| **On track** | Workload within expectations | Maintain |
+| **At risk** | High workload or accumulated overdue tasks | Review priorities, reassign |
+| **Overloaded** | Above capacity | Move work to someone else or to the next sprint |
+| **Available** | With headroom | Can take on new work |
 
-La señal combina **tareas activas**, **vencidas** y **capacidad del sprint**. Es una alerta, no una evaluación de desempeño.
-
----
-
-## 4. Uso práctico
-
-### Antes de asignar una tarea
-1. Abre **Team workload**.
-2. Mira quién está **Available** y con capacidad baja.
-3. Evita asignar a quien está **Overloaded** o con muchos **Overdue**.
-4. Asigna desde la tarea (**Assignee**) o desde el formulario **New task**.
-
-### En la reunión diaria
-1. Revisa **Overdue** por persona (rojo).
-2. Identifica bloqueos (tareas con `Blocked` en el tablero).
-3. Reequilibra: mueve tareas o cambia el alcance del sprint.
-
-### Al planificar el sprint
-1. Comprueba la capacidad de cada persona.
-2. Compromete solo el trabajo que cabe.
-3. Tras crear el sprint (administrador), vuelve aquí para validar los porcentajes.
+The signal combines **active tasks**, **overdue tasks** and **sprint capacity**. It is an alert, not a performance evaluation.
 
 ---
 
-## 5. Relación con otras pantallas
+## 4. Practical use
 
-| Pantalla | Relación |
+### Before assigning a task
+1. Open **Team workload**.
+2. Look at who is **Available** and has low capacity.
+3. Avoid assigning to whoever is **Overloaded** or has many **Overdue** tasks.
+4. Assign from the task (**Assignee**) or from the **New task** form.
+
+### In the daily meeting
+1. Review **Overdue** per person (red).
+2. Identify blockers (tasks with `Blocked` on the board).
+3. Rebalance: move tasks or change the sprint scope.
+
+### When planning the sprint
+1. Check each person's capacity.
+2. Commit only the work that fits.
+3. After creating the sprint (administrator), come back here to validate the percentages.
+
+---
+
+## 5. Relationship with other screens
+
+| Screen | Relationship |
 |---|---|
-| **Dashboard → Team workload** | Versión resumida en tabla con enlace **See all** |
-| **Task board** | El filtro `Everyone` permite ver solo las tareas de una persona |
-| **Reports** | Filtro por **Member** para ver horas y varianza de cada uno |
-| **Analytics → Load per member** | Burbujas con el tamaño de la carga activa |
-| **Settings → Profile** | Muestra tu puesto; la capacidad la ajusta un administrador |
+| **Dashboard → Team workload** | Summarized version in a table with a **See all** link |
+| **Task board** | The `Everyone` filter lets you see only one person's tasks |
+| **Reports** | Filter by **Member** to see each person's hours and variance |
+| **Analytics → Load per member** | Bubbles sized by active workload |
+| **Settings → Profile** | Shows your position; capacity is adjusted by an administrator |

@@ -1,121 +1,121 @@
-# 14 · Roles, permisos y límites
+# 14 · Roles, permissions and limits
 
-Qué puede hacer la cuenta documentada y qué queda reservado a administradores. Se basa en lo que la interfaz muestra y oculta para un usuario con rol **Member** que, además, es **líder** del proyecto existente.
+What the documented account can do and what stays reserved for administrators. It is based on what the interface shows and hides for a user with the **Member** role who is also the **lead** of the existing project.
 
 ---
 
-## 1. Roles observados en el espacio
+## 1. Roles observed in the workspace
 
-| Persona | Rol en el espacio | Puesto |
+| Person | Role in the workspace | Position |
 |---|---|---|
 | **Gerson Cabreja** | **Administrator** | Administrator |
 | **Leandro Sepulveda** | **Member** | Full-Stack Developer |
 | **Yoderick Emmanuel Montero Mejia** | **Member** | Full-Stack Developer |
 
-El rol se muestra en el chip de usuario de la cabecera (`Miembro` / `Member`) y en la tabla de *Team workload*.
+The role is shown in the header user chip (`Miembro` / `Member`) and in the *Team workload* table.
 
 ---
 
-## 2. Qué puede hacer un Member (comprobado en la interfaz)
+## 2. What a Member can do (verified in the interface)
 
-| Acción | ¿Disponible? | Dónde |
+| Action | Available? | Where |
 |---|---|---|
-| Ver Dashboard y métricas | ✅ | `/dashboard` |
-| Ver y usar el tablero | ✅ | `/board` |
-| Crear tareas | ✅ | **New task** / **+ Add task** |
-| Editar tareas | ✅ | Detalle → **Edit** |
-| Crear subtareas | ✅ | Detalle → **New subtask** / formulario |
-| Definir dependencias | ✅ | Formulario |
-| Mover tareas de estado | ✅ | **Move…** / **Move to…** |
-| Iniciar/detener cronómetro | ✅ | Detalle → **Start timer** |
-| Añadir pasos al checklist | ✅ | Detalle → **Checklist** |
-| Ver proyectos y su detalle | ✅ | `/projects` |
-| Editar equipo de un proyecto que lidera | ✅ | Proyecto → **Team** → **Edit team** |
-| Subir documentos al proyecto | ✅ | Proyecto → **Documents** → **Attach documents** |
-| Ver reportes y exportar | ✅ | `/reports` |
-| Ver analítica | ✅ | `/analytics` |
-| Ver calendario y crear eventos | ✅ | `/calendar` → **New event** |
-| Ver mensajes | ✅ (vacío) | `/messages` |
-| Editar su foto de perfil | ✅ | Settings → Profile |
-| Cambiar preferencias de layout/idioma | ✅ | Settings → Preferences |
-| Configurar su buzón de envío | ✅ | Settings → My mailbox |
-| Cerrar sesión | ✅ | Menú de usuario |
+| View the Dashboard and metrics | ✅ | `/dashboard` |
+| View and use the board | ✅ | `/board` |
+| Create tasks | ✅ | **New task** / **+ Add task** |
+| Edit tasks | ✅ | Detail → **Edit** |
+| Create subtasks | ✅ | Detail → **New subtask** / form |
+| Define dependencies | ✅ | Form |
+| Move tasks between states | ✅ | **Move…** / **Move to…** |
+| Start/stop the timer | ✅ | Detail → **Start timer** |
+| Add steps to the checklist | ✅ | Detail → **Checklist** |
+| View projects and their detail | ✅ | `/projects` |
+| Edit the team of a project they lead | ✅ | Project → **Team** → **Edit team** |
+| Upload documents to the project | ✅ | Project → **Documents** → **Attach documents** |
+| View reports and export | ✅ | `/reports` |
+| View analytics | ✅ | `/analytics` |
+| View the calendar and create events | ✅ | `/calendar` → **New event** |
+| View messages | ✅ (empty) | `/messages` |
+| Edit their profile photo | ✅ | Settings → Profile |
+| Change layout/language preferences | ✅ | Settings → Preferences |
+| Configure their sending mailbox | ✅ | Settings → My mailbox |
+| Log out | ✅ | User menu |
 
 ---
 
-## 3. Qué no aparece para un Member
+## 3. What does not appear for a Member
 
-| Acción | Evidencia en la interfaz |
+| Action | Evidence in the interface |
 |---|---|
-| **Crear sprints** | La tarjeta *Active sprint* dice *"Create one in Settings → Sprints"*, pero **Settings no muestra "Sprints"**. |
-| **Crear proyectos** | El listado dice *"create, edit, archive"*, pero **no hay botón de creación** para este rol. |
-| **Cambiar nombre, puesto o capacidad** | *"Ask a workspace admin to change your name, title or capacity."* |
-| **Crear canales de mensajes** | *"Managers can open a project or team channel from a project page."* |
-| **Gestionar miembros/roles del espacio** | No hay sección de miembros en Settings. |
-| **Facturación / Upgrade** | El botón **Upgrade now** no abre ningún flujo en esta cuenta. |
-| **Eliminar tareas** | No hay acción de borrado en el detalle. |
+| **Create sprints** | The *Active sprint* card says *"Create one in Settings → Sprints"*, but **Settings does not show "Sprints"**. |
+| **Create projects** | The listing says *"create, edit, archive"*, but **there is no creation button** for this role. |
+| **Change name, position or capacity** | *"Ask a workspace admin to change your name, title or capacity."* |
+| **Create message channels** | *"Managers can open a project or team channel from a project page."* |
+| **Manage workspace members/roles** | There is no members section in Settings. |
+| **Billing / Upgrade** | The **Upgrade now** button does not open any flow in this account. |
+| **Delete tasks** | There is no delete action in the detail. |
 
-> Estas ausencias son **por rol**, no por un fallo: la app las reserva a administradores/managers.
+> These absences are **due to the role**, not a bug: the app reserves them for administrators/managers.
 
 ---
 
-## 4. Permisos a nivel de proyecto
+## 4. Project-level permissions
 
-La pestaña **Team** lo explica:
+The **Team** tab explains it:
 
 > *"Only the team and people allowed to see every project can open this project and its tasks."*
 
-Por tanto, el acceso a un proyecto depende de:
+Therefore, access to a project depends on:
 
-1. Ser **Project lead**.
-2. Ser **Collaborator**.
-3. Tener permiso global para **ver todos los proyectos** (administradores).
+1. Being a **Project lead**.
+2. Being a **Collaborator**.
+3. Having global permission to **see all projects** (administrators).
 
-**Consecuencia práctica:** si no ves un proyecto o sus tareas, pide que te añadan en **Team → Edit team** o que te den permiso global.
+**Practical consequence:** if you do not see a project or its tasks, ask to be added in **Team → Edit team** or to be given global permission.
 
-El **Project lead** puede editar el equipo (departamento, lead y colaboradores). Otros miembros probablemente no; en la cuenta probada el usuario era lead, por lo que el formulario sí estaba disponible.
-
----
-
-## 5. Permisos sobre documentos
-
-En **Documents** cualquier miembro del proyecto ve:
-
-- **Download** en todos los archivos.
-- **Delete** en los archivos (con confirmación).
-
-> El botón **Delete** aparece para el usuario documentado; úsalo con cuidado: elimina el archivo para todo el equipo. Antes de borrar, confirma que no es la única copia.
-
-Límites:
-- **25 MB por archivo**.
-- Varios archivos a la vez.
-- Extensiones permitidas: PDF, Office, OpenDocument, imágenes, texto, CSV, Markdown y ZIP.
+The **Project lead** can edit the team (department, lead and collaborators). Other members probably cannot; in the tested account the user was the lead, so the form was indeed available.
 
 ---
 
-## 6. Permisos sobre tareas
+## 5. Permissions on documents
 
-- **Asignación**: cualquier miembro puede asignar a cualquier persona del espacio.
-- **Movimiento**: se permiten transiciones entre estados (con retrocesos).
-- **Cambio de proyecto**: solo mientras la tarea **no haya empezado**; arrastra subtareas y **elimina dependencias**.
-- **Modo de progreso**: se bloquea cuando ya hay subtareas (*"It cannot change: the task already has subtasks."*).
-- **Borrado**: no expuesto.
+In **Documents** any member of the project sees:
 
----
+- **Download** on all files.
+- **Delete** on the files (with confirmation).
 
-## 7. Recomendaciones de gobierno
+> The **Delete** button appears for the documented user; use it carefully: it deletes the file for the whole team. Before deleting, confirm that it is not the only copy.
 
-1. **Define un administrador claro** (en este espacio, Gerson Cabreja) para altas, sprints y proyectos.
-2. **Asigna leads** por proyecto: pueden gestionar su equipo sin dar permisos globales.
-3. **Revisa colaboradores** al incorporar o rotar personas.
-4. **No compartas la cuenta**: cada persona debe tener su usuario para que la actividad y el tiempo sean trazables.
-5. **Documenta el rol** de cada persona en su puesto/capacidad (lo edita el administrador).
+Limits:
+- **25 MB per file**.
+- Several files at the same time.
+- Allowed extensions: PDF, Office, OpenDocument, images, text, CSV, Markdown and ZIP.
 
 ---
 
-## 8. Si necesitas un permiso que no tienes
+## 6. Permissions on tasks
 
-1. Identifica la acción exacta (p. ej. "crear sprint", "ver proyecto X").
-2. Comprueba si depende del **rol** o de la **pertenencia al proyecto**.
-3. Escríbele al administrador con el contexto (proyecto, tarea, motivo).
-4. Mientras tanto, usa las alternativas disponibles: crear la tarea en un proyecto existente, pedir que te asignen como colaborador, o registrar el trabajo en una tarea ya creada.
+- **Assignment**: any member can assign to any person in the workspace.
+- **Movement**: transitions between states are allowed (including going back).
+- **Project change**: only while the task **has not started**; it drags subtasks along and **removes dependencies**.
+- **Progress mode**: it is locked once there are subtasks (*"It cannot change: the task already has subtasks."*).
+- **Deletion**: not exposed.
+
+---
+
+## 7. Governance recommendations
+
+1. **Define a clear administrator** (in this workspace, Gerson Cabreja) for new members, sprints and projects.
+2. **Assign leads** per project: they can manage their team without granting global permissions.
+3. **Review collaborators** when onboarding or rotating people.
+4. **Do not share the account**: each person should have their own user so that activity and time are traceable.
+5. **Document each person's role** in their position/capacity (the administrator edits it).
+
+---
+
+## 8. If you need a permission you do not have
+
+1. Identify the exact action (e.g. "create sprint", "view project X").
+2. Check whether it depends on the **role** or on **membership of the project**.
+3. Write to the administrator with the context (project, task, reason).
+4. In the meantime, use the available alternatives: create the task in an existing project, ask to be assigned as a collaborator, or log the work on an already-created task.

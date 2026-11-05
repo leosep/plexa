@@ -1,113 +1,113 @@
 # 03 · Dashboard
 
-Ruta: `/dashboard` · Elemento **"Dashboard"** del menú.
+Route: `/dashboard` · **"Dashboard"** item in the menu.
 
-Es la pantalla de inicio tras iniciar sesión. Resume el estado del sprint, las prioridades, la actividad del equipo y tu tiempo del día.
+It is the home screen after signing in. It summarizes the sprint status, priorities, team activity and your time for the day.
 
-![Dashboard — parte superior](img/dashboard.jpeg)
+![Dashboard — upper part](img/dashboard.jpeg)
 
-![Dashboard — parte inferior](img/dashboard-2.jpeg)
+![Dashboard — lower part](img/dashboard-2.jpeg)
 
 ---
 
-## 1. Encabezado
+## 1. Header
 
-- **Saludo personalizado**: *"Good afternoon, Leandro Sepulveda"* (cambia según la hora: Good morning / afternoon / evening).
-- **Línea de contexto**: aviso del sprint y de tareas vencidas. En el ejemplo:
+- **Personalized greeting**: *"Good afternoon, Leandro Sepulveda"* (changes with the time of day: Good morning / afternoon / evening).
+- **Context line**: notice about the sprint and overdue tasks. In the example:
   *"No active sprint. 4 tasks are past their deadline. Fri 30 Oct"*
-- **Botón "This sprint"**: lleva al tablero filtrado por el sprint actual (`/board`). Sirve para pasar del resumen al trabajo del sprint.
-- **Botón "New task"**: abre el formulario de creación de tarea (ver [05 · Tareas](05-tareas-crear-editar-y-tiempo.md)).
+- **"This sprint" button**: takes you to the board filtered by the current sprint (`/board`). It is used to move from the summary to the sprint work.
+- **"New task" button**: opens the task creation form (see [05 · Tasks](05-tareas-crear-editar-y-tiempo.md)).
 
 ---
 
-## 2. Tarjetas KPI (fila superior)
+## 2. KPI cards (top row)
 
-| Tarjeta | Qué muestra | Ejemplo observado |
+| Card | What it shows | Observed example |
 |---|---|---|
-| **Active tasks** | Tareas abiertas (no completadas) y cuántas vencen hoy | `10` activas · `0 due today` |
-| **Completed this sprint** | Tareas completadas / total del sprint y % | `3 / 13` · `23% of sprint` |
-| **Hours closed (7d)** | Horas registradas y cerradas en los últimos 7 días, con comparación vs. semana previa | `7h` · `▲ +100% vs prev. week` |
-| **Overdue** | Tareas pasadas de fecha, con señal de atención | `4` · `▼ Needs attention` |
+| **Active tasks** | Open (not completed) tasks and how many of them are due today | `10` active · `0 due today` |
+| **Completed this sprint** | Completed tasks / sprint total and % | `3 / 13` · `23% of sprint` |
+| **Hours closed (7d)** | Hours logged and closed in the last 7 days, compared with the previous week | `7h` · `▲ +100% vs prev. week` |
+| **Overdue** | Tasks past their due date, with a warning signal | `4` · `▼ Needs attention` |
 
-**Cómo leerlas:** son el pulso del sprint. Si *Overdue* sube y *Completed* no, el sprint está en riesgo.
+**How to read them:** they are the pulse of the sprint. If *Overdue* goes up and *Completed* does not, the sprint is at risk.
 
 ---
 
 ## 3. Task status distribution
 
-Tarjeta con la distribución de todas las tareas del backlog por estado.
+Card with the distribution of all backlog tasks by status.
 
-- Cabecera: **"13 tasks in the backlog"**.
-- Cuatro bloques con **%**, nombre del estado, mini-barra y número de tareas:
+- Header: **"13 tasks in the backlog"**.
+- Four blocks with **%**, status name, mini bar and number of tasks:
   - **To do** — 77% · 10 tasks
   - **In progress** — 0% · 0 tasks
   - **Review** — 0% · 0 tasks
   - **Completed** — 23% · 3 tasks
 
-Cada bloque tiene un color asociado (gris, celeste, durazno, verde) que se repite en el resto de la app.
+Each block has an associated color (gray, light blue, peach, green) that is repeated throughout the rest of the app.
 
-**Uso:** detectar acumulación. Muchas tareas en *To do* y pocas en *In progress* suele indicar trabajo sin arrancar.
+**Use:** to detect accumulation. Many tasks in *To do* and few in *In progress* usually means work that has not started yet.
 
 ---
 
-## 4. Team activity (mapa de calor)
+## 4. Team activity (heat map)
 
-- Cabecera: **"20 actions in the last 4 weeks"**.
-- Filas: `-3 wk`, `-2 wk`, `-1 wk`, `This wk`.
-- Columnas: `Mon` … `Sun`.
-- Cada celda se colorea según la cantidad de acciones (leyenda **Less ↔ More**).
+- Header: **"20 actions in the last 4 weeks"**.
+- Rows: `-3 wk`, `-2 wk`, `-1 wk`, `This wk`.
+- Columns: `Mon` … `Sun`.
+- Each cell is colored according to the number of actions (legend **Less ↔ More**).
 
-**Qué cuenta:** acciones del equipo (crear tareas, moverlas, completarlas, etc.). Sirve para ver ritmo y días de mayor actividad, no para evaluar personas.
+**What it counts:** team actions (creating tasks, moving them, completing them, etc.). It is useful to see the rhythm and the busiest days, not to evaluate people.
 
 ---
 
 ## 5. Task priority
 
-- Cabecera: **"Open tasks by priority level"**.
-- Dona central con el total: `10 open`.
-- Leyenda: **High 10 · Medium 0 · Low 0**.
+- Header: **"Open tasks by priority level"**.
+- Center donut with the total: `10 open`.
+- Legend: **High 10 · Medium 0 · Low 0**.
 
-**Uso:** priorizar. Si casi todo es *High*, la prioridad deja de discriminar y conviene recalibrar.
-
----
-
-## 6. Tracked today (cronómetro)
-
-Panel de seguimiento de tiempo del día.
-
-- Estado: **"Paused"** y **"No timer running"**.
-- Reloj grande: `0:00:00`.
-- Tres métricas de la tarea en curso: **Estimate**, **Logged**, **Left** (vacías si no hay tarea).
-- Botón circular de **play** (▶).
-- Texto guía: **"Pick a task on the board to start."**
-
-### Cómo se usa
-1. Ve al **Task board** y abre una tarea.
-2. En el detalle pulsa **"Start timer"**.
-3. El cronómetro corre y el Dashboard muestra el tiempo acumulado del día.
-4. Para detenerlo, vuelve a la tarea y pulsa **Pause/Stop** (el panel indica *Paused* cuando no corre).
-
-> El panel no inicia el cronómetro por sí solo: hay que elegir una tarea.
+**Use:** to prioritize. If almost everything is *High*, priority stops discriminating and it is worth recalibrating.
 
 ---
 
-## 7. Team workload (resumen)
+## 6. Tracked today (timer)
 
-Tabla con el estado de cada persona:
+Time tracking panel for the day.
 
-| Columna | Significado |
+- Status: **"Paused"** and **"No timer running"**.
+- Large clock: `0:00:00`.
+- Three metrics for the task in progress: **Estimate**, **Logged**, **Left** (empty if there is no task).
+- Circular **play** button (▶).
+- Guidance text: **"Pick a task on the board to start."**
+
+### How it is used
+1. Go to the **Task board** and open a task.
+2. In the detail press **"Start timer"**.
+3. The timer runs and the Dashboard shows the accumulated time for the day.
+4. To stop it, go back to the task and press **Pause/Stop** (the panel shows *Paused* when it is not running).
+
+> The panel does not start the timer by itself: you have to pick a task.
+
+---
+
+## 7. Team workload (summary)
+
+Table with each person's status:
+
+| Column | Meaning |
 |---|---|
-| **NAME** | Persona (avatar + nombre + puesto) |
-| **ACTIVE** | Tareas activas asignadas |
-| **OVERDUE** | Tareas vencidas asignadas |
-| **CAPACITY** | Barra + % de capacidad usada |
-| **STATUS** | Señal: **On track**, *At risk*, *Overloaded*… |
+| **NAME** | Person (avatar + name + title) |
+| **ACTIVE** | Active assigned tasks |
+| **OVERDUE** | Overdue assigned tasks |
+| **CAPACITY** | Bar + % of capacity used |
+| **STATUS** | Signal: **On track**, *At risk*, *Overloaded*… |
 
-Enlace **"See all"** → `/team` (ver [07 · Equipo](07-equipo-y-capacidad.md)).
+**"See all"** link → `/team` (see [07 · Team](07-equipo-y-capacidad.md)).
 
-Datos del ejemplo:
+Example data:
 
-| Persona | Puesto | Activas | Vencidas | Capacidad | Estado |
+| Person | Title | Active | Overdue | Capacity | Status |
 |---|---|---|---|---|---|
 | Gerson Cabreja | Administrator | 0 | 0 | 0% | On track |
 | Leandro Sepulveda | Full-Stack Developer | 10 | 4 | 0% | On track |
@@ -115,10 +115,10 @@ Datos del ejemplo:
 
 ---
 
-## 8. Rutina recomendada al entrar
+## 8. Recommended routine when you sign in
 
-1. Lee el **saludo/contexto**: ¿hay sprint activo? ¿cuántas vencidas?
-2. Revisa **Overdue** y **Task priority** para decidir el foco.
-3. Mira **Tracked today** y arranca el cronómetro en la tarea que vas a trabajar.
-4. Usa **"This sprint"** o **"New task"** para pasar a la acción.
-5. Al final del día, comprueba **Hours closed (7d)** y la carga del equipo.
+1. Read the **greeting/context**: is there an active sprint? how many are overdue?
+2. Review **Overdue** and **Task priority** to decide the focus.
+3. Look at **Tracked today** and start the timer on the task you are going to work on.
+4. Use **"This sprint"** or **"New task"** to move to action.
+5. At the end of the day, check **Hours closed (7d)** and the team workload.

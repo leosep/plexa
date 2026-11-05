@@ -1,115 +1,115 @@
-# 09 · Analítica (Analytics)
+# 09 · Analytics
 
-Ruta: `/analytics` · Elemento **"Analytics"** del menú.
+Route: `/analytics` · **"Analytics"** item in the menu.
 
-Mide **entrega, calidad y distribución del trabajo**. Es una vista de lectura, sin filtros ni acciones.
+It measures **delivery, quality and work distribution**. It is a read-only view, with no filters or actions.
 
-![Analítica — KPIs y flujo acumulado](img/analitica.jpeg)
+![Analytics — KPIs and cumulative flow](img/analitica.jpeg)
 
-![Analítica — gráficos inferiores](img/analitica-2.jpeg)
-
----
-
-## 1. Encabezado
-
-- Título **"Analytics"**.
-- Subtítulo: *"Throughput, estimate accuracy and workload distribution."*
+![Analytics — lower charts](img/analitica-2.jpeg)
 
 ---
 
-## 2. Tarjetas KPI
+## 1. Header
 
-| KPI | Ejemplo | Significado |
+- Title **"Analytics"**.
+- Subtitle: *"Throughput, estimate accuracy and workload distribution."*
+
+---
+
+## 2. KPI cards
+
+| KPI | Example | Meaning |
 |---|---|---|
-| **Tasks closed** | `3` · `▲ +100% vs prev. 8w` | Tareas cerradas en el periodo y comparación con las 8 semanas previas |
-| **Avg cycle time** | `28.0d` · `▲ +0.0d vs prev.` | Tiempo medio desde que la tarea empieza hasta que se cierra |
-| **Rework** | `0%` · `▲ +0 pts` | Proporción de trabajo reabierto/rehecho |
-| **Delivery / plan** | `—` · `Target 1.00` | Cumplimiento del plan (1.00 = 100%) |
-| **Estimate reliability** | `—` · `within ±20%` | Fiabilidad de las estimaciones (dentro de ±20%) |
+| **Tasks closed** | `3` · `▲ +100% vs prev. 8w` | Tasks closed in the period and comparison with the previous 8 weeks |
+| **Avg cycle time** | `28.0d` · `▲ +0.0d vs prev.` | Average time from when a task starts until it is closed |
+| **Rework** | `0%` · `▲ +0 pts` | Proportion of work reopened/redone |
+| **Delivery / plan** | `—` · `Target 1.00` | Plan compliance (1.00 = 100%) |
+| **Estimate reliability** | `—` · `within ±20%` | Reliability of estimates (within ±20%) |
 
-### Cómo interpretar
-- **Tasks closed** sube → buen ritmo; si baja, revisa bloqueos y WIP.
-- **Cycle time** alto → el trabajo tarda en fluir (cuellos en Review, dependencias…).
-- **Rework > 0** → retrabajo; revisa calidad y criterios de aceptación.
-- **Delivery / plan** y **Estimate reliability** requieren datos suficientes; aparecen como `—` cuando no hay base.
+### How to interpret it
+- **Tasks closed** goes up → good pace; if it goes down, review blockers and WIP.
+- **Cycle time** high → work takes too long to flow (bottlenecks in Review, dependencies…).
+- **Rework > 0** → rework; review quality and acceptance criteria.
+- **Delivery / plan** and **Estimate reliability** require enough data; they appear as `—` when there is no base.
 
 ---
 
 ## 3. Cumulative flow
 
-- Cabecera: *"Share of the 13 tracked tasks by state, last 8 weeks"*.
-- Leyenda: **To do 77%**, **In progress 0%**, **Review 0%**, **Completed 23%**.
-- Gráfico de área acumulada por semana (`W37`…`W44`).
-- Barra inferior con la proporción de cada estado.
+- Header: *"Share of the 13 tracked tasks by state, last 8 weeks"*.
+- Legend: **To do 77%**, **In progress 0%**, **Review 0%**, **Completed 23%**.
+- Cumulative area chart by week (`W37`…`W44`).
+- Bottom bar with the proportion of each state.
 
-**Uso:** ver cómo se acumula el trabajo. Si *To do* crece sin parar, el backlog se está inflando; si *Review* se ensancha, hay un cuello de validación.
+**Use:** see how work accumulates. If *To do* grows without stopping, the backlog is inflating; if *Review* widens, there is a validation bottleneck.
 
 ---
 
 ## 4. Throughput by week
 
 - *"Tasks completed, last 8 weeks"*.
-- Barras por semana (`W37`…`W44`).
-- En el ejemplo, la actividad se concentra en **W44**.
+- Bars by week (`W37`…`W44`).
+- In the example, activity is concentrated in **W44**.
 
-**Uso:** comparar semanas y detectar caídas de entrega.
+**Use:** compare weeks and spot delivery drops.
 
 ---
 
 ## 5. Estimate accuracy
 
 - *"Logged vs estimated hours per tag"*.
-- Compara horas registradas con estimadas agrupadas por etiqueta.
-- Estado vacío observado: **"No completed tasks with both estimated and logged hours yet."**
+- Compares logged hours with estimated hours grouped by tag.
+- Empty state observed: **"No completed tasks with both estimated and logged hours yet."**
 
-**Uso:** cuando hay datos, permite calibrar estimaciones por tipo de trabajo (Backend, Frontend, QA…).
+**Use:** when there is data, it allows calibrating estimates by type of work (Backend, Frontend, QA…).
 
 ---
 
 ## 6. Load per member
 
 - *"Size = active tasks assigned"*.
-- Burbujas por persona: **LS 10**, **GC 0**, **YE 0**.
-- El tamaño representa la carga activa.
+- Bubbles per person: **LS 10**, **GC 0**, **YE 0**.
+- The size represents the active load.
 
-**Uso:** detectar desequilibrio de carga de un vistazo.
+**Use:** spot load imbalance at a glance.
 
 ---
 
 ## 7. Rework origin
 
 - *"0 tasks reopened this quarter"*.
-- Dona con el número de casos.
+- Donut with the number of cases.
 
-**Uso:** si crece, identifica qué tipo de tareas se reabren (calidad, requisitos cambiantes, bugs).
+**Use:** if it grows, identify which type of tasks are reopened (quality, changing requirements, bugs).
 
 ---
 
 ## 8. Sprint velocity
 
 - *"Points delivered vs committed"*.
-- Estado vacío observado: **"No sprints closed yet."**
+- Empty state observed: **"No sprints closed yet."**
 
-**Uso:** cuando hay sprints cerrados, permite comprometer puntos realistas en la planificación.
+**Use:** when there are closed sprints, it allows committing realistic points in planning.
 
 ---
 
-## 9. Cómo usar Analytics en la práctica
+## 9. How to use Analytics in practice
 
-| Pregunta | Métrica |
+| Question | Metric |
 |---|---|
-| ¿Estamos entregando más o menos? | Tasks closed, Throughput by week |
-| ¿El trabajo tarda demasiado? | Avg cycle time |
-| ¿Dónde se atasca? | Cumulative flow (columna que crece) |
-| ¿Estamos rehaciendo trabajo? | Rework, Rework origin |
-| ¿Estimamos bien? | Estimate reliability, Estimate accuracy |
-| ¿La carga está equilibrada? | Load per member + Team workload |
-| ¿Cumplimos lo comprometido? | Delivery / plan, Sprint velocity |
+| Are we delivering more or less? | Tasks closed, Throughput by week |
+| Is work taking too long? | Avg cycle time |
+| Where does it get stuck? | Cumulative flow (the column that grows) |
+| Are we redoing work? | Rework, Rework origin |
+| Do we estimate well? | Estimate reliability, Estimate accuracy |
+| Is the load balanced? | Load per member + Team workload |
+| Do we meet what we committed? | Delivery / plan, Sprint velocity |
 
 ---
 
-## 10. Notas
+## 10. Notes
 
-- Los periodos por defecto son **últimas 8 semanas** (flujo, throughput) y **trimestre** (rework).
-- Sin sprint activo/cerrado, varias métricas aparecen vacías o en `—`.
-- Las cifras dependen de que las tareas se muevan de estado correctamente y de que se registre tiempo.
+- The default periods are the **last 8 weeks** (flow, throughput) and the **quarter** (rework).
+- Without an active/closed sprint, several metrics appear empty or as `—`.
+- The figures depend on tasks being moved between states correctly and on time being logged.

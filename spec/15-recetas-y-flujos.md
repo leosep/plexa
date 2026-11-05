@@ -1,199 +1,199 @@
-# 15 · Recetas y flujos de trabajo
+# 15 · Recipes and workflows
 
-Guías paso a paso de las tareas más frecuentes. Todas son ejecutables con el rol **Member** salvo que se indique lo contrario.
-
----
-
-## Receta 1 · Empezar el día
-
-1. Entra en `https://syncra.liobella.com`.
-2. Revisa el **Dashboard**:
-   - ¿Cuántas **Overdue** hay?
-   - ¿Cómo va **Completed this sprint**?
-   - ¿Hay **sprint activo**?
-3. Abre la **campana** y revisa *Recent activity* (recuerda: al abrirla se marcan como leídas).
-4. Ve a **Task board** y filtra por ti (`Everyone` → tu nombre).
-5. Elige la primera tarea, ábrela y pulsa **Start timer**.
+Step-by-step guides for the most frequent tasks. All of them can be carried out with the **Member** role unless stated otherwise.
 
 ---
 
-## Receta 2 · Crear una tarea y dejarla lista
+## Recipe 1 · Starting the day
+
+1. Go to `https://syncra.liobella.com`.
+2. Review the **Dashboard**:
+   - How many **Overdue** items are there?
+   - How is **Completed this sprint** doing?
+   - Is there an **active sprint**?
+3. Open the **bell** and review *Recent activity* (remember: opening it marks them as read).
+4. Go to **Task board** and filter by yourself (`Everyone` → your name).
+5. Pick the first task, open it and click **Start timer**.
+
+---
+
+## Recipe 2 · Creating a task and leaving it ready
 
 1. **Task board → New task**.
-2. **Title**: verbo + resultado ("Implementar API de cartelera").
-3. **Project**: elige el proyecto (o *Loose task* si es suelta).
-4. **Assignee**: tú o quien la hará.
-5. **Priority**: `High` solo si bloquea a alguien o tiene fecha crítica.
+2. **Title**: verb + result ("Implementar API de cartelera").
+3. **Project**: choose the project (or *Loose task* if it is a standalone task).
+4. **Assignee**: you or whoever will do it.
+5. **Priority**: `High` only if it blocks someone or has a critical date.
 6. **Tag**: `Backend`, `Frontend`, `QA`…
-7. **Due date** y **Start** si aplica.
-8. **Estimate (hours)**: tu mejor estimación.
-9. **Story points** si el equipo planifica por puntos.
-10. **Measure progress by**: `Hours` si vas a estimar subtareas; `Percentage` si son pasos equivalentes.
-11. **Subtasks**: añade las partes si son más de 2–3.
-12. **Depends on**: marca lo que debe terminar antes.
-13. **Description**: contexto, enlaces y criterios de aceptación.
+7. **Due date** and **Start** if applicable.
+8. **Estimate (hours)**: your best estimate.
+9. **Story points** if the team plans by points.
+10. **Measure progress by**: `Hours` if you are going to estimate subtasks; `Percentage` if they are equivalent steps.
+11. **Subtasks**: add the parts if there are more than 2–3.
+12. **Depends on**: mark what must finish first.
+13. **Description**: context, links and acceptance criteria.
 14. **Create task**.
 
 ---
 
-## Receta 3 · Trabajar una tarea (flujo completo)
+## Recipe 3 · Working a task (full flow)
 
-1. En el tablero, mueve la tarjeta a **In progress** (`Move…`).
-2. Abre el detalle y pulsa **Start timer**.
-3. Trabaja; marca **Checklist** y subtareas a medida que avanzas.
-4. Al terminar, mueve la tarea a **Review**.
-5. Detén el cronómetro.
-6. Cuando se apruebe, muévela a **Completed**.
+1. On the board, move the card to **In progress** (`Move…`).
+2. Open the detail and click **Start timer**.
+3. Work; tick off **Checklist** items and subtasks as you make progress.
+4. When you finish, move the task to **Review**.
+5. Stop the timer.
+6. Once it is approved, move it to **Completed**.
 
-> Si la tarea no puede empezar, verás *"It cannot start yet; it waits for: …"* → resuelve la dependencia primero.
-
----
-
-## Receta 4 · Dividir una tarea grande
-
-1. Abre la tarea → **Edit**.
-2. Verifica **Measure progress by = Hours** (recomendado).
-3. Estima las horas totales.
-4. Añade **subtareas** con horas y responsables.
-5. Guarda.
-6. Comprueba que *"Task hours not allocated to subtasks"* queda en `0h 00m`.
-7. Trabaja cada subtarea moviéndola por separado.
+> If the task cannot start, you will see *"It cannot start yet; it waits for: …"* → resolve the dependency first.
 
 ---
 
-## Receta 5 · Bloquear trabajo que no puede empezar
+## Recipe 4 · Splitting a large task
 
-1. Edita la tarea dependiente.
-2. En **Depends on**, marca la tarea o subtarea que debe completarse antes.
-3. Guarda.
-4. La tarea mostrará **Blocked** y el aviso de espera.
-5. Cuando la dependencia se complete y apruebe, el bloqueo desaparece.
-
----
-
-## Receta 6 · Registrar tiempo olvidado
-
-1. Abre **Reports**.
-2. Activa **"Time logged"** para ver qué tiene registro y qué no.
-3. Para las tareas con `LOGGED 0h 00m`, abre cada tarea y usa el registro de tiempo (**Start timer** o edición del tiempo, según permisos).
-4. Vuelve a Reports y confirma que la varianza se actualiza.
+1. Open the task → **Edit**.
+2. Verify **Measure progress by = Hours** (recommended).
+3. Estimate the total hours.
+4. Add **subtasks** with hours and owners.
+5. Save.
+6. Check that *"Task hours not allocated to subtasks"* is left at `0h 00m`.
+7. Work on each subtask by moving it separately.
 
 ---
 
-## Receta 7 · Preparar la daily
+## Recipe 5 · Blocking work that cannot start
 
-1. **Team workload**: revisa `Overdue` y la señal de cada persona.
-2. **Task board**: identifica tarjetas `Blocked` y las que llevan mucho en *In progress*.
-3. **Dashboard**: mira *Overdue* y *Task priority*.
-4. Anota:
-   - Qué hice ayer (tareas movidas/completadas).
-   - Qué haré hoy (siguiente tarea del tablero).
-   - Bloqueos (dependencias, accesos, decisiones).
-5. Tras la daily, actualiza estados y fechas.
+1. Edit the dependent task.
+2. Under **Depends on**, mark the task or subtask that must be completed first.
+3. Save.
+4. The task will show **Blocked** and the waiting notice.
+5. When the dependency is completed and approved, the block disappears.
 
 ---
 
-## Receta 8 · Revisar un proyecto con el cliente
+## Recipe 6 · Logging forgotten time
 
-1. **Projects** → abre el proyecto.
-2. **Overview**: salud, fechas, 3/14 tareas y actividad.
-3. **Dashboard**: tareas/puntos entregados y vencidos.
-4. **Timeline**: fases (si están definidas).
-5. **Documents**: muestra entregables.
-6. **Reports**: filtra por el proyecto/sprint y exporta **PDF** si necesitas un informe.
+1. Open **Reports**.
+2. Enable **"Time logged"** to see what has a record and what does not.
+3. For tasks with `LOGGED 0h 00m`, open each task and use time logging (**Start timer** or time editing, depending on permissions).
+4. Go back to Reports and confirm that the variance updates.
 
 ---
 
-## Receta 9 · Exportar horas para facturación
+## Recipe 7 · Preparing the daily
+
+1. **Team workload**: review `Overdue` and each person's signal.
+2. **Task board**: identify `Blocked` cards and those that have been in *In progress* for a long time.
+3. **Dashboard**: look at *Overdue* and *Task priority*.
+4. Write down:
+   - What I did yesterday (tasks moved/completed).
+   - What I will do today (next task on the board).
+   - Blockers (dependencies, access, decisions).
+5. After the daily, update statuses and dates.
+
+---
+
+## Recipe 8 · Reviewing a project with the client
+
+1. **Projects** → open the project.
+2. **Overview**: health, dates, 3/14 tasks and activity.
+3. **Dashboard**: tasks/points delivered and overdue.
+4. **Timeline**: phases (if they are defined).
+5. **Documents**: show the deliverables.
+6. **Reports**: filter by the project/sprint and export **PDF** if you need a report.
+
+---
+
+## Recipe 9 · Exporting hours for billing
 
 1. **Reports**.
-2. Selecciona **Member** (o *All members*), **Sprint** y **Tag**.
-3. Activa **"Time logged"**.
-4. Pulsa **Export Excel** (o CSV/PDF).
-5. Verifica el archivo: tarea, responsable, tag, tiempo estimado, registrado y varianza.
+2. Select **Member** (or *All members*), **Sprint** and **Tag**.
+3. Enable **"Time logged"**.
+4. Click **Export Excel** (or CSV/PDF).
+5. Verify the file: task, owner, tag, estimated time, logged time and variance.
 
 ---
 
-## Receta 10 · Crear una reunión o deadline
+## Recipe 10 · Creating a meeting or deadline
 
 1. **Calendar → New event**.
-2. Título claro ("Revisión sprint 4 con cliente").
-3. Fecha y horas.
-4. **Kind**: `Meeting`, `Review`, `Demo`, `Deadline`, `Retro` u `Other`.
-5. **Place / tool**: sala o videollamada.
-6. **Project**: vincúlalo.
-7. **Members** / **Departments**: invita.
+2. Clear title ("Revisión sprint 4 con cliente").
+3. Date and times.
+4. **Kind**: `Meeting`, `Review`, `Demo`, `Deadline`, `Retro` or `Other`.
+5. **Place / tool**: room or video call.
+6. **Project**: link it.
+7. **Members** / **Departments**: invite.
 8. **Add event**.
-9. Comprueba que aparece en el día y en la pestaña **Calendar** del proyecto.
+9. Check that it appears on the day and in the project's **Calendar** tab.
 
 ---
 
-## Receta 11 · Publicar un entregable
+## Recipe 11 · Publishing a deliverable
 
-1. Abre el proyecto → **Documents**.
+1. Open the project → **Documents**.
 2. **Attach documents**.
-3. Selecciona el archivo (< 25 MB, formato permitido).
-4. Verifica que aparece con tamaño, autor y fecha.
-5. Avisa por **Messages** o en la tarea correspondiente.
-6. Para retirarlo, usa **Delete** (confirmar antes).
+3. Select the file (< 25 MB, allowed format).
+4. Verify that it appears with size, author and date.
+5. Notify via **Messages** or on the corresponding task.
+6. To remove it, use **Delete** (confirm first).
 
 ---
 
-## Receta 12 · Preparar el cierre de sprint (con administrador)
+## Recipe 12 · Preparing the sprint close (with an administrator)
 
-1. Verifica que no queden tareas `Blocked` sin motivo.
-2. Mueve lo terminado a **Completed** y lo no terminado al siguiente sprint (lo hace un administrador).
-3. Revisa **Analytics**: throughput, cycle time, rework, velocity.
-4. Exporta **Reports** del sprint.
-5. Documenta acuerdos y próximos pasos.
-6. El administrador **cierra el sprint** en *Settings → Sprints*.
+1. Verify that no `Blocked` tasks are left without a reason.
+2. Move what is finished to **Completed** and what is not finished to the next sprint (an administrator does this).
+3. Review **Analytics**: throughput, cycle time, rework, velocity.
+4. Export the sprint **Reports**.
+5. Document agreements and next steps.
+6. The administrator **closes the sprint** in *Settings → Sprints*.
 
 ---
 
-## Receta 13 · Incorporar a alguien a un proyecto
+## Recipe 13 · Adding someone to a project
 
-1. Abre el proyecto → **Team**.
+1. Open the project → **Team**.
 2. **Edit team**.
-3. Selecciona **Department**, **Project lead** y **Collaborators**.
+3. Select **Department**, **Project lead** and **Collaborators**.
 4. **Save team**.
-5. La persona verá el proyecto y sus tareas.
-6. Si no lo ves tú, pide al administrador que te añada o que revise permisos.
+5. The person will see the project and its tasks.
+6. If you cannot see it yourself, ask the administrator to add you or to review permissions.
 
 ---
 
-## Receta 14 · Ajustar tu entorno
+## Recipe 14 · Adjusting your environment
 
 1. **Settings → Preferences**.
-2. Desmarca **"Show the upgrade block in the sidebar"** si quieres más espacio.
-3. Desmarca **"Show the insights panel on project pages"** si prefieres una vista limpia.
-4. Elige **ES/EN**.
-5. **Settings → Profile → Choose image** para tu foto.
+2. Uncheck **"Show the upgrade block in the sidebar"** if you want more space.
+3. Uncheck **"Show the insights panel on project pages"** if you prefer a clean view.
+4. Choose **ES/EN**.
+5. **Settings → Profile → Choose image** for your photo.
 
 ---
 
-## Receta 15 · Recuperar acceso
+## Recipe 15 · Recovering access
 
-1. En el login, **"Forgot your password?"**.
-2. Escribe tu correo y **Send instructions**.
-3. Abre el enlace del correo y define la contraseña.
-4. Vuelve a **Sign in**.
-5. Si no llega el correo: revisa spam, confirma el dominio y contacta a `support@syncra.app`.
+1. On the login screen, **"Forgot your password?"**.
+2. Enter your email and click **Send instructions**.
+3. Open the link in the email and set the password.
+4. Go back to **Sign in**.
+5. If the email does not arrive: check spam, confirm the domain and contact `support@syncra.app`.
 
 ---
 
-## Mapa rápido "quiero → hago"
+## Quick map "I want → I do"
 
-| Quiero… | Ruta / acción |
+| I want… | Route / action |
 |---|---|
-| Ver el estado general | Dashboard |
-| Ver/mover tareas | Task board |
-| Crear trabajo | New task |
-| Ver un proyecto | Projects → nombre |
-| Saber quién puede más | Team workload |
-| Comparar estimado vs real | Reports |
-| Ver tendencias | Analytics |
-| Agendar algo | Calendar → New event |
-| Hablar con el equipo | Messages |
-| Cambiar mi foto/idioma | Settings |
-| Salir | Menú de usuario → Log out |
-| Ayuda | Sidebar → Help & support (`support@syncra.app`) |
+| See the overall status | Dashboard |
+| View/move tasks | Task board |
+| Create work | New task |
+| View a project | Projects → name |
+| Know who can take on more | Team workload |
+| Compare estimated vs actual | Reports |
+| See trends | Analytics |
+| Schedule something | Calendar → New event |
+| Talk to the team | Messages |
+| Change my photo/language | Settings |
+| Sign out | User menu → Log out |
+| Help | Sidebar → Help & support (`support@syncra.app`) |
