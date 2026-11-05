@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Plexa.Application.Abstractions;
@@ -20,6 +21,7 @@ public sealed class AccountController : Controller
     private readonly IAppLinkGenerator _links;
     private readonly IClock _clock;
     private readonly ILogger<AccountController> _logger;
+    private readonly ITranslator _t;
 
     public AccountController(
         SignInManager<ApplicationUser> signIn,
@@ -28,7 +30,8 @@ public sealed class AccountController : Controller
         IMailer mailer,
         IAppLinkGenerator links,
         IClock clock,
-        ILogger<AccountController> logger)
+        ILogger<AccountController> logger,
+        ITranslator translator)
     {
         _signIn = signIn;
         _users = users;
@@ -37,6 +40,7 @@ public sealed class AccountController : Controller
         _links = links;
         _clock = clock;
         _logger = logger;
+        _t = translator;
     }
 
     [AllowAnonymous]
@@ -64,7 +68,7 @@ public sealed class AccountController : Controller
         var user = await _users.FindByEmailAsync(model.Email.Trim());
         if (user is null)
         {
-            ModelState.AddModelError(string.Empty, "We could not find an account with that email.");
+            ModelState.AddModelError(string.Empty, _t["We could not find an account with that email."]);
             return View(model);
         }
 
@@ -82,11 +86,11 @@ public sealed class AccountController : Controller
 
         if (result.IsLockedOut)
         {
-            ModelState.AddModelError(string.Empty, "Too many attempts. Try again in 15 minutes.");
+            ModelState.AddModelError(string.Empty, _t["Too many attempts. Try again in 15 minutes."]);
         }
         else
         {
-            ModelState.AddModelError(string.Empty, "The password is not correct.");
+            ModelState.AddModelError(string.Empty, _t["The password is not correct."]);
         }
 
         return View(model);
@@ -120,8 +124,8 @@ public sealed class AccountController : Controller
         {
             var token = await _users.GeneratePasswordResetTokenAsync(user);
             var link = _links.AbsoluteUrl($"/reset-password?email={Uri.EscapeDataString(model.Email.Trim())}&code={Uri.EscapeDataString(token)}");
-            await _mailer.SendAsync(model.Email.Trim(), "Reset your Plexa password",
-                $"<p>Hello {user.FullName},</p><p>Use this link to choose a new password:</p><p><a href=\"{link}\">Reset password</a></p>", ct);
+            await _mailer.SendAsync(model.Email.Trim(), _t["Mail.ResetSubject"],
+                _t.Format("Mail.ResetBody", user.FullName, link), ct);
         }
 
         // Respuesta genérica: nunca revelamos si el correo existe.
@@ -146,7 +150,7 @@ public sealed class AccountController : Controller
         var user = await _users.FindByEmailAsync(model.Email.Trim());
         if (user is null)
         {
-            ModelState.AddModelError(string.Empty, "That reset link is not valid anymore.");
+            ModelState.AddModelError(string.Empty, _t["That reset link is not valid anymore."]);
             return View(model);
         }
 
@@ -155,7 +159,7 @@ public sealed class AccountController : Controller
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                ModelState.AddModelError(string.Empty, _t[error.Description]);
             }
 
             return View(model);
@@ -206,7 +210,7 @@ public sealed class AccountController : Controller
 
         if (string.IsNullOrWhiteSpace(model.FullName))
         {
-            ModelState.AddModelError(nameof(model.FullName), "Tell us your name.");
+            ModelState.AddModelError(nameof(model.FullName), _t["Tell us your name."]);
             return View(model);
         }
 
@@ -228,7 +232,7 @@ public sealed class AccountController : Controller
         {
             foreach (var error in created.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                ModelState.AddModelError(string.Empty, _t[error.Description]);
             }
 
             return View(model);
@@ -249,7 +253,9 @@ public sealed class AccountController : Controller
     public IActionResult SetCulture(string culture, string? returnUrl)
     {
         var value = culture == "es" ? "es" : "en";
-        Response.Cookies.Append("plexa.culture", value, new CookieOptions
+        // CookieRequestCultureProvider espera el formato "c=xx|uic=xx"; un código suelto se ignora.
+        var cookieValue = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(value));
+        Response.Cookies.Append("plexa.culture", cookieValue, new CookieOptions
         {
             Expires = DateTimeOffset.UtcNow.AddYears(1),
             IsEssential = true,
@@ -269,7 +275,7 @@ public sealed class HomeController : Controller
             : RedirectToAction("Login", "Account");
 
     [AllowAnonymous]
-    [HttpGet("/error/{code:int}")]
+    [Route("/error/{code:int}")]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public IActionResult Error(int code)
     {

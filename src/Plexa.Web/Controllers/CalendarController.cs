@@ -16,13 +16,15 @@ public sealed class CalendarController : Controller
     private readonly IProjectService _projects;
     private readonly IUserContext _user;
     private readonly Plexa.Infrastructure.PlexaDbContext _db;
+    private readonly ITranslator _t;
 
-    public CalendarController(ICalendarService calendar, IProjectService projects, IUserContext user, Plexa.Infrastructure.PlexaDbContext db)
+    public CalendarController(ICalendarService calendar, IProjectService projects, IUserContext user, Plexa.Infrastructure.PlexaDbContext db, ITranslator translator)
     {
         _calendar = calendar;
         _projects = projects;
         _user = user;
         _db = db;
+        _t = translator;
     }
 
     [HttpGet("/calendar")]
@@ -55,7 +57,7 @@ public sealed class CalendarController : Controller
     {
         if (form.EndsAt <= form.StartsAt)
         {
-            ModelState.AddModelError(nameof(form.EndsAt), "The end time must be after the start time.");
+            ModelState.AddModelError(nameof(form.EndsAt), _t["The end time must be after the start time."]);
         }
 
         if (!ModelState.IsValid)
@@ -72,7 +74,7 @@ public sealed class CalendarController : Controller
             var model = await BuildAsync("week", form.Date, ct);
             ViewData["Form"] = form;
             Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
-            ModelState.AddModelError(string.Empty, result.Error ?? "The event could not be created.");
+            ModelState.AddModelError(string.Empty, result.Error ?? _t["The event could not be created."]);
             return PartialView("_EventFormModal", model);
         }
 
@@ -170,7 +172,15 @@ public sealed class MessagesController : Controller
         }
 
         await _messages.MarkReadAsync(id, ct);
-        return PartialView("_ThreadPanel", new MessagesPageViewModel { Threads = threads, Thread = thread, CanCreate = _user.IsAdmin });
+        var model = new MessagesPageViewModel { Threads = threads, Thread = thread, CanCreate = _user.IsAdmin };
+
+        // Navegación normal (recarga o enlace directo): página completa. htmx: solo el panel.
+        if (Request.IsHtmx() && Request.Headers["HX-Target"] == "thread-panel")
+        {
+            return PartialView("_ThreadPanel", model);
+        }
+
+        return View("Index", model);
     }
 
     [HttpPost("/messages/{id:guid}")]
@@ -186,7 +196,19 @@ public sealed class MessagesController : Controller
 
         Response.Headers["HX-Trigger"] = "{\"notifications:changed\":true}";
         var thread = await _messages.GetThreadAsync(id, ct);
-        return thread is null ? NoContent() : PartialView("_Messages", thread);
+        if (thread is null)
+        {
+            return NoContent();
+        }
+
+        // Se devuelve el panel completo: el formulario usa hx-swap="outerHTML" sobre #thread-panel.
+        var threads = await _messages.GetThreadsAsync(ct);
+        return PartialView("_ThreadPanel", new MessagesPageViewModel
+        {
+            Threads = threads,
+            Thread = thread,
+            CanCreate = _user.IsAdmin
+        });
     }
 
     [HttpGet("/messages/new")]
@@ -215,7 +237,16 @@ public sealed class MessagesController : Controller
 
         Response.Headers["HX-Trigger"] = "{\"closeModal\":true,\"threads:changed\":true}";
         Response.Toast("success", "Channel created");
-        return NoContent();
+
+        // Se abre el canal recién creado: en htmx con redirección de cliente, si no con un 302 normal.
+        var target = $"/messages/{result.Id}?created=1";
+        if (Request.IsHtmx())
+        {
+            Response.Headers["HX-Redirect"] = target;
+            return NoContent();
+        }
+
+        return Redirect(target);
     }
 }
 
@@ -237,6 +268,8 @@ public sealed class NotificationsController : Controller
         var items = await _notifications.GetRecentAsync(12, ct);
         ViewData["Unread"] = items.Count(i => !i.IsRead);
         await _notifications.MarkAllReadAsync(ct);
+        // El panel solo se carga al abrir la campana: aquí ya se pueden marcar como leídas.
+        Response.Headers["HX-Trigger"] = "{\"notifications:changed\":true}";
         return PartialView("_NotificationPanel", items);
     }
 

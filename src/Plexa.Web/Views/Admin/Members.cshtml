@@ -11,17 +11,17 @@
 
     @if (TempData["Success"] is string success)
     {
-        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@success</div>
+        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@L.Message(success)</div>
     }
     @if (TempData["Error"] is string error)
     {
-        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@error</div>
+        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@L.Message(error)</div>
     }
 
     <div class="grid gap-4 xl:grid-cols-[1fr_22rem]">
         <section class="plx-card overflow-hidden" aria-labelledby="members-title">
             <h2 id="members-title" class="border-b border-ink-100 px-5 py-4 text-lg font-semibold">@L["Admin.TeamMembers"]</h2>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto [contain:paint]">
                 <table class="plx-table min-w-[40rem]">
                     <caption class="sr-only">@L["Admin.TeamMembers"]</caption>
                     <thead>
@@ -122,7 +122,7 @@
                 </div>
                 <div>
                     <label for="invite-job" class="plx-label">@L["Settings.Role"]</label>
-                    <input id="invite-job" name="jobTitle" class="plx-input" placeholder="Full-Stack Developer" />
+                    <input id="invite-job" name="jobTitle" class="plx-input" placeholder="@L["Account.JobTitlePlaceholder"]" />
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>

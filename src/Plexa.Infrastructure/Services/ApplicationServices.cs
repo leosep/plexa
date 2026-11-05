@@ -12,9 +12,12 @@ namespace Plexa.Infrastructure.Services;
 
 public sealed partial class MessageService : ServiceBase, IMessageService
 {
-    public MessageService(PlexaDbContext db, IUserContext user, IClock clock) : base(db, user, clock)
+    public MessageService(PlexaDbContext db, IUserContext user, IClock clock, ITranslator translator) : base(db, user, clock)
     {
+        _t = translator;
     }
+
+    private readonly ITranslator _t;
 
     public async Task<IReadOnlyList<ThreadSummaryDto>> GetThreadsAsync(CancellationToken ct = default)
     {
@@ -47,7 +50,7 @@ public sealed partial class MessageService : ServiceBase, IMessageService
                 t.Id,
                 t.Title,
                 t.Scope,
-                t.Scope == ThreadScope.Project ? "Project channel" : "Team channel",
+                t.Scope == ThreadScope.Project ? _t["Project channel"] : _t["Team channel"],
                 projectLabel,
                 last?.Body,
                 last is null ? null : PersonOf(users, last.AuthorId)?.FullName,
@@ -85,7 +88,7 @@ public sealed partial class MessageService : ServiceBase, IMessageService
                 m.Body,
                 PersonOf(users, m.AuthorId) ?? PersonChip.From(m.AuthorId, "Member"),
                 m.CreatedAt,
-                m.CreatedAt.ToLocalTime().ToString("dd MMM HH:mm", System.Globalization.CultureInfo.GetCultureInfo("en-US")),
+                m.CreatedAt.ToLocalTime().ToString("dd MMM HH:mm", System.Globalization.CultureInfo.CurrentCulture),
                 m.AuthorId == User.UserId,
                 string.IsNullOrWhiteSpace(m.Mentions) ? [] : m.Mentions.Split(',', StringSplitOptions.RemoveEmptyEntries)))
             .ToList();
@@ -93,7 +96,7 @@ public sealed partial class MessageService : ServiceBase, IMessageService
         return new ThreadDto(
             thread.Id,
             thread.Title,
-            thread.Scope == ThreadScope.Project ? "Project channel" : "Team channel",
+            thread.Scope == ThreadScope.Project ? _t["Project channel"] : _t["Team channel"],
             project is null ? null : $"{project.Code} · {project.Name}",
             messages,
             true);
@@ -247,8 +250,11 @@ public sealed partial class MessageService : ServiceBase, IMessageService
 
 public sealed class NotificationService : ServiceBase, INotificationService
 {
-    public NotificationService(PlexaDbContext db, IUserContext user, IClock clock) : base(db, user, clock)
+    private readonly ITranslator _t;
+
+    public NotificationService(PlexaDbContext db, IUserContext user, IClock clock, ITranslator translator) : base(db, user, clock)
     {
+        _t = translator;
     }
 
     public async Task<IReadOnlyList<NotificationDto>> GetRecentAsync(int limit, CancellationToken ct = default)
@@ -293,15 +299,15 @@ public sealed class NotificationService : ServiceBase, INotificationService
         var date = DateOnly.FromDateTime(local);
         if (date == today)
         {
-            return "Today";
+            return _t["Today"];
         }
 
         if (date == today.AddDays(-1))
         {
-            return "Yesterday";
+            return _t["Yesterday"];
         }
 
-        return local.ToString("dd MMM", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+        return local.ToString("dd MMM", System.Globalization.CultureInfo.CurrentCulture);
     }
 }
 
@@ -405,12 +411,14 @@ public sealed class AdminService : ServiceBase, IAdminService
 {
     private readonly IMailer _mailer;
     private readonly IAppLinkGenerator _links;
+    private readonly ITranslator _t;
 
-    public AdminService(PlexaDbContext db, IUserContext user, IClock clock, IMailer mailer, IAppLinkGenerator links)
+    public AdminService(PlexaDbContext db, IUserContext user, IClock clock, IMailer mailer, IAppLinkGenerator links, ITranslator translator)
         : base(db, user, clock)
     {
         _mailer = mailer;
         _links = links;
+        _t = translator;
     }
 
     public async Task<IReadOnlyList<SprintDto>> GetSprintsAsync(CancellationToken ct = default)
@@ -515,8 +523,8 @@ public sealed class AdminService : ServiceBase, IAdminService
         await Db.SaveChangesAsync(ct);
 
         var link = _links.AbsoluteUrl($"/invitations?code={code}&name={Uri.EscapeDataString(fullName)}&title={Uri.EscapeDataString(jobTitle)}&capacity={capacityHours}");
-        await _mailer.SendAsync(email, "Your Plexa invitation",
-            $"<p>Hello {fullName},</p><p>You have been invited to Plexa.</p><p>Invitation code: <strong>{code}</strong></p><p><a href=\"{link}\">Accept invitation</a></p>", ct);
+        await _mailer.SendAsync(email, _t["Mail.InviteSubject"],
+            _t.Format("Mail.InviteBody", fullName, code, link), ct);
 
         return (true, null);
     }
@@ -583,7 +591,7 @@ public sealed class AdminService : ServiceBase, IAdminService
         }
 
         project.Name = model.Name.Trim();
-        project.Client = string.IsNullOrWhiteSpace(model.Client) ? "Internal development" : model.Client.Trim();
+        project.Client = string.IsNullOrWhiteSpace(model.Client) ? _t["Internal development"] : model.Client.Trim();
         project.LeadUserId = model.LeadUserId;
         project.DepartmentId = model.DepartmentId;
         project.Status = model.Status;

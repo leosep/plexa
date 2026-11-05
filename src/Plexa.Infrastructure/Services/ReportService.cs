@@ -16,8 +16,11 @@ namespace Plexa.Infrastructure.Services;
 
 public sealed class ReportService : ServiceBase, IReportService
 {
-    public ReportService(PlexaDbContext db, IUserContext user, IClock clock) : base(db, user, clock)
+    private readonly ITranslator _t;
+
+    public ReportService(PlexaDbContext db, IUserContext user, IClock clock, ITranslator translator) : base(db, user, clock)
     {
+        _t = translator;
     }
 
     public async Task<ReportPageDto> GetAsync(ReportFilters filters, CancellationToken ct = default)
@@ -87,8 +90,8 @@ public sealed class ReportService : ServiceBase, IReportService
         var withTime = rows.Count(r => r.Logged > TimeSpan.Zero);
 
         var scope = string.IsNullOrWhiteSpace(filters.Sprint) || filters.Sprint == "backlog"
-            ? "Backlog"
-            : filters.Sprint == "active" ? "Active sprint" : "Sprint";
+            ? _t["Backlog"]
+            : filters.Sprint == "active" ? _t["Active sprint"] : _t["Sprint"];
 
         var hours = new HoursReportDto(
             filters,
@@ -98,7 +101,7 @@ public sealed class ReportService : ServiceBase, IReportService
             totalHours,
             totalLogged,
             totalVariance,
-            $"Showing {rows.Count} tasks · {scope} · {withTime} with time logged");
+            _t.Format("Showing {0} tasks · {1} · {2} with time logged", rows.Count, scope, withTime));
 
         return new ReportPageDto(hours, await GetDepartmentRowsAsync(ct));
     }
@@ -175,34 +178,34 @@ public sealed class ReportService : ServiceBase, IReportService
         return rows;
     }
 
-    private static IReadOnlyList<SelectOption> BuildSprintOptions(IEnumerable<Domain.Entities.Sprint> sprints, string? selected)
+    private IReadOnlyList<SelectOption> BuildSprintOptions(IEnumerable<Domain.Entities.Sprint> sprints, string? selected)
     {
         var options = new List<SelectOption>
         {
-            new("active", "Active sprint", string.IsNullOrEmpty(selected) || selected == "active"),
-            new("backlog", "Backlog", selected == "backlog")
+            new("active", _t["Active sprint"], string.IsNullOrEmpty(selected) || selected == "active"),
+            new("backlog", _t["Backlog"], selected == "backlog")
         };
 
         options.AddRange(sprints.Select(s => new SelectOption(s.Id.ToString(), s.Name, selected == s.Id.ToString())));
         return options;
     }
 
-    private static byte[] BuildCsv(HoursReportDto hours)
+    private byte[] BuildCsv(HoursReportDto hours)
     {
         using var writer = new StringWriter(CultureInfo.InvariantCulture);
         using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteField("Task");
-        csv.WriteField("Owner");
-        csv.WriteField("Tag");
-        csv.WriteField("Task time (h)");
-        csv.WriteField("Logged");
-        csv.WriteField("Variance");
+        csv.WriteField(_t["Task"]);
+        csv.WriteField(_t["Owner"]);
+        csv.WriteField(_t["Tag"]);
+        csv.WriteField(_t["Task time (h)"]);
+        csv.WriteField(_t["Logged"]);
+        csv.WriteField(_t["Variance"]);
         csv.NextRecord();
 
         foreach (var row in hours.Rows)
         {
             csv.WriteField(row.Task);
-            csv.WriteField(row.Owner?.FullName ?? "Unassigned");
+            csv.WriteField(row.Owner?.FullName ?? _t["Unassigned"]);
             csv.WriteField(row.Tag ?? string.Empty);
             csv.WriteField(row.TaskHours.ToString("0.##", CultureInfo.InvariantCulture));
             csv.WriteField(DurationFormatter.Format(row.Logged));
@@ -210,7 +213,7 @@ public sealed class ReportService : ServiceBase, IReportService
             csv.NextRecord();
         }
 
-        csv.WriteField("Total");
+        csv.WriteField(_t["Total"]);
         csv.WriteField(string.Empty);
         csv.WriteField(string.Empty);
         csv.WriteField(hours.TotalTaskHours.ToString("0.##", CultureInfo.InvariantCulture));
@@ -221,17 +224,17 @@ public sealed class ReportService : ServiceBase, IReportService
         return Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(writer.ToString())).ToArray();
     }
 
-    private static byte[] BuildDepartmentCsv(IReadOnlyList<DepartmentRowDto> departments)
+    private byte[] BuildDepartmentCsv(IReadOnlyList<DepartmentRowDto> departments)
     {
         using var writer = new StringWriter(CultureInfo.InvariantCulture);
         using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteField("Department");
-        csv.WriteField("Lead");
-        csv.WriteField("Active projects");
-        csv.WriteField("Members");
-        csv.WriteField("Completed tasks");
-        csv.WriteField("Awaiting approval");
-        csv.WriteField("Hours");
+        csv.WriteField(_t["Department"]);
+        csv.WriteField(_t["Lead"]);
+        csv.WriteField(_t["Active projects"]);
+        csv.WriteField(_t["Members"]);
+        csv.WriteField(_t["Completed tasks"]);
+        csv.WriteField(_t["Awaiting approval"]);
+        csv.WriteField(_t["Hours"]);
         csv.NextRecord();
 
         foreach (var row in departments)
@@ -249,22 +252,22 @@ public sealed class ReportService : ServiceBase, IReportService
         return Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(writer.ToString())).ToArray();
     }
 
-    private static byte[] BuildXlsx(ReportPageDto page)
+    private byte[] BuildXlsx(ReportPageDto page)
     {
         using var workbook = new XLWorkbook();
-        var hours = workbook.Worksheets.Add("Hours report");
-        hours.Cell(1, 1).Value = "Task";
-        hours.Cell(1, 2).Value = "Owner";
-        hours.Cell(1, 3).Value = "Tag";
-        hours.Cell(1, 4).Value = "Task time";
-        hours.Cell(1, 5).Value = "Logged";
-        hours.Cell(1, 6).Value = "Variance";
+        var hours = workbook.Worksheets.Add(_t["Hours report"]);
+        hours.Cell(1, 1).Value = _t["Task"];
+        hours.Cell(1, 2).Value = _t["Owner"];
+        hours.Cell(1, 3).Value = _t["Tag"];
+        hours.Cell(1, 4).Value = _t["Task time"];
+        hours.Cell(1, 5).Value = _t["Logged"];
+        hours.Cell(1, 6).Value = _t["Variance"];
 
         var row = 2;
         foreach (var item in page.Hours.Rows)
         {
             hours.Cell(row, 1).Value = item.Task;
-            hours.Cell(row, 2).Value = item.Owner?.FullName ?? "Unassigned";
+            hours.Cell(row, 2).Value = item.Owner?.FullName ?? _t["Unassigned"];
             hours.Cell(row, 3).Value = item.Tag ?? string.Empty;
             hours.Cell(row, 4).Value = DurationFormatter.Format(item.TaskHours);
             hours.Cell(row, 5).Value = DurationFormatter.Format(item.Logged);
@@ -272,15 +275,19 @@ public sealed class ReportService : ServiceBase, IReportService
             row++;
         }
 
-        hours.Cell(row, 1).Value = "Total";
+        hours.Cell(row, 1).Value = _t["Total"];
         hours.Cell(row, 4).Value = DurationFormatter.Format(page.Hours.TotalTaskHours);
         hours.Cell(row, 5).Value = DurationFormatter.Format(page.Hours.TotalLogged);
         hours.Cell(row, 6).Value = FormatVariance(page.Hours.TotalVariance);
         hours.Row(1).Style.Font.Bold = true;
         hours.Columns().AdjustToContents();
 
-        var department = workbook.Worksheets.Add("By department");
-        var headers = new[] { "Department", "Lead", "Active projects", "Members", "Completed tasks", "Awaiting approval", "Hours" };
+        var department = workbook.Worksheets.Add(_t["By department"]);
+        var headers = new[]
+        {
+            _t["Department"], _t["Lead"], _t["Active projects"], _t["Members"],
+            _t["Completed tasks"], _t["Awaiting approval"], _t["Hours"]
+        };
         for (var i = 0; i < headers.Length; i++)
         {
             department.Cell(1, i + 1).Value = headers[i];
@@ -307,7 +314,7 @@ public sealed class ReportService : ServiceBase, IReportService
         return stream.ToArray();
     }
 
-    private static byte[] BuildPdf(ReportPageDto page)
+    private byte[] BuildPdf(ReportPageDto page)
     {
         QuestPDF.Settings.License = LicenseType.Community;
 
@@ -321,7 +328,7 @@ public sealed class ReportService : ServiceBase, IReportService
 
                 pdf.Header().Column(header =>
                 {
-                    header.Item().Text("Plexa · Hours report").FontSize(18).SemiBold().FontColor(Colors.Teal.Darken3);
+                    header.Item().Text(_t["Plexa · Hours report"]).FontSize(18).SemiBold().FontColor(Colors.Teal.Darken3);
                     header.Item().Text(page.Hours.FooterNote).FontSize(9).FontColor(Colors.Grey.Medium);
                     header.Item().PaddingBottom(8);
                 });
@@ -342,7 +349,7 @@ public sealed class ReportService : ServiceBase, IReportService
 
                         table.Header(header =>
                         {
-                            foreach (var title in new[] { "Task", "Owner", "Tag", "Task time", "Logged", "Variance" })
+                            foreach (var title in new[] { _t["Task"], _t["Owner"], _t["Tag"], _t["Task time"], _t["Logged"], _t["Variance"] })
                             {
                                 header.Cell().Background(Colors.Teal.Lighten4).Padding(4).Text(title).SemiBold();
                             }
@@ -351,14 +358,14 @@ public sealed class ReportService : ServiceBase, IReportService
                         foreach (var row in page.Hours.Rows)
                         {
                             table.Cell().Padding(4).Text(row.Task);
-                            table.Cell().Padding(4).Text(row.Owner?.FullName ?? "Unassigned");
+                            table.Cell().Padding(4).Text(row.Owner?.FullName ?? _t["Unassigned"]);
                             table.Cell().Padding(4).Text(row.Tag ?? "—");
                             table.Cell().Padding(4).Text(DurationFormatter.Format(row.TaskHours));
                             table.Cell().Padding(4).Text(DurationFormatter.Format(row.Logged));
                             table.Cell().Padding(4).Text(row.HasVariance ? FormatVariance(row.Variance) : "—");
                         }
 
-                        table.Cell().Padding(4).Text("Total").SemiBold();
+                        table.Cell().Padding(4).Text(_t["Total"]).SemiBold();
                         table.Cell().Padding(4).Text(string.Empty);
                         table.Cell().Padding(4).Text(string.Empty);
                         table.Cell().Padding(4).Text(DurationFormatter.Format(page.Hours.TotalTaskHours)).SemiBold();
@@ -366,7 +373,7 @@ public sealed class ReportService : ServiceBase, IReportService
                         table.Cell().Padding(4).Text(FormatVariance(page.Hours.TotalVariance)).SemiBold();
                     });
 
-                    content.Item().PaddingTop(18).Text("By department (last 30 days)").FontSize(13).SemiBold();
+                    content.Item().PaddingTop(18).Text(_t["By department (last 30 days)"]).FontSize(13).SemiBold();
                     content.Item().Table(table =>
                     {
                         table.ColumnsDefinition(columns =>
@@ -381,7 +388,7 @@ public sealed class ReportService : ServiceBase, IReportService
 
                         table.Header(header =>
                         {
-                            foreach (var title in new[] { "Department", "Active projects", "Members", "Completed", "Awaiting", "Hours" })
+                            foreach (var title in new[] { _t["Department"], _t["Active projects"], _t["Members"], _t["Completed"], _t["Awaiting"], _t["Hours"] })
                             {
                                 header.Cell().Background(Colors.Teal.Lighten4).Padding(4).Text(title).SemiBold();
                             }
@@ -389,7 +396,7 @@ public sealed class ReportService : ServiceBase, IReportService
 
                         foreach (var row in page.Departments)
                         {
-                            table.Cell().Padding(4).Text(row.LeadName is null ? row.Department : $"{row.Department} (Lead: {row.LeadName})");
+                            table.Cell().Padding(4).Text(row.LeadName is null ? row.Department : _t.Format("{0} (Lead: {1})", row.Department, row.LeadName));
                             table.Cell().Padding(4).Text(row.ActiveProjects.ToString(CultureInfo.InvariantCulture));
                             table.Cell().Padding(4).Text(row.Members.ToString(CultureInfo.InvariantCulture));
                             table.Cell().Padding(4).Text(row.CompletedTasks.ToString(CultureInfo.InvariantCulture));
@@ -401,7 +408,7 @@ public sealed class ReportService : ServiceBase, IReportService
 
                 pdf.Footer().AlignRight().Text(text =>
                 {
-                    text.Span("Plexa · generated ");
+                    text.Span(_t["Plexa · generated "]);
                     text.Span(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm 'UTC'", CultureInfo.InvariantCulture));
                 });
             });

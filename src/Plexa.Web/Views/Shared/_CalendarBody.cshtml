@@ -8,7 +8,7 @@
     {
         <div class="plx-card overflow-hidden">
             <div class="grid grid-cols-7 border-b border-ink-100 bg-ink-100/50">
-                @foreach (var day in new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" })
+                @foreach (var day in CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames.Skip(1).Concat(CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames.Take(1)))
                 {
                     <div class="px-2 py-2 text-center text-[11px] font-semibold uppercase tracking-wide text-ink-400">@day</div>
                 }
@@ -72,7 +72,7 @@
                                     hx-get="/calendar/events/@item.Id" hx-target="#modal-root" hx-swap="innerHTML">
                                 <span class="block text-[11px] font-medium text-ink-400">@item.TimeLabel</span>
                                 <span class="mt-0.5 block line-clamp-2 text-xs font-medium leading-snug">@item.Title</span>
-                                <span class="mt-1 block text-[10px] text-cyan-500">@item.KindLabel</span>
+                                <span class="mt-1 block text-[10px] text-cyan-500">@L.Label(item.KindLabel)</span>
                             </button>
                         }
                         @if (day.Events.Count == 0)

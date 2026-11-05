@@ -13,11 +13,11 @@
             <div class="mb-1 flex items-center justify-between text-sm">
                 <span class="flex items-center gap-2 font-medium">
                     <span class="size-2.5 rounded-full @tone" aria-hidden="true"></span>
-                    @slice.Label
+                    @L.Label(slice.Label)
                 </span>
                 <span class="tabular-nums text-ink-600">@slice.Count · @slice.Percent%</span>
             </div>
-            <div class="h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{slice.Label}: {slice.Count} tasks ({slice.Percent}%)")">
+            <div class="h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@string.Format(L["Dashboard.StatusAria"].Value, L.Label(slice.Label), slice.Count, slice.Percent)">
                 <div class="h-full rounded-full @tone" style="width:@(slice.Percent)%"></div>
             </div>
         </div>

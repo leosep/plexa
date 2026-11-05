@@ -55,16 +55,16 @@
                         </div>
                     </dl>
 
-                    <div class="mt-3 h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{member.CapacityPercent}% capacity")">
+                    <div class="mt-3 h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@string.Format(L["Team.CapacityAria"].Value, member.CapacityPercent)">
                         <div class="h-full rounded-full @tone" style="width:@Math.Min(100, member.CapacityPercent)%"></div>
                     </div>
 
                     <div class="mt-3 flex items-center justify-between text-xs">
                         <span class="plx-chip @chipTone">
                             <span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>
-                            @member.SignalLabel
+                            @L.Label(member.SignalLabel)
                         </span>
-                        <span class="font-medium text-ink-600">@member.Availability</span>
+                        <span class="font-medium text-ink-600">@L.Label(member.Availability)</span>
                     </div>
 
                     <p class="mt-3 border-t border-ink-100 pt-2 text-[11px] text-ink-400">

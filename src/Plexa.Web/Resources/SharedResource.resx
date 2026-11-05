@@ -144,7 +144,10 @@
   <data name="Calendar.Field.Project" xml:space="preserve"><value>Project</value></data>
   <data name="Calendar.Field.Starts" xml:space="preserve"><value>Starts</value></data>
   <data name="Calendar.Field.Title" xml:space="preserve"><value>Title</value></data>
+  <data name="Calendar.Event" xml:space="preserve"><value>event</value></data>
+  <data name="Calendar.Events" xml:space="preserve"><value>events</value></data>
   <data name="Calendar.FormHint" xml:space="preserve"><value>Meetings, reviews, demos, deadlines and retros.</value></data>
+  <data name="Calendar.Month" xml:space="preserve"><value>Month</value></data>
   <data name="Calendar.NewEvent" xml:space="preserve"><value>New event</value></data>
   <data name="Calendar.Next" xml:space="preserve"><value>Next</value></data>
   <data name="Calendar.NoEvents" xml:space="preserve"><value>No events</value></data>
@@ -153,9 +156,15 @@
   <data name="Calendar.Prev" xml:space="preserve"><value>Prev</value></data>
   <data name="Calendar.Title" xml:space="preserve"><value>Calendar</value></data>
   <data name="Calendar.Today" xml:space="preserve"><value>Today</value></data>
+  <data name="Calendar.TwoWeeks" xml:space="preserve"><value>2 weeks</value></data>
+  <data name="Calendar.Week" xml:space="preserve"><value>Week</value></data>
   <data name="Calendar.Views" xml:space="preserve"><value>Calendar views</value></data>
   <data name="Common.BackToDashboard" xml:space="preserve"><value>Back to dashboard</value></data>
+  <data name="Common.Breadcrumb" xml:space="preserve"><value>Breadcrumb</value></data>
   <data name="Common.Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Common.Dismiss" xml:space="preserve"><value>Dismiss</value></data>
+  <data name="Common.Shortcuts" xml:space="preserve"><value>Shortcuts: / search · N new task · Esc close · ? help</value></data>
+  <data name="Common.Undo" xml:space="preserve"><value>Undo</value></data>
   <data name="Common.Close" xml:space="preserve"><value>Close</value></data>
   <data name="Common.Delete" xml:space="preserve"><value>Delete</value></data>
   <data name="Common.Edit" xml:space="preserve"><value>Edit</value></data>
@@ -183,6 +192,9 @@
   <data name="Dashboard.ThisSprint" xml:space="preserve"><value>This sprint</value></data>
   <data name="Dashboard.Title" xml:space="preserve"><value>Dashboard</value></data>
   <data name="Dashboard.TrackedToday" xml:space="preserve"><value>Tracked today</value></data>
+  <data name="Error.TimerUpdate" xml:space="preserve"><value>The timer could not be updated.</value></data>
+  <data name="Toast.TimerStarted" xml:space="preserve"><value>Timer started</value></data>
+  <data name="Toast.TimerStopped" xml:space="preserve"><value>Timer stopped</value></data>
   <data name="Error.403.Body" xml:space="preserve"><value>You do not have access to this page.</value></data>
   <data name="Error.403.Title" xml:space="preserve"><value>Access denied</value></data>
   <data name="Error.404.Body" xml:space="preserve"><value>The page you are looking for does not exist or was moved.</value></data>
@@ -204,10 +216,17 @@
   <data name="Invite.Title" xml:space="preserve"><value>Accept invitation</value></data>
   <data name="Login.DemoHint" xml:space="preserve"><value>Demo account:</value></data>
   <data name="Login.Email" xml:space="preserve"><value>Email</value></data>
+  <data name="Login.Feature1" xml:space="preserve"><value>Projects, sprints and task board</value></data>
+  <data name="Login.Feature2" xml:space="preserve"><value>Time tracking with a live timer</value></data>
+  <data name="Login.Feature3" xml:space="preserve"><value>Real-time team workload</value></data>
+  <data name="Login.Feature4" xml:space="preserve"><value>Estimated vs logged reports</value></data>
+  <data name="Login.Feature5" xml:space="preserve"><value>Delivery analytics and a shared calendar</value></data>
   <data name="Login.Forgot" xml:space="preserve"><value>Forgot password?</value></data>
-  <data name="Login.Hello" xml:space="preserve"><value>Welcome back</value></data>
+  <data name="Login.Hello" xml:space="preserve"><value>Hello!</value></data>
   <data name="Login.HidePassword" xml:space="preserve"><value>Hide password</value></data>
+  <data name="Login.Invitation" xml:space="preserve"><value>I have an invitation</value></data>
   <data name="Login.KeepSignedIn" xml:space="preserve"><value>Keep me signed in</value></data>
+  <data name="Login.NoAccount" xml:space="preserve"><value>Don't have an account?</value></data>
   <data name="Login.Password" xml:space="preserve"><value>Password</value></data>
   <data name="Login.ShowPassword" xml:space="preserve"><value>Show password</value></data>
   <data name="Login.Submit" xml:space="preserve"><value>Sign in</value></data>
@@ -235,6 +254,10 @@
   <data name="Nav.Account" xml:space="preserve"><value>Account</value></data>
   <data name="Nav.ActiveSprint" xml:space="preserve"><value>Active sprint</value></data>
   <data name="Nav.Admin" xml:space="preserve"><value>Administration</value></data>
+  <data name="Nav.Analytics" xml:space="preserve"><value>Analytics</value></data>
+  <data name="Nav.Board" xml:space="preserve"><value>Task board</value></data>
+  <data name="Nav.Calendar" xml:space="preserve"><value>Calendar</value></data>
+  <data name="Nav.Dashboard" xml:space="preserve"><value>Dashboard</value></data>
   <data name="Nav.General" xml:space="preserve"><value>General</value></data>
   <data name="Nav.HelpSupport" xml:space="preserve"><value>Help &amp; support</value></data>
   <data name="Nav.MainMenu" xml:space="preserve"><value>Main menu</value></data>
@@ -246,20 +269,27 @@
   <data name="Nav.OpenMenu" xml:space="preserve"><value>Open menu</value></data>
   <data name="Nav.Preferences" xml:space="preserve"><value>Preferences</value></data>
   <data name="Nav.Profile" xml:space="preserve"><value>Profile</value></data>
+  <data name="Nav.Projects" xml:space="preserve"><value>Projects</value></data>
+  <data name="Nav.Reports" xml:space="preserve"><value>Reports</value></data>
   <data name="Nav.Search" xml:space="preserve"><value>Search</value></data>
   <data name="Nav.SearchPlaceholder" xml:space="preserve"><value>Search…</value></data>
   <data name="Nav.Settings" xml:space="preserve"><value>Settings</value></data>
   <data name="Nav.SignOut" xml:space="preserve"><value>Sign out</value></data>
+  <data name="Nav.SprintDaysLeft" xml:space="preserve"><value>{0} days left</value></data>
+  <data name="Nav.SprintPoints" xml:space="preserve"><value>{0} / {1} pts</value></data>
   <data name="Nav.SprintHint" xml:space="preserve"><value>Create one in Administration → Sprints.</value></data>
+  <data name="Nav.Team" xml:space="preserve"><value>Team</value></data>
   <data name="Nav.UpgradeBody" xml:space="preserve"><value>Unlock advanced reports, capacity planning and more.</value></data>
   <data name="Nav.UpgradeCta" xml:space="preserve"><value>See plans</value></data>
   <data name="Nav.UpgradeTitle" xml:space="preserve"><value>Upgrade to Pro</value></data>
   <data name="Nav.Workspace" xml:space="preserve"><value>Workspace</value></data>
+  <data name="Notifications.CaughtUp" xml:space="preserve"><value>You're all caught up: no new notifications.</value></data>
   <data name="Notifications.EmptyBody" xml:space="preserve"><value>Task updates and mentions will show up here.</value></data>
   <data name="Notifications.EmptyTitle" xml:space="preserve"><value>You are all caught up</value></data>
   <data name="Notifications.MarkAll" xml:space="preserve"><value>Mark all as read</value></data>
+  <data name="Notifications.New" xml:space="preserve"><value>new</value></data>
   <data name="Notifications.OpenBoard" xml:space="preserve"><value>Open the board</value></data>
-  <data name="Notifications.Title" xml:space="preserve"><value>Notifications</value></data>
+  <data name="Notifications.Title" xml:space="preserve"><value>Recent activity</value></data>
   <data name="Notifications.Unread" xml:space="preserve"><value>unread</value></data>
   <data name="Projects.Activity" xml:space="preserve"><value>Project activity</value></data>
   <data name="Projects.AreaLead" xml:space="preserve"><value>Area lead</value></data>
@@ -313,6 +343,13 @@
   <data name="Projects.Search" xml:space="preserve"><value>Search projects</value></data>
   <data name="Projects.SearchPlaceholder" xml:space="preserve"><value>Search a project or client…</value></data>
   <data name="Projects.Subtitle" xml:space="preserve"><value>Manage the portfolio: create, edit, archive and open each project.</value></data>
+  <data name="Projects.Tab.Board" xml:space="preserve"><value>Board</value></data>
+  <data name="Projects.Tab.Calendar" xml:space="preserve"><value>Calendar</value></data>
+  <data name="Projects.Tab.Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Projects.Tab.Documents" xml:space="preserve"><value>Documents</value></data>
+  <data name="Projects.Tab.Overview" xml:space="preserve"><value>Overview</value></data>
+  <data name="Projects.Tab.Team" xml:space="preserve"><value>Team</value></data>
+  <data name="Projects.Tab.Timeline" xml:space="preserve"><value>Timeline</value></data>
   <data name="Projects.Tabs" xml:space="preserve"><value>Project sections</value></data>
   <data name="Projects.Tasks" xml:space="preserve"><value>tasks</value></data>
   <data name="Projects.TasksAndActions" xml:space="preserve"><value>Tasks and actions</value></data>
@@ -449,4 +486,18 @@
   <data name="Timer.Start" xml:space="preserve"><value>Start timer</value></data>
   <data name="Timer.Stop" xml:space="preserve"><value>Stop timer</value></data>
   <data name="Timer.Toggle" xml:space="preserve"><value>Toggle timer</value></data>
+  <data name="Dashboard.StatusAria" xml:space="preserve"><value>{0}: {1} tasks ({2}%)</value></data>
+  <data name="Team.CapacityAria" xml:space="preserve"><value>{0}% capacity</value></data>
+  <data name="Calendar.Placeholder" xml:space="preserve"><value>Client demo</value></data>
+  <data name="Account.JobTitlePlaceholder" xml:space="preserve"><value>Full-Stack Developer</value></data>
+  <data name="Admin.SprintNamePlaceholder" xml:space="preserve"><value>Sprint 1</value></data>
+  <data name="Projects.InternalClient" xml:space="preserve"><value>Internal development</value></data>
+  <data name="Mail.InviteSubject" xml:space="preserve"><value>Your Plexa invitation</value></data>
+  <data name="Mail.InviteBody" xml:space="preserve"><value>&lt;p&gt;Hello {0},&lt;/p&gt;&lt;p&gt;You have been invited to Plexa.&lt;/p&gt;&lt;p&gt;Invitation code: &lt;strong&gt;{1}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{2}&quot;&gt;Accept invitation&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="Mail.ResetSubject" xml:space="preserve"><value>Reset your Plexa password</value></data>
+  <data name="Mail.ResetBody" xml:space="preserve"><value>&lt;p&gt;Hello {0},&lt;/p&gt;&lt;p&gt;Use this link to choose a new password:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{1}&quot;&gt;Reset password&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="Task.ProgressAria" xml:space="preserve"><value>{0}% complete</value></data>
+  <data name="Analytics.LoadAria" xml:space="preserve"><value>{0}: {1} active tasks</value></data>
+  <data name="Login.EmailPlaceholder" xml:space="preserve"><value>user@company.com</value></data>
+  <data name="Settings.SmtpHostPlaceholder" xml:space="preserve"><value>smtp.office365.com</value></data>
 </root>

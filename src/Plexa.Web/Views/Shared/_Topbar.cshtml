@@ -8,7 +8,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
     </button>
 
-    <nav aria-label="Breadcrumb" class="hidden min-w-0 items-center gap-2 text-sm md:flex">
+    <nav aria-label="@L["Common.Breadcrumb"]" class="hidden min-w-0 items-center gap-2 text-sm md:flex">
         @if (!string.IsNullOrWhiteSpace(section))
         {
             <span class="text-ink-400">@(section)</span>
@@ -18,11 +18,15 @@
     </nav>
 
     <div class="ml-auto flex items-center gap-1.5">
-        <form action="/board" method="get" role="search" class="relative hidden sm:block">
+        <form action="/board" method="get" role="search" class="relative hidden sm:block" x-data="{ open: false }" @@click.outside="open = false">
             <label for="global-search" class="sr-only">@L["Nav.Search"]</label>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-ink-400" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
             <input id="global-search" name="q" type="search" placeholder="@L["Nav.SearchPlaceholder"]" autocomplete="off"
+                   hx-get="/search/suggest" hx-trigger="input changed delay:250ms" hx-target="#search-suggestions" hx-swap="innerHTML"
+                   @@input="open = $event.target.value.trim().length > 1" @@keydown.escape="open = false"
                    class="w-48 rounded-xl bg-ink-100 py-2 pl-8 pr-3 text-sm ring-1 ring-transparent transition-all placeholder:text-ink-400 focus:w-64 focus:bg-white focus:ring-brand-600 lg:w-56" />
+            <div id="search-suggestions" x-show="open" x-cloak
+                 class="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-ink-200"></div>
         </form>
 
         <a href="/messages" class="plx-btn-ghost relative" aria-label="@L["Nav.Messages"]">

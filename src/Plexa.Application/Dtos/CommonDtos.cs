@@ -17,6 +17,17 @@ public sealed record PersonChip(Guid Id, string FullName, string Initials, strin
     }
 }
 
+/// <summary>Datos de la cabecera y la tarjeta de sprint de la barra lateral.</summary>
+public sealed record WorkspaceSidebarDto(
+    string Name,
+    string? SprintName,
+    string? SprintRange,
+    int CommittedPoints,
+    int CapacityPoints,
+    int DaysLeft)
+{
+    public bool HasSprint => !string.IsNullOrWhiteSpace(SprintName);
+}
 public sealed record ProjectOption(Guid Id, string Code, string Name, string Label);
 
 public sealed record StatusOption(WorkTaskStatus Value, string Label);

@@ -99,3 +99,9 @@ public sealed class AdminProjectFormModel
     public DateOnly? EndDate { get; set; }
     public decimal? Budget { get; set; }
 }
+
+/// <summary>Datos del espacio para la barra lateral (nombre y sprint activo).</summary>
+public interface IWorkspaceService
+{
+    Task<WorkspaceSidebarDto> GetSidebarAsync(CancellationToken ct = default);
+}

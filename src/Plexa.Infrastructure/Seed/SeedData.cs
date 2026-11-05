@@ -44,22 +44,22 @@ public static class SeedData
 
         var workspace = new Workspace
         {
-            Name = "Grupo Dominican Watchman",
+            Name = "Plexa Studio",
             Plan = WorkspacePlan.Free,
             DefaultLocale = "en"
         };
         db.Workspaces.Add(workspace);
         await db.SaveChangesAsync(ct);
 
-        var gerson = await EnsureUserAsync(users, workspace.Id, "gerson.cabreja@dwn.com.do", "Gerson Cabreja", "Administrator", WorkspaceRole.Admin, clock);
-        var leandro = await EnsureUserAsync(users, workspace.Id, "lsepulveda@dwn.com.do", "Leandro Sepulveda", "Full-Stack Developer", WorkspaceRole.Member, clock);
-        var yoderick = await EnsureUserAsync(users, workspace.Id, "ymontero@dwn.com.do", "Yoderick Emmanuel Montero Mejia", "Full-Stack Developer", WorkspaceRole.Member, clock);
+        var alex = await EnsureUserAsync(users, workspace.Id, "alex.rivera@dwn.com.do", "Alex Rivera", "Administrator", WorkspaceRole.Admin, clock);
+        var marta = await EnsureUserAsync(users, workspace.Id, "marta.gomez@dwn.com.do", "Marta Gómez", "Full-Stack Developer", WorkspaceRole.Member, clock);
+        var diego = await EnsureUserAsync(users, workspace.Id, "diego.fernandez@dwn.com.do", "Diego Fernández", "Full-Stack Developer", WorkspaceRole.Member, clock);
 
         var department = new Department
         {
             WorkspaceId = workspace.Id,
             Name = "Software Development",
-            LeadUserId = gerson.Id
+            LeadUserId = alex.Id
         };
         db.Departments.Add(department);
         await db.SaveChangesAsync(ct);
@@ -69,9 +69,9 @@ public static class SeedData
         {
             WorkspaceId = workspace.Id,
             Code = "PRY-01",
-            Name = "Sistema de Gestión de Capacitaciones Internas",
+            Name = "Internal Training Platform",
             Client = "Internal development",
-            LeadUserId = leandro.Id,
+            LeadUserId = marta.Id,
             DepartmentId = department.Id,
             Status = ProjectStatus.AtRisk,
             Health = ProjectHealth.AtRisk,
@@ -84,8 +84,8 @@ public static class SeedData
         await db.SaveChangesAsync(ct);
 
         db.ProjectCollaborators.AddRange(
-            new ProjectCollaborator { ProjectId = project.Id, UserId = gerson.Id },
-            new ProjectCollaborator { ProjectId = project.Id, UserId = yoderick.Id });
+            new ProjectCollaborator { ProjectId = project.Id, UserId = alex.Id },
+            new ProjectCollaborator { ProjectId = project.Id, UserId = diego.Id });
         await db.SaveChangesAsync(ct);
 
         // 3 tareas padre + 11 subtareas = 14 nodos · 42 h estimadas.
@@ -94,50 +94,50 @@ public static class SeedData
             today.AddDays(-29), today.AddDays(-20), null);
         analysis.CompletedAt = completedAt;
         analysis.ApprovedAt = completedAt;
-        analysis.ApprovedByUserId = gerson.Id;
+        analysis.ApprovedByUserId = alex.Id;
         analysis.CreatedAt = today.AddDays(-29).ToDateTime(TimeOnly.MinValue).ToUniversalTime();
 
         var backend1 = Task(workspace.Id, project.Id, "Backend núcleo [1]", WorkTaskStatus.Review, null, 0m, 3,
             today.AddDays(-25), today.AddDays(6), null, inBacklog: false);
         backend1.CreatedAt = today.AddDays(-25).ToDateTime(TimeOnly.MinValue).ToUniversalTime();
 
-        var backend2 = Task(workspace.Id, project.Id, "Backend núcleo [2]", WorkTaskStatus.ToDo, leandro.Id, 0m, 3,
+        var backend2 = Task(workspace.Id, project.Id, "Backend núcleo [2]", WorkTaskStatus.ToDo, marta.Id, 0m, 3,
             today.AddDays(-5), today.AddDays(17), TaskPriority.High);
         backend2.CreatedAt = today.AddDays(-5).ToDateTime(TimeOnly.MinValue).ToUniversalTime();
 
         db.Tasks.AddRange(analysis, backend1, backend2);
         await db.SaveChangesAsync(ct);
 
-        var modelo = Subtask(workspace.Id, project.Id, analysis.Id, "Modelo de datos, reglas y contrato de API", 4m, leandro.Id,
+        var modelo = Subtask(workspace.Id, project.Id, analysis.Id, "Modelo de datos, reglas y contrato de API", 4m, marta.Id,
             WorkTaskStatus.Completed, today.AddDays(-20), analysis.InBacklog);
         modelo.CompletedAt = completedAt;
         modelo.ApprovedAt = completedAt;
-        modelo.ApprovedByUserId = gerson.Id;
+        modelo.ApprovedByUserId = alex.Id;
         modelo.CreatedAt = today.AddDays(-29).ToDateTime(TimeOnly.MinValue).ToUniversalTime();
 
-        var wireframes = Subtask(workspace.Id, project.Id, analysis.Id, "Wireframes y validación con RRHH", 3m, leandro.Id,
+        var wireframes = Subtask(workspace.Id, project.Id, analysis.Id, "Wireframes y validación con RRHH", 3m, marta.Id,
             WorkTaskStatus.Completed, today.AddDays(-20), analysis.InBacklog);
         wireframes.CompletedAt = completedAt;
         wireframes.ApprovedAt = completedAt;
-        wireframes.ApprovedByUserId = gerson.Id;
+        wireframes.ApprovedByUserId = alex.Id;
         wireframes.CreatedAt = today.AddDays(-29).ToDateTime(TimeOnly.MinValue).ToUniversalTime();
 
         // Las subtareas pendientes siguen en el backlog aunque su padre esté en Review.
         var subtasks1 = new[]
         {
-            Subtask(workspace.Id, project.Id, backend1.Id, "Setup y Clean Architecture", 3m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(-22), true, TaskPriority.High),
-            Subtask(workspace.Id, project.Id, backend1.Id, "Seguridad administrativa", 4m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(-18), true, TaskPriority.High),
-            Subtask(workspace.Id, project.Id, backend1.Id, "Acceso de empleado", 3m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(-10), true, TaskPriority.High),
-            Subtask(workspace.Id, project.Id, backend1.Id, "Empleados y carga masiva", 3m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(-4), true, TaskPriority.High),
-            Subtask(workspace.Id, project.Id, backend1.Id, "Catálogos", 4m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(3), true, TaskPriority.High)
+            Subtask(workspace.Id, project.Id, backend1.Id, "Setup y Clean Architecture", 3m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(-22), true, TaskPriority.High),
+            Subtask(workspace.Id, project.Id, backend1.Id, "Seguridad administrativa", 4m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(-18), true, TaskPriority.High),
+            Subtask(workspace.Id, project.Id, backend1.Id, "Acceso de empleado", 3m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(-10), true, TaskPriority.High),
+            Subtask(workspace.Id, project.Id, backend1.Id, "Empleados y carga masiva", 3m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(-4), true, TaskPriority.High),
+            Subtask(workspace.Id, project.Id, backend1.Id, "Catálogos", 4m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(3), true, TaskPriority.High)
         };
 
         var subtasks2 = new[]
         {
-            Subtask(workspace.Id, project.Id, backend2.Id, "Capacitaciones y sesiones", 4m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(14), backend2.InBacklog, TaskPriority.High),
-            Subtask(workspace.Id, project.Id, backend2.Id, "API de cartelera", 2m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(10), backend2.InBacklog, TaskPriority.High),
-            Subtask(workspace.Id, project.Id, backend2.Id, "Inscripción y cancelación", 6m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(20), backend2.InBacklog, TaskPriority.High),
-            Subtask(workspace.Id, project.Id, backend2.Id, "Asistencia en sitio", 6m, leandro.Id, WorkTaskStatus.ToDo, today.AddDays(24), backend2.InBacklog, TaskPriority.High)
+            Subtask(workspace.Id, project.Id, backend2.Id, "Capacitaciones y sesiones", 4m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(14), backend2.InBacklog, TaskPriority.High),
+            Subtask(workspace.Id, project.Id, backend2.Id, "API de cartelera", 2m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(10), backend2.InBacklog, TaskPriority.High),
+            Subtask(workspace.Id, project.Id, backend2.Id, "Inscripción y cancelación", 6m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(20), backend2.InBacklog, TaskPriority.High),
+            Subtask(workspace.Id, project.Id, backend2.Id, "Asistencia en sitio", 6m, marta.Id, WorkTaskStatus.ToDo, today.AddDays(24), backend2.InBacklog, TaskPriority.High)
         };
 
         db.Tasks.AddRange(modelo, wireframes);
@@ -152,7 +152,7 @@ public static class SeedData
         db.TimeEntries.Add(new TimeEntry
         {
             TaskId = analysis.Id,
-            UserId = leandro.Id,
+            UserId = marta.Id,
             StartedAt = clock.UtcNow.AddDays(-1).AddMinutes(-2),
             EndedAt = clock.UtcNow.AddDays(-1).AddMinutes(-1),
             Seconds = 60
@@ -160,7 +160,7 @@ public static class SeedData
         await db.SaveChangesAsync(ct);
 
         // Documento de 4.8 MB.
-        await SeedDocumentAsync(db, storage, workspace.Id, project.Id, gerson.Id, logger, ct);
+        await SeedDocumentAsync(db, storage, workspace.Id, project.Id, alex.Id, logger, ct);
 
         // Evento del 09 Oct (hace 21 días), 15:00–16:00.
         db.CalendarEvents.Add(new CalendarEvent
@@ -172,12 +172,12 @@ public static class SeedData
             EndsAt = new TimeOnly(16, 0),
             Kind = CalendarEventKind.Meeting,
             ProjectId = project.Id,
-            CreatedByUserId = gerson.Id
+            CreatedByUserId = alex.Id
         });
         await db.SaveChangesAsync(ct);
 
-        SeedActivity(db, workspace.Id, project.Id, gerson.Id, leandro.Id, clock, analysis, modelo, wireframes, backend1);
-        SeedNotifications(db, workspace.Id, project.Id, leandro.Id, gerson.Id, clock, backend1);
+        SeedActivity(db, workspace.Id, project.Id, alex.Id, marta.Id, clock, analysis, modelo, wireframes, backend1);
+        SeedNotifications(db, workspace.Id, project.Id, marta.Id, alex.Id, clock, backend1);
         await db.SaveChangesAsync(ct);
 
         logger.LogInformation("Seed completed. Demo password: {Password}", DemoPassword);
@@ -336,8 +336,8 @@ public static class SeedData
         PlexaDbContext db,
         Guid workspaceId,
         Guid projectId,
-        Guid gersonId,
-        Guid leandroId,
+        Guid alexId,
+        Guid martaId,
         IClock clock,
         WorkTask analysis,
         WorkTask modelo,
@@ -346,26 +346,26 @@ public static class SeedData
     {
         var entries = new List<(int DaysAgo, Guid Actor, ActivityVerb Verb, string Text, Guid? TaskId)>
         {
-            (2, gersonId, ActivityVerb.Moved, "Task \"Backend núcleo [1]\" moved to In review", backend1.Id),
-            (2, gersonId, ActivityVerb.MarkedDone, "Task \"Análisis y diseño\" marked done", analysis.Id),
-            (2, gersonId, ActivityVerb.MarkedDone, "Task \"Wireframes y validación con RRHH\" marked done", wireframes.Id),
-            (2, gersonId, ActivityVerb.MarkedDone, "Task \"Modelo de datos, reglas y contrato de API\" marked done", modelo.Id),
-            (3, leandroId, ActivityVerb.Moved, "Task \"Análisis y diseño\" moved to In review", analysis.Id),
-            (5, leandroId, ActivityVerb.Created, "Task \"Backend núcleo [2]\" created", null),
-            (6, gersonId, ActivityVerb.Created, "Task \"CRUD de Usuarios y Sucursales\" created", null),
-            (7, leandroId, ActivityVerb.Moved, "Task \"Backend núcleo [1]\" moved to In progress", backend1.Id),
-            (9, gersonId, ActivityVerb.Assigned, "Task \"Backend núcleo [1]\" assigned", backend1.Id),
-            (11, leandroId, ActivityVerb.Created, "Subtask \"Catálogos\" created", null),
-            (13, gersonId, ActivityVerb.Moved, "Task \"Análisis y diseño\" moved to In progress", analysis.Id),
-            (15, leandroId, ActivityVerb.Created, "Subtask \"API de cartelera\" created", null),
-            (17, gersonId, ActivityVerb.Created, "Task \"Análisis y diseño\" created", analysis.Id),
-            (19, leandroId, ActivityVerb.Moved, "Task \"Wireframes y validación con RRHH\" moved to Review", wireframes.Id),
-            (21, gersonId, ActivityVerb.Created, "Task \"Backend núcleo [1]\" created", backend1.Id),
-            (23, leandroId, ActivityVerb.Commented, "Comment added to \"Modelo de datos, reglas y contrato de API\"", modelo.Id),
-            (24, gersonId, ActivityVerb.DocumentUploaded, "Document \"SGCI_Presentacion_Wireframes.pdf\" uploaded", null),
-            (26, leandroId, ActivityVerb.Created, "Subtask \"Modelo de datos, reglas y contrato de API\" created", null),
-            (27, gersonId, ActivityVerb.Moved, "Task \"Modelo de datos, reglas y contrato de API\" moved to In progress", modelo.Id),
-            (1, gersonId, ActivityVerb.Moved, "Task \"Backend núcleo [1]\" moved to In review", backend1.Id)
+            (2, alexId, ActivityVerb.Moved, "Task \"Backend núcleo [1]\" moved to In review", backend1.Id),
+            (2, alexId, ActivityVerb.MarkedDone, "Task \"Análisis y diseño\" marked done", analysis.Id),
+            (2, alexId, ActivityVerb.MarkedDone, "Task \"Wireframes y validación con RRHH\" marked done", wireframes.Id),
+            (2, alexId, ActivityVerb.MarkedDone, "Task \"Modelo de datos, reglas y contrato de API\" marked done", modelo.Id),
+            (3, martaId, ActivityVerb.Moved, "Task \"Análisis y diseño\" moved to In review", analysis.Id),
+            (5, martaId, ActivityVerb.Created, "Task \"Backend núcleo [2]\" created", null),
+            (6, alexId, ActivityVerb.Created, "Task \"CRUD de Usuarios y Sucursales\" created", null),
+            (7, martaId, ActivityVerb.Moved, "Task \"Backend núcleo [1]\" moved to In progress", backend1.Id),
+            (9, alexId, ActivityVerb.Assigned, "Task \"Backend núcleo [1]\" assigned", backend1.Id),
+            (11, martaId, ActivityVerb.Created, "Subtask \"Catálogos\" created", null),
+            (13, alexId, ActivityVerb.Moved, "Task \"Análisis y diseño\" moved to In progress", analysis.Id),
+            (15, martaId, ActivityVerb.Created, "Subtask \"API de cartelera\" created", null),
+            (17, alexId, ActivityVerb.Created, "Task \"Análisis y diseño\" created", analysis.Id),
+            (19, martaId, ActivityVerb.Moved, "Task \"Wireframes y validación con RRHH\" moved to Review", wireframes.Id),
+            (21, alexId, ActivityVerb.Created, "Task \"Backend núcleo [1]\" created", backend1.Id),
+            (23, martaId, ActivityVerb.Commented, "Comment added to \"Modelo de datos, reglas y contrato de API\"", modelo.Id),
+            (24, alexId, ActivityVerb.DocumentUploaded, "Document \"SGCI_Presentacion_Wireframes.pdf\" uploaded", null),
+            (26, martaId, ActivityVerb.Created, "Subtask \"Modelo de datos, reglas y contrato de API\" created", null),
+            (27, alexId, ActivityVerb.Moved, "Task \"Modelo de datos, reglas y contrato de API\" moved to In progress", modelo.Id),
+            (1, alexId, ActivityVerb.Moved, "Task \"Backend núcleo [1]\" moved to In review", backend1.Id)
         };
 
         foreach (var entry in entries)
@@ -387,8 +387,8 @@ public static class SeedData
         PlexaDbContext db,
         Guid workspaceId,
         Guid projectId,
-        Guid leandroId,
-        Guid gersonId,
+        Guid martaId,
+        Guid alexId,
         IClock clock,
         WorkTask backend1)
     {
@@ -405,10 +405,10 @@ public static class SeedData
             db.Notifications.Add(new Notification
             {
                 WorkspaceId = workspaceId,
-                UserId = leandroId,
+                UserId = martaId,
                 Type = NotificationType.TaskMoved,
                 Text = texts[i],
-                ActorId = gersonId,
+                ActorId = alexId,
                 TaskId = backend1.Id,
                 ProjectId = projectId,
                 CreatedAt = clock.UtcNow.AddDays(-2).AddMinutes(i * 15)

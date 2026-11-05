@@ -14,11 +14,11 @@
 
     @if (TempData["Success"] is string success)
     {
-        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@success</div>
+        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@L.Message(success)</div>
     }
     @if (TempData["Error"] is string error)
     {
-        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@error</div>
+        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@L.Message(error)</div>
     }
 
     <div class="grid gap-4 xl:grid-cols-[1fr_22rem]">
@@ -44,9 +44,9 @@
                                     <a href="/projects/@project.Id" class="font-medium hover:text-brand-700">@project.Name</a>
                                     <p class="text-xs text-ink-400">@project.Code · @project.Client</p>
                                 </td>
-                                <td class="text-ink-600">@(string.IsNullOrWhiteSpace(project.LeadName) ? "—" : project.LeadName)</td>
+                                <td class="text-ink-600">@(string.IsNullOrWhiteSpace(project.LeadName) ? "-" : L.Label(project.LeadName))</td>
                                 <td>
-                                    <span class="plx-chip @(project.Status == ProjectStatus.AtRisk ? "bg-danger-100 text-danger-500" : project.Status == ProjectStatus.Archived ? "bg-ink-100 text-ink-400" : "bg-ink-100 text-ink-600")">@StatusLabels.Of(project.Status)</span>
+                                    <span class="plx-chip @(project.Status == ProjectStatus.AtRisk ? "bg-danger-100 text-danger-500" : project.Status == ProjectStatus.Archived ? "bg-ink-100 text-ink-400" : "bg-ink-100 text-ink-600")">@L.Label(StatusLabels.Of(project.Status))</span>
                                 </td>
                                 <td class="text-ink-600">@(project.EndDate?.ToString("dd MMM yyyy") ?? "—")</td>
                                 <td class="text-right">
@@ -81,7 +81,7 @@
                 </div>
                 <div>
                     <label for="project-client" class="plx-label">@L["Projects.Column.Client"]</label>
-                    <input id="project-client" name="Client" value="Internal development" class="plx-input" maxlength="120" />
+                    <input id="project-client" name="Client" value="@L["Projects.InternalClient"]" class="plx-input" maxlength="120" />
                 </div>
                 <div>
                     <label for="project-lead" class="plx-label">@L["Projects.ProjectLead"]</label>
@@ -99,7 +99,7 @@
                         <select id="project-status" name="Status" class="plx-input">
                             @foreach (var status in statuses)
                             {
-                                <option value="@status">@StatusLabels.Of(status)</option>
+                                <option value="@status">@L.Label(StatusLabels.Of(status))</option>
                             }
                         </select>
                     </div>
@@ -108,7 +108,7 @@
                         <select id="project-health" name="Health" class="plx-input">
                             @foreach (var health in healths)
                             {
-                                <option value="@health">@StatusLabels.Of(health)</option>
+                                <option value="@health">@L.Label(StatusLabels.Of(health))</option>
                             }
                         </select>
                     </div>

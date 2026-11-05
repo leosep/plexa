@@ -6,8 +6,8 @@
 <div class="space-y-6">
     <header class="flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="text-3xl font-semibold tracking-tight">@Model.Greeting</h1>
-            <p class="mt-1 text-sm text-ink-600">@Model.ContextLine</p>
+            <h1 class="text-3xl font-semibold tracking-tight">@L.Message(Model.Greeting)</h1>
+            <p class="mt-1 text-sm text-ink-600">@string.Join(" · ", Model.ContextItems.Select(x => L.Message(x)))</p>
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="/board" class="plx-btn-secondary">@L["Dashboard.ThisSprint"]</a>

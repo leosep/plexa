@@ -26,7 +26,7 @@
             <select id="report-sprint" name="sprint" class="plx-input">
                 @foreach (var option in Model.Hours.SprintOptions)
                 {
-                    <option value="@option.Value" selected="@option.Selected">@option.Label</option>
+                    <option value="@option.Value" selected="@option.Selected">@L.Label(option.Label)</option>
                 }
             </select>
         </div>

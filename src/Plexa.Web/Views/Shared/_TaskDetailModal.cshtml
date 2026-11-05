@@ -26,8 +26,8 @@
         <div x-data="plexaTimer({ taskId: '@Model.Id', running: @(Model.TimerRunning ? "true" : "false"), seconds: @((int)Model.Logged.TotalSeconds) })" x-init="init()">
             <button type="button" class="plx-btn-primary" @@click="toggle()" :aria-pressed="running.toString()" :disabled="busy">
                 <svg viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true">
-                    <template x-if="!running"><path d="M8 5v14l11-7z"/></template>
-                    <template x-if="running"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></template>
+                    <path x-show="!running" d="M8 5v14l11-7z"/>
+                    <path x-show="running" style="display:none" d="M7 5h4v14H7zM13 5h4v14h-4z"/>
                 </svg>
                 <span x-text="running ? '@L["Timer.Stop"]' : '@L["Timer.Start"]'">@(Model.TimerRunning ? L["Timer.Stop"].Value : L["Timer.Start"].Value)</span>
             </button>

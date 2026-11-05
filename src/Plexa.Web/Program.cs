@@ -37,6 +37,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddScoped<IUserContext, HttpUserContext>();
+builder.Services.AddScoped<ITranslator, Translator>();
 builder.Services.AddScoped<IAppLinkGenerator, AppLinkGenerator>();
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, PlexaClaimsFactory>();
 
@@ -57,7 +58,11 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services.AddControllersWithViews()
     .AddViewLocalization()
-    .AddDataAnnotationsLocalization();
+    .AddDataAnnotationsLocalization(options =>
+    {
+        // Los mensajes de validación son claves de texto: se traducen con los recursos compartidos.
+        options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(Plexa.Web.SharedResource));
+    });
 
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
 builder.Services.AddHealthChecks().AddDbContextCheck<PlexaDbContext>();

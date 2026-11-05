@@ -27,7 +27,7 @@
     }
 
     <div class="mt-2 flex flex-wrap items-center gap-1">
-        <plx-chip tone="@Model.Priority.ToString().ToLowerInvariant()">@Model.PriorityLabel</plx-chip>
+        <plx-chip tone="@Model.Priority.ToString().ToLowerInvariant()">@L.Label(Model.PriorityLabel)</plx-chip>
         @if (!string.IsNullOrWhiteSpace(Model.Tag))
         {
             <plx-chip tone="info">@Model.Tag</plx-chip>
@@ -49,7 +49,7 @@
                 <span>@Model.SubtasksDone/@Model.SubtasksTotal @L["Board.Subtasks"]</span>
                 <span class="tabular-nums">@Model.ProgressPct%</span>
             </div>
-            <div class="h-1.5 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{Model.ProgressPct}% complete")">
+            <div class="h-1.5 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@string.Format(L["Task.ProgressAria"].Value, Model.ProgressPct)">
                 <div class="h-full rounded-full bg-brand-500" style="width:@Model.ProgressPct%"></div>
             </div>
         </div>
@@ -73,8 +73,8 @@
                         class="grid size-7 place-items-center rounded-lg text-ink-600 hover:bg-ink-100 @(Model.TimerRunning ? "bg-brand-50 text-brand-700" : "")"
                         aria-label="@L["Timer.Toggle"]" :disabled="busy">
                     <svg viewBox="0 0 24 24" fill="currentColor" class="size-3.5" aria-hidden="true">
-                        <template x-if="!running"><path d="M8 5v14l11-7z"/></template>
-                        <template x-if="running"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></template>
+                        <path x-show="!running" d="M8 5v14l11-7z"/>
+                        <path x-show="running" style="display:none" d="M7 5h4v14H7zM13 5h4v14h-4z"/>
                     </svg>
                 </button>
             </div>
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <form class="mt-2" hx-post="/board/move" hx-target="#task-card-@Model.Id" hx-swap="outerHTML" hx-trigger="change from:select">
+    <form class="mt-2" hx-post="/board/move" hx-target="#task-card-@Model.Id" hx-swap="outerHTML" hx-trigger="change">
         @Html.AntiForgeryToken()
         <input type="hidden" name="id" value="@Model.Id" />
         <label class="sr-only" for="move-@Model.Id">@L["Board.Move"]</label>
@@ -90,7 +90,7 @@
             <option value="" selected>@L["Board.Move"]…</option>
             @foreach (var status in statuses.Where(s => s != Model.Status))
             {
-                <option value="@status">@StatusLabels.Of(status)</option>
+                <option value="@status">@L.Label(StatusLabels.Of(status))</option>
             }
         </select>
     </form>

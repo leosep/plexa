@@ -22,13 +22,15 @@ public sealed class ProjectService : ServiceBase, IProjectService
     private readonly ITaskService _tasks;
     private readonly ICalendarService _calendar;
     private readonly IFileStorage _storage;
+    private readonly ITranslator _t;
 
-    public ProjectService(PlexaDbContext db, IUserContext user, IClock clock, ITaskService tasks, ICalendarService calendar, IFileStorage storage)
+    public ProjectService(PlexaDbContext db, IUserContext user, IClock clock, ITaskService tasks, ICalendarService calendar, IFileStorage storage, ITranslator translator)
         : base(db, user, clock)
     {
         _tasks = tasks;
         _calendar = calendar;
         _storage = storage;
+        _t = translator;
     }
 
     public async Task<ProjectListDto> ListAsync(ProjectStatus? status, string? query, CancellationToken ct = default)
@@ -156,9 +158,9 @@ public sealed class ProjectService : ServiceBase, IProjectService
 
                 dashboard = new ProjectDashboardDto(
                     [
-                        KpiCard.Success("Tasks completed", $"{done} / {total}", total == 0 ? "0% of the project" : $"{Math.Round(done * 100d / total)}% of the project"),
+                        KpiCard.Success("Tasks completed", $"{done} / {total}", $"{{0}}% of the project|{Math.Round(done * 100d / total)}"),
                         KpiCard.Neutral("Points delivered", $"{points} / {totalPoints}"),
-                        KpiCard.Neutral("Estimated effort", DurationFormatter.Format(openTasks.Sum(t => t.EstimateHours)), $"{openTasks.Count} open tasks"),
+                        KpiCard.Neutral("Estimated effort", DurationFormatter.Format(openTasks.Sum(t => t.EstimateHours)), $"{{0}} open tasks|{openTasks.Count}"),
                         overdue > 0 ? KpiCard.Danger("Overdue", overdue.ToString(), "Review today") : KpiCard.Success("Overdue", "0", "On track")
                     ],
                     project.Milestones.OrderBy(m => m.DueDate).Select(m => new MilestoneDto(m.Id, m.Title, m.DueDate, m.Done)).ToList(),
@@ -289,12 +291,12 @@ public sealed class ProjectService : ServiceBase, IProjectService
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!AllowedExtensions.Contains(extension))
             {
-                return (false, $"“{file.FileName}” is not an allowed file type.");
+                return (false, _t.Format("“{0}” is not an allowed file type.", file.FileName));
             }
 
             if (file.Length > MaxFileSize)
             {
-                return (false, $"“{file.FileName}” is larger than 25 MB.");
+                return (false, _t.Format("“{0}” is larger than 25 MB.", file.FileName));
             }
         }
 
@@ -398,18 +400,18 @@ public sealed class ProjectService : ServiceBase, IProjectService
         };
     }
 
-    private static string MetaLine(Project project)
+    private string MetaLine(Project project)
     {
         var range = project.StartDate.HasValue && project.EndDate.HasValue
             ? $"{project.StartDate.Value:dd MMM} → {project.EndDate.Value:dd MMM}"
-            : "No dates";
+            : _t["No dates"];
         return $"{project.Client.ToUpperInvariant()} · {project.Code} · {range}";
     }
 
-    private static string RangeLabel(Project project) =>
+    private string RangeLabel(Project project) =>
         project.StartDate.HasValue && project.EndDate.HasValue
             ? $"{project.StartDate.Value:dd MMM} → {project.EndDate.Value:dd MMM}"
-            : "No dates defined";
+            : _t["No dates defined"];
 
     private static string NormalizeTab(string tab) => tab switch
     {
@@ -435,7 +437,7 @@ public sealed class ProjectService : ServiceBase, IProjectService
         return logs.Select(a => new ActivityItemDto(
             a.Id,
             a.Text,
-            PersonOf(users, a.ActorId) ?? PersonChip.From(a.ActorId, "System"),
+            PersonOf(users, a.ActorId) ?? PersonChip.From(a.ActorId, _t["System"]),
             a.CreatedAt,
             FormatDate(a.CreatedAt),
             a.Verb switch
@@ -448,5 +450,5 @@ public sealed class ProjectService : ServiceBase, IProjectService
             })).ToList();
     }
 
-    private static string FormatDate(DateTime utc) => utc.ToLocalTime().ToString("dd MMM", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+    private static string FormatDate(DateTime utc) => utc.ToLocalTime().ToString("dd MMM", System.Globalization.CultureInfo.CurrentCulture);
 }

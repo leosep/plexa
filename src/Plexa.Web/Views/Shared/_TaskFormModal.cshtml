@@ -24,7 +24,7 @@
         <div class="plx-modal-body space-y-4">
             @if (!string.IsNullOrWhiteSpace(Model.Error))
             {
-                <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@Model.Error</div>
+                <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@L.Message(Model.Error)</div>
             }
             <div asp-validation-summary="ModelOnly" class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500 empty:hidden"></div>
 
@@ -63,7 +63,7 @@
                     <select id="task-priority" name="Priority" class="plx-input">
                         @foreach (var priority in priorities)
                         {
-                            <option value="@priority" selected="@(form.Priority == priority)">@StatusLabels.Of(priority)</option>
+                            <option value="@priority" selected="@(form.Priority == priority)">@L.Label(StatusLabels.Of(priority))</option>
                         }
                     </select>
                 </div>

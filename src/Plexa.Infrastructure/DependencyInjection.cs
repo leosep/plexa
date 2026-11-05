@@ -92,6 +92,7 @@ public static class DependencyInjection
         services.AddScoped<ISettingsService, SettingsService>();
         services.AddScoped<ISearchService, SearchService>();
         services.AddScoped<IAdminService, AdminService>();
+        services.AddScoped<IWorkspaceService, WorkspaceService>();
 
         QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 

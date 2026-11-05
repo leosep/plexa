@@ -144,6 +144,8 @@
   <data name="Calendar.Field.Project" xml:space="preserve"><value>Proyecto</value></data>
   <data name="Calendar.Field.Starts" xml:space="preserve"><value>Inicio</value></data>
   <data name="Calendar.Field.Title" xml:space="preserve"><value>Título</value></data>
+  <data name="Calendar.Event" xml:space="preserve"><value>evento</value></data>
+  <data name="Calendar.Events" xml:space="preserve"><value>eventos</value></data>
   <data name="Calendar.FormHint" xml:space="preserve"><value>Reuniones, revisiones, demos, entregas y retros.</value></data>
   <data name="Calendar.NewEvent" xml:space="preserve"><value>Nuevo evento</value></data>
   <data name="Calendar.Next" xml:space="preserve"><value>Siguiente</value></data>
@@ -152,10 +154,17 @@
   <data name="Calendar.OpenCalendar" xml:space="preserve"><value>Abrir calendario</value></data>
   <data name="Calendar.Prev" xml:space="preserve"><value>Anterior</value></data>
   <data name="Calendar.Title" xml:space="preserve"><value>Calendario</value></data>
+  <data name="Calendar.Month" xml:space="preserve"><value>Mes</value></data>
   <data name="Calendar.Today" xml:space="preserve"><value>Hoy</value></data>
+  <data name="Calendar.TwoWeeks" xml:space="preserve"><value>2 semanas</value></data>
+  <data name="Calendar.Week" xml:space="preserve"><value>Semana</value></data>
   <data name="Calendar.Views" xml:space="preserve"><value>Vistas del calendario</value></data>
   <data name="Common.BackToDashboard" xml:space="preserve"><value>Volver al panel</value></data>
+  <data name="Common.Breadcrumb" xml:space="preserve"><value>Ruta de navegación</value></data>
   <data name="Common.Cancel" xml:space="preserve"><value>Cancelar</value></data>
+  <data name="Common.Dismiss" xml:space="preserve"><value>Descartar</value></data>
+  <data name="Common.Shortcuts" xml:space="preserve"><value>Atajos: / buscar · N nueva tarea · Esc cerrar · ? ayuda</value></data>
+  <data name="Common.Undo" xml:space="preserve"><value>Deshacer</value></data>
   <data name="Common.Close" xml:space="preserve"><value>Cerrar</value></data>
   <data name="Common.Delete" xml:space="preserve"><value>Eliminar</value></data>
   <data name="Common.Edit" xml:space="preserve"><value>Editar</value></data>
@@ -183,6 +192,9 @@
   <data name="Dashboard.ThisSprint" xml:space="preserve"><value>Este sprint</value></data>
   <data name="Dashboard.Title" xml:space="preserve"><value>Panel</value></data>
   <data name="Dashboard.TrackedToday" xml:space="preserve"><value>Registrado hoy</value></data>
+  <data name="Error.TimerUpdate" xml:space="preserve"><value>No se pudo actualizar el cronómetro.</value></data>
+  <data name="Toast.TimerStarted" xml:space="preserve"><value>Cronómetro iniciado</value></data>
+  <data name="Toast.TimerStopped" xml:space="preserve"><value>Cronómetro detenido</value></data>
   <data name="Error.403.Body" xml:space="preserve"><value>No tienes acceso a esta página.</value></data>
   <data name="Error.403.Title" xml:space="preserve"><value>Acceso denegado</value></data>
   <data name="Error.404.Body" xml:space="preserve"><value>La página que buscas no existe o se ha movido.</value></data>
@@ -204,10 +216,17 @@
   <data name="Invite.Title" xml:space="preserve"><value>Aceptar invitación</value></data>
   <data name="Login.DemoHint" xml:space="preserve"><value>Cuenta de demostración:</value></data>
   <data name="Login.Email" xml:space="preserve"><value>Correo</value></data>
+  <data name="Login.Feature1" xml:space="preserve"><value>Proyectos, sprints y tablero de tareas</value></data>
+  <data name="Login.Feature2" xml:space="preserve"><value>Seguimiento de tiempo con cronómetro en vivo</value></data>
+  <data name="Login.Feature3" xml:space="preserve"><value>Carga del equipo en tiempo real</value></data>
+  <data name="Login.Feature4" xml:space="preserve"><value>Informes de estimado vs registrado</value></data>
+  <data name="Login.Feature5" xml:space="preserve"><value>Analítica de entrega y calendario compartido</value></data>
   <data name="Login.Forgot" xml:space="preserve"><value>¿Olvidaste la contraseña?</value></data>
-  <data name="Login.Hello" xml:space="preserve"><value>Bienvenido de nuevo</value></data>
+  <data name="Login.Hello" xml:space="preserve"><value>¡Hola!</value></data>
   <data name="Login.HidePassword" xml:space="preserve"><value>Ocultar contraseña</value></data>
+  <data name="Login.Invitation" xml:space="preserve"><value>Tengo una invitación</value></data>
   <data name="Login.KeepSignedIn" xml:space="preserve"><value>Mantener la sesión</value></data>
+  <data name="Login.NoAccount" xml:space="preserve"><value>¿No tienes cuenta?</value></data>
   <data name="Login.Password" xml:space="preserve"><value>Contraseña</value></data>
   <data name="Login.ShowPassword" xml:space="preserve"><value>Mostrar contraseña</value></data>
   <data name="Login.Submit" xml:space="preserve"><value>Entrar</value></data>
@@ -235,6 +254,10 @@
   <data name="Nav.Account" xml:space="preserve"><value>Cuenta</value></data>
   <data name="Nav.ActiveSprint" xml:space="preserve"><value>Sprint activo</value></data>
   <data name="Nav.Admin" xml:space="preserve"><value>Administración</value></data>
+  <data name="Nav.Analytics" xml:space="preserve"><value>Analítica</value></data>
+  <data name="Nav.Board" xml:space="preserve"><value>Tablero</value></data>
+  <data name="Nav.Calendar" xml:space="preserve"><value>Calendario</value></data>
+  <data name="Nav.Dashboard" xml:space="preserve"><value>Panel</value></data>
   <data name="Nav.General" xml:space="preserve"><value>General</value></data>
   <data name="Nav.HelpSupport" xml:space="preserve"><value>Ayuda y soporte</value></data>
   <data name="Nav.MainMenu" xml:space="preserve"><value>Menú principal</value></data>
@@ -246,20 +269,27 @@
   <data name="Nav.OpenMenu" xml:space="preserve"><value>Abrir menú</value></data>
   <data name="Nav.Preferences" xml:space="preserve"><value>Preferencias</value></data>
   <data name="Nav.Profile" xml:space="preserve"><value>Perfil</value></data>
+  <data name="Nav.Projects" xml:space="preserve"><value>Proyectos</value></data>
+  <data name="Nav.Reports" xml:space="preserve"><value>Informes</value></data>
   <data name="Nav.Search" xml:space="preserve"><value>Buscar</value></data>
   <data name="Nav.SearchPlaceholder" xml:space="preserve"><value>Buscar…</value></data>
   <data name="Nav.Settings" xml:space="preserve"><value>Ajustes</value></data>
   <data name="Nav.SignOut" xml:space="preserve"><value>Cerrar sesión</value></data>
+  <data name="Nav.SprintDaysLeft" xml:space="preserve"><value>Quedan {0} días</value></data>
+  <data name="Nav.SprintPoints" xml:space="preserve"><value>{0} / {1} pts</value></data>
   <data name="Nav.SprintHint" xml:space="preserve"><value>Crea uno en Administración → Sprints.</value></data>
+  <data name="Nav.Team" xml:space="preserve"><value>Equipo</value></data>
   <data name="Nav.UpgradeBody" xml:space="preserve"><value>Desbloquea informes avanzados, planificación de capacidad y más.</value></data>
   <data name="Nav.UpgradeCta" xml:space="preserve"><value>Ver planes</value></data>
   <data name="Nav.UpgradeTitle" xml:space="preserve"><value>Pasar a Pro</value></data>
   <data name="Nav.Workspace" xml:space="preserve"><value>Espacio de trabajo</value></data>
+  <data name="Notifications.CaughtUp" xml:space="preserve"><value>Estás al día: no hay notificaciones nuevas.</value></data>
   <data name="Notifications.EmptyBody" xml:space="preserve"><value>Las novedades de tareas y las menciones aparecerán aquí.</value></data>
   <data name="Notifications.EmptyTitle" xml:space="preserve"><value>Estás al día</value></data>
   <data name="Notifications.MarkAll" xml:space="preserve"><value>Marcar todo como leído</value></data>
+  <data name="Notifications.New" xml:space="preserve"><value>nuevas</value></data>
   <data name="Notifications.OpenBoard" xml:space="preserve"><value>Abrir el tablero</value></data>
-  <data name="Notifications.Title" xml:space="preserve"><value>Notificaciones</value></data>
+  <data name="Notifications.Title" xml:space="preserve"><value>Actividad reciente</value></data>
   <data name="Notifications.Unread" xml:space="preserve"><value>sin leer</value></data>
   <data name="Projects.Activity" xml:space="preserve"><value>Actividad del proyecto</value></data>
   <data name="Projects.AreaLead" xml:space="preserve"><value>Líder de área</value></data>
@@ -313,6 +343,13 @@
   <data name="Projects.Search" xml:space="preserve"><value>Buscar proyectos</value></data>
   <data name="Projects.SearchPlaceholder" xml:space="preserve"><value>Buscar un proyecto o cliente…</value></data>
   <data name="Projects.Subtitle" xml:space="preserve"><value>Gestiona el portafolio: crea, edita, archiva y abre cada proyecto.</value></data>
+  <data name="Projects.Tab.Board" xml:space="preserve"><value>Tablero</value></data>
+  <data name="Projects.Tab.Calendar" xml:space="preserve"><value>Calendario</value></data>
+  <data name="Projects.Tab.Dashboard" xml:space="preserve"><value>Panel</value></data>
+  <data name="Projects.Tab.Documents" xml:space="preserve"><value>Documentos</value></data>
+  <data name="Projects.Tab.Overview" xml:space="preserve"><value>Resumen</value></data>
+  <data name="Projects.Tab.Team" xml:space="preserve"><value>Equipo</value></data>
+  <data name="Projects.Tab.Timeline" xml:space="preserve"><value>Cronograma</value></data>
   <data name="Projects.Tabs" xml:space="preserve"><value>Secciones del proyecto</value></data>
   <data name="Projects.Tasks" xml:space="preserve"><value>tareas</value></data>
   <data name="Projects.TasksAndActions" xml:space="preserve"><value>Tareas y acciones</value></data>
@@ -449,4 +486,241 @@
   <data name="Timer.Start" xml:space="preserve"><value>Iniciar cronómetro</value></data>
   <data name="Timer.Stop" xml:space="preserve"><value>Detener cronómetro</value></data>
   <data name="Timer.Toggle" xml:space="preserve"><value>Alternar cronómetro</value></data>
+  <data name="Dashboard.StatusAria" xml:space="preserve"><value>{0}: {1} tareas ({2}%)</value></data>
+  <data name="Team.CapacityAria" xml:space="preserve"><value>{0}% de capacidad</value></data>
+  <data name="Calendar.Placeholder" xml:space="preserve"><value>Demo con cliente</value></data>
+  <data name="Account.JobTitlePlaceholder" xml:space="preserve"><value>Desarrollador Full-Stack</value></data>
+  <data name="Admin.SprintNamePlaceholder" xml:space="preserve"><value>Sprint 1</value></data>
+  <data name="Projects.InternalClient" xml:space="preserve"><value>Desarrollo interno</value></data>
+  <data name="Mail.InviteSubject" xml:space="preserve"><value>Tu invitación a Plexa</value></data>
+  <data name="Mail.InviteBody" xml:space="preserve"><value>&lt;p&gt;Hola {0},&lt;/p&gt;&lt;p&gt;Te han invitado a Plexa.&lt;/p&gt;&lt;p&gt;Código de invitación: &lt;strong&gt;{1}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{2}&quot;&gt;Aceptar invitación&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="Mail.ResetSubject" xml:space="preserve"><value>Restablece tu contraseña de Plexa</value></data>
+  <data name="Mail.ResetBody" xml:space="preserve"><value>&lt;p&gt;Hola {0},&lt;/p&gt;&lt;p&gt;Usa este enlace para elegir una nueva contraseña:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{1}&quot;&gt;Restablecer contraseña&lt;/a&gt;&lt;/p&gt;</value></data>
+  <data name="Task.ProgressAria" xml:space="preserve"><value>{0}% completado</value></data>
+  <data name="Analytics.LoadAria" xml:space="preserve"><value>{0}: {1} tareas activas</value></data>
+  <data name="To do" xml:space="preserve"><value>Por hacer</value></data>
+  <data name="In progress" xml:space="preserve"><value>En curso</value></data>
+  <data name="Review" xml:space="preserve"><value>Revisión</value></data>
+  <data name="In review" xml:space="preserve"><value>En revisión</value></data>
+  <data name="Completed" xml:space="preserve"><value>Completado</value></data>
+  <data name="Planning" xml:space="preserve"><value>Planificación</value></data>
+  <data name="At risk" xml:space="preserve"><value>En riesgo</value></data>
+  <data name="On hold" xml:space="preserve"><value>En pausa</value></data>
+  <data name="Archived" xml:space="preserve"><value>Archivado</value></data>
+  <data name="On track" xml:space="preserve"><value>Al día</value></data>
+  <data name="High" xml:space="preserve"><value>Alta</value></data>
+  <data name="Low" xml:space="preserve"><value>Baja</value></data>
+  <data name="Medium" xml:space="preserve"><value>Media</value></data>
+  <data name="Meeting" xml:space="preserve"><value>Reunión</value></data>
+  <data name="Demo" xml:space="preserve"><value>Demo</value></data>
+  <data name="Deadline" xml:space="preserve"><value>Fecha límite</value></data>
+  <data name="Retro" xml:space="preserve"><value>Retrospectiva</value></data>
+  <data name="Other" xml:space="preserve"><value>Otro</value></data>
+  <data name="Planned" xml:space="preserve"><value>Planificado</value></data>
+  <data name="Active" xml:space="preserve"><value>Activo</value></data>
+  <data name="Closed" xml:space="preserve"><value>Cerrado</value></data>
+  <data name="Overloaded" xml:space="preserve"><value>Sobrecargado</value></data>
+  <data name="Available" xml:space="preserve"><value>Disponible</value></data>
+  <data name="Limited" xml:space="preserve"><value>Limitada</value></data>
+  <data name="Task" xml:space="preserve"><value>Tarea</value></data>
+  <data name="Subtask" xml:space="preserve"><value>Subtarea</value></data>
+  <data name="Project" xml:space="preserve"><value>Proyecto</value></data>
+  <data name="Person" xml:space="preserve"><value>Persona</value></data>
+  <data name="Member" xml:space="preserve"><value>Miembro</value></data>
+  <data name="Department" xml:space="preserve"><value>Departamento</value></data>
+  <data name="None" xml:space="preserve"><value>Ninguno</value></data>
+  <data name="Unassigned" xml:space="preserve"><value>Sin asignar</value></data>
+  <data name="No lead" xml:space="preserve"><value>Sin responsable</value></data>
+  <data name="No dates" xml:space="preserve"><value>Sin fechas</value></data>
+  <data name="No dates defined" xml:space="preserve"><value>Sin fechas definidas</value></data>
+  <data name="Internal development" xml:space="preserve"><value>Desarrollo interno</value></data>
+  <data name="All" xml:space="preserve"><value>Todos</value></data>
+  <data name="System" xml:space="preserve"><value>Sistema</value></data>
+  <data name="Overview" xml:space="preserve"><value>Resumen</value></data>
+  <data name="Dashboard" xml:space="preserve"><value>Panel</value></data>
+  <data name="Board" xml:space="preserve"><value>Tablero</value></data>
+  <data name="Timeline" xml:space="preserve"><value>Cronograma</value></data>
+  <data name="Calendar" xml:space="preserve"><value>Calendario</value></data>
+  <data name="Team" xml:space="preserve"><value>Equipo</value></data>
+  <data name="Documents" xml:space="preserve"><value>Documentos</value></data>
+  <data name="Active projects" xml:space="preserve"><value>Proyectos activos</value></data>
+  <data name="Budget in progress" xml:space="preserve"><value>Presupuesto en curso</value></data>
+  <data name="Average progress" xml:space="preserve"><value>Progreso medio</value></data>
+  <data name="Tasks completed" xml:space="preserve"><value>Tareas completadas</value></data>
+  <data name="Points delivered" xml:space="preserve"><value>Puntos entregados</value></data>
+  <data name="Estimated effort" xml:space="preserve"><value>Esfuerzo estimado</value></data>
+  <data name="Overdue" xml:space="preserve"><value>Atrasado</value></data>
+  <data name="Review today" xml:space="preserve"><value>Revisar hoy</value></data>
+  <data name="Needs attention" xml:space="preserve"><value>Requiere atención</value></data>
+  <data name="Active tasks" xml:space="preserve"><value>Tareas activas</value></data>
+  <data name="Completed this sprint" xml:space="preserve"><value>Completadas en este sprint</value></data>
+  <data name="Hours closed (7d)" xml:space="preserve"><value>Horas cerradas (7d)</value></data>
+  <data name="{0} due today" xml:space="preserve"><value>{0} vencen hoy</value></data>
+  <data name="{0}% of sprint" xml:space="preserve"><value>{0}% del sprint</value></data>
+  <data name="{0}% of the project" xml:space="preserve"><value>{0}% del proyecto</value></data>
+  <data name="{0} open tasks" xml:space="preserve"><value>{0} tareas abiertas</value></data>
+  <data name="{0} tasks are past their deadline." xml:space="preserve"><value>{0} tareas superaron su fecha límite.</value></data>
+  <data name="▲ +100% vs prev. week" xml:space="preserve"><value>▲ +100% vs. semana anterior</value></data>
+  <data name="— vs prev. week" xml:space="preserve"><value>— vs. semana anterior</value></data>
+  <data name="▲ +{0}% vs prev. week" xml:space="preserve"><value>▲ +{0}% vs. semana anterior</value></data>
+  <data name="▼ {0}% vs prev. week" xml:space="preserve"><value>▼ {0}% vs. semana anterior</value></data>
+  <data name="No active sprint." xml:space="preserve"><value>No hay sprint activo.</value></data>
+  <data name="Sprint “{0}” is active." xml:space="preserve"><value>El sprint «{0}» está activo.</value></data>
+  <data name="Good morning, {0}" xml:space="preserve"><value>Buenos días, {0}</value></data>
+  <data name="Good afternoon, {0}" xml:space="preserve"><value>Buenas tardes, {0}</value></data>
+  <data name="Good evening, {0}" xml:space="preserve"><value>Buenas noches, {0}</value></data>
+  <data name="-3 wk" xml:space="preserve"><value>-3 sem.</value></data>
+  <data name="-2 wk" xml:space="preserve"><value>-2 sem.</value></data>
+  <data name="-1 wk" xml:space="preserve"><value>-1 sem.</value></data>
+  <data name="This wk" xml:space="preserve"><value>Esta sem.</value></data>
+  <data name="Estimate reliability" xml:space="preserve"><value>Fiabilidad de estimación</value></data>
+  <data name="within &#177;20%" xml:space="preserve"><value>dentro de ±20%</value></data>
+  <data name="Delivery / plan" xml:space="preserve"><value>Entrega / plan</value></data>
+  <data name="Target 1.00" xml:space="preserve"><value>Objetivo 1,00</value></data>
+  <data name="Tasks closed" xml:space="preserve"><value>Tareas cerradas</value></data>
+  <data name="Avg cycle time" xml:space="preserve"><value>Tiempo de ciclo medio</value></data>
+  <data name="Rework" xml:space="preserve"><value>Retrabajo</value></data>
+  <data name="▲ +{0} vs prev. 8w" xml:space="preserve"><value>▲ +{0} vs. 8 sem. anteriores</value></data>
+  <data name="▼ {0} vs prev. 8w" xml:space="preserve"><value>▼ {0} vs. 8 sem. anteriores</value></data>
+  <data name="▼ {0}d vs prev." xml:space="preserve"><value>▼ {0} d vs. anterior</value></data>
+  <data name="▲ {0}d vs prev." xml:space="preserve"><value>▲ {0} d vs. anterior</value></data>
+  <data name="▲ +{0} pts" xml:space="preserve"><value>▲ +{0} pts</value></data>
+  <data name="{0} &#183; Backlog &#183; {1} tasks" xml:space="preserve"><value>{0} · Backlog · {1} tareas</value></data>
+  <data name="&#183; matching “{0}”" xml:space="preserve"><value>· coincidencias con «{0}»</value></data>
+  <data name="Loose tasks" xml:space="preserve"><value>Tareas sueltas</value></data>
+  <data name="All projects" xml:space="preserve"><value>Todos los proyectos</value></data>
+  <data name="It cannot start yet; it waits for: {0}" xml:space="preserve"><value>Aún no puede empezar; espera a: {0}</value></data>
+  <data name="Task marked as completed" xml:space="preserve"><value>Tarea marcada como completada</value></data>
+  <data name="Task moved to {0}" xml:space="preserve"><value>Tarea movida a {0}</value></data>
+  <data name="Backlog" xml:space="preserve"><value>Backlog</value></data>
+  <data name="Active sprint" xml:space="preserve"><value>Sprint activo</value></data>
+  <data name="Sprint" xml:space="preserve"><value>Sprint</value></data>
+  <data name="Showing {0} tasks &#183; {1} &#183; {2} with time logged" xml:space="preserve"><value>Mostrando {0} tareas · {1} · {2} con tiempo registrado</value></data>
+  <data name="Owner" xml:space="preserve"><value>Responsable</value></data>
+  <data name="Tag" xml:space="preserve"><value>Etiqueta</value></data>
+  <data name="Task time (h)" xml:space="preserve"><value>Tiempo de tarea (h)</value></data>
+  <data name="Task time" xml:space="preserve"><value>Tiempo de tarea</value></data>
+  <data name="Logged" xml:space="preserve"><value>Registrado</value></data>
+  <data name="Variance" xml:space="preserve"><value>Desviación</value></data>
+  <data name="Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Lead" xml:space="preserve"><value>Responsable</value></data>
+  <data name="Members" xml:space="preserve"><value>Miembros</value></data>
+  <data name="Completed tasks" xml:space="preserve"><value>Tareas completadas</value></data>
+  <data name="Awaiting approval" xml:space="preserve"><value>Pendientes de aprobación</value></data>
+  <data name="Hours" xml:space="preserve"><value>Horas</value></data>
+  <data name="Hours report" xml:space="preserve"><value>Informe de horas</value></data>
+  <data name="By department" xml:space="preserve"><value>Por departamento</value></data>
+  <data name="By department (last 30 days)" xml:space="preserve"><value>Por departamento (últimos 30 días)</value></data>
+  <data name="Awaiting" xml:space="preserve"><value>Pendientes</value></data>
+  <data name="Plexa &#183; Hours report" xml:space="preserve"><value>Plexa · Informe de horas</value></data>
+  <data name="Plexa &#183; generated " xml:space="preserve"><value>Plexa · generado el </value></data>
+  <data name="{0} (Lead: {1})" xml:space="preserve"><value>{0} (Responsable: {1})</value></data>
+  <data name="Project channel" xml:space="preserve"><value>Canal del proyecto</value></data>
+  <data name="Team channel" xml:space="preserve"><value>Canal del equipo</value></data>
+  <data name="Today" xml:space="preserve"><value>Hoy</value></data>
+  <data name="Yesterday" xml:space="preserve"><value>Ayer</value></data>
+  <data name="No place" xml:space="preserve"><value>Sin lugar</value></data>
+  <data name="Meeting room" xml:space="preserve"><value>Sala de reuniones</value></data>
+  <data name="Zoom" xml:space="preserve"><value>Zoom</value></data>
+  <data name="Google Meet" xml:space="preserve"><value>Google Meet</value></data>
+  <data name="Microsoft Teams" xml:space="preserve"><value>Microsoft Teams</value></data>
+  <data name="Office" xml:space="preserve"><value>Oficina</value></data>
+  <data name="Parent task not found." xml:space="preserve"><value>No se encontró la tarea padre.</value></data>
+  <data name="A subtask cannot have subtasks." xml:space="preserve"><value>Una subtarea no puede tener subtareas.</value></data>
+  <data name="Task not found." xml:space="preserve"><value>No se encontró la tarea.</value></data>
+  <data name="It cannot change: the task already has subtasks." xml:space="preserve"><value>No se puede cambiar: la tarea ya tiene subtareas.</value></data>
+  <data name="The project cannot change once the task has started." xml:space="preserve"><value>El proyecto no se puede cambiar una vez iniciada la tarea.</value></data>
+  <data name="You do not have permission to approve this task." xml:space="preserve"><value>No tienes permiso para aprobar esta tarea.</value></data>
+  <data name="The subtask needs a title." xml:space="preserve"><value>La subtarea necesita un título.</value></data>
+  <data name="Write a step first." xml:space="preserve"><value>Escribe primero un paso.</value></data>
+  <data name="Step not found." xml:space="preserve"><value>No se encontró el paso.</value></data>
+  <data name="The title is required." xml:space="preserve"><value>El título es obligatorio.</value></data>
+  <data name="The start date cannot be after the due date." xml:space="preserve"><value>La fecha de inicio no puede ser posterior a la de entrega.</value></data>
+  <data name="Estimate and story points must be positive." xml:space="preserve"><value>La estimación y los puntos deben ser positivos.</value></data>
+  <data name="A task cannot depend on itself." xml:space="preserve"><value>Una tarea no puede depender de sí misma.</value></data>
+  <data name="This dependency would create a cycle." xml:space="preserve"><value>Esta dependencia crearía un ciclo.</value></data>
+  <data name="Project not found." xml:space="preserve"><value>No se encontró el proyecto.</value></data>
+  <data name="You do not have permission to edit this team." xml:space="preserve"><value>No tienes permiso para editar este equipo.</value></data>
+  <data name="Choose at least one file." xml:space="preserve"><value>Elige al menos un archivo.</value></data>
+  <data name="“{0}” is not an allowed file type." xml:space="preserve"><value>«{0}» no es un tipo de archivo permitido.</value></data>
+  <data name="“{0}” is larger than 25 MB." xml:space="preserve"><value>«{0}» supera los 25 MB.</value></data>
+  <data name="Document not found." xml:space="preserve"><value>No se encontró el documento.</value></data>
+  <data name="Write a message first." xml:space="preserve"><value>Escribe primero un mensaje.</value></data>
+  <data name="Thread not found." xml:space="preserve"><value>No se encontró el hilo.</value></data>
+  <data name="The channel needs a title." xml:space="preserve"><value>El canal necesita un título.</value></data>
+  <data name="Managers can open a project or team channel from a project page." xml:space="preserve"><value>Los responsables pueden abrir un canal de proyecto o de equipo desde la página del proyecto.</value></data>
+  <data name="Use a PNG, JPEG or GIF image." xml:space="preserve"><value>Usa una imagen PNG, JPEG o GIF.</value></data>
+  <data name="The image must be 2 MB or smaller." xml:space="preserve"><value>La imagen debe pesar 2 MB o menos.</value></data>
+  <data name="Enter a valid email address." xml:space="preserve"><value>Introduce una dirección de correo válida.</value></data>
+  <data name="Enter the SMTP server." xml:space="preserve"><value>Introduce el servidor SMTP.</value></data>
+  <data name="The sprint needs a name." xml:space="preserve"><value>El sprint necesita un nombre.</value></data>
+  <data name="The end date must be after the start date." xml:space="preserve"><value>La fecha de fin debe ser posterior a la de inicio.</value></data>
+  <data name="Sprint not found." xml:space="preserve"><value>No se encontró el sprint.</value></data>
+  <data name="Enter the person&#39;s name." xml:space="preserve"><value>Introduce el nombre de la persona.</value></data>
+  <data name="That email already belongs to a member." xml:space="preserve"><value>Ese correo ya pertenece a un miembro.</value></data>
+  <data name="Member not found." xml:space="preserve"><value>No se encontró el miembro.</value></data>
+  <data name="The name is required." xml:space="preserve"><value>El nombre es obligatorio.</value></data>
+  <data name="The project needs a name." xml:space="preserve"><value>El proyecto necesita un nombre.</value></data>
+  <data name="We could not find an account with that email." xml:space="preserve"><value>No encontramos ninguna cuenta con ese correo.</value></data>
+  <data name="Too many attempts. Try again in 15 minutes." xml:space="preserve"><value>Demasiados intentos. Vuelve a intentarlo en 15 minutos.</value></data>
+  <data name="The password is not correct." xml:space="preserve"><value>La contraseña no es correcta.</value></data>
+  <data name="That reset link is not valid anymore." xml:space="preserve"><value>Ese enlace de restablecimiento ya no es válido.</value></data>
+  <data name="Tell us your name." xml:space="preserve"><value>Dinos tu nombre.</value></data>
+  <data name="Password updated. Sign in with your new password." xml:space="preserve"><value>Contraseña actualizada. Inicia sesión con tu nueva contraseña.</value></data>
+  <data name="{0} has {1}h free in that range and already has {2}h booked." xml:space="preserve"><value>{0} tiene {1} h libres en ese periodo y ya tiene {2} h reservadas.</value></data>
+  <data name="Task created" xml:space="preserve"><value>Tarea creada</value></data>
+  <data name="Task updated" xml:space="preserve"><value>Tarea actualizada</value></data>
+  <data name="Task deleted" xml:space="preserve"><value>Tarea eliminada</value></data>
+  <data name="Task moved" xml:space="preserve"><value>Tarea movida</value></data>
+  <data name="Task approved" xml:space="preserve"><value>Tarea aprobada</value></data>
+  <data name="Task assigned" xml:space="preserve"><value>Tarea asignada</value></data>
+  <data name="Task left unassigned" xml:space="preserve"><value>Tarea sin asignar</value></data>
+  <data name="Subtask added" xml:space="preserve"><value>Subtarea añadida</value></data>
+  <data name="The task could not be deleted." xml:space="preserve"><value>No se pudo eliminar la tarea.</value></data>
+  <data name="The task cannot move yet." xml:space="preserve"><value>La tarea aún no puede moverse.</value></data>
+  <data name="The task cannot be approved." xml:space="preserve"><value>La tarea no puede aprobarse.</value></data>
+  <data name="The task could not be assigned." xml:space="preserve"><value>No se pudo asignar la tarea.</value></data>
+  <data name="The subtask could not be created." xml:space="preserve"><value>No se pudo crear la subtarea.</value></data>
+  <data name="The step could not be added." xml:space="preserve"><value>No se pudo añadir el paso.</value></data>
+  <data name="The team could not be saved." xml:space="preserve"><value>No se pudo guardar el equipo.</value></data>
+  <data name="Team updated" xml:space="preserve"><value>Equipo actualizado</value></data>
+  <data name="The files could not be uploaded." xml:space="preserve"><value>No se pudieron subir los archivos.</value></data>
+  <data name="Documents uploaded" xml:space="preserve"><value>Documentos subidos</value></data>
+  <data name="The document could not be deleted." xml:space="preserve"><value>No se pudo eliminar el documento.</value></data>
+  <data name="Document deleted" xml:space="preserve"><value>Documento eliminado</value></data>
+  <data name="The end time must be after the start time." xml:space="preserve"><value>La hora de fin debe ser posterior a la de inicio.</value></data>
+  <data name="The event could not be created." xml:space="preserve"><value>No se pudo crear el evento.</value></data>
+  <data name="Event created" xml:space="preserve"><value>Evento creado</value></data>
+  <data name="The message could not be sent." xml:space="preserve"><value>No se pudo enviar el mensaje.</value></data>
+  <data name="The channel could not be created." xml:space="preserve"><value>No se pudo crear el canal.</value></data>
+  <data name="Channel created" xml:space="preserve"><value>Canal creado</value></data>
+  <data name="Choose an image first." xml:space="preserve"><value>Elige primero una imagen.</value></data>
+  <data name="Profile picture updated." xml:space="preserve"><value>Foto de perfil actualizada.</value></data>
+  <data name="Mailbox saved. The password is never shown again." xml:space="preserve"><value>Buzón guardado. La contraseña no se volverá a mostrar.</value></data>
+  <data name="Preferences saved." xml:space="preserve"><value>Preferencias guardadas.</value></data>
+  <data name="Sprint saved." xml:space="preserve"><value>Sprint guardado.</value></data>
+  <data name="Sprint closed." xml:space="preserve"><value>Sprint cerrado.</value></data>
+  <data name="Invitation sent." xml:space="preserve"><value>Invitación enviada.</value></data>
+  <data name="Member updated." xml:space="preserve"><value>Miembro actualizado.</value></data>
+  <data name="Project saved." xml:space="preserve"><value>Proyecto guardado.</value></data>
+  <data name="Project archived." xml:space="preserve"><value>Proyecto archivado.</value></data>
+  <data name="Timer started" xml:space="preserve"><value>Cronómetro iniciado</value></data>
+  <data name="Timer stopped" xml:space="preserve"><value>Cronómetro detenido</value></data>
+  <data name="Enter your email." xml:space="preserve"><value>Introduce tu correo.</value></data>
+  <data name="Enter your password." xml:space="preserve"><value>Introduce tu contraseña.</value></data>
+  <data name="Choose a password." xml:space="preserve"><value>Elige una contraseña.</value></data>
+  <data name="Use at least 8 characters." xml:space="preserve"><value>Usa al menos 8 caracteres.</value></data>
+  <data name="Repeat the password." xml:space="preserve"><value>Repite la contraseña.</value></data>
+  <data name="The passwords do not match." xml:space="preserve"><value>Las contraseñas no coinciden.</value></data>
+  <data name="Enter the invitation code." xml:space="preserve"><value>Introduce el código de invitación.</value></data>
+  <data name="The {0} field is required." xml:space="preserve"><value>El campo {0} es obligatorio.</value></data>
+  <data name="Passwords must be at least 8 characters." xml:space="preserve"><value>Las contraseñas deben tener al menos 8 caracteres.</value></data>
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve"><value>Las contraseñas deben tener al menos un carácter no alfanumérico.</value></data>
+  <data name="Passwords must have at least one digit (&#39;0&#39;-&#39;9&#39;)." xml:space="preserve"><value>Las contraseñas deben tener al menos un dígito ('0'-'9').</value></data>
+  <data name="Passwords must have at least one uppercase (&#39;A&#39;-&#39;Z&#39;)." xml:space="preserve"><value>Las contraseñas deben tener al menos una mayúscula ('A'-'Z').</value></data>
+  <data name="Passwords must have at least one lowercase (&#39;a&#39;-&#39;z&#39;)." xml:space="preserve"><value>Las contraseñas deben tener al menos una minúscula ('a'-'z').</value></data>
+  <data name="Incorrect password." xml:space="preserve"><value>Contraseña incorrecta.</value></data>
+  <data name="Invalid token." xml:space="preserve"><value>Token no válido.</value></data>
+  <data name="Login.EmailPlaceholder" xml:space="preserve"><value>usuario@empresa.com</value></data>
+  <data name="Settings.SmtpHostPlaceholder" xml:space="preserve"><value>smtp.office365.com</value></data>
 </root>

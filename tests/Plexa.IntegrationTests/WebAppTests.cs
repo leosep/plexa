@@ -85,13 +85,38 @@ public class WebAppTests : IClassFixture<PlexaWebFactory>
     {
         if (!_factory.Enabled) return;
 
-        using var client = await _factory.CreateAuthenticatedClientAsync("gerson.cabreja@dwn.com.do");
+        using var client = await _factory.CreateAuthenticatedClientAsync("alex.rivera@dwn.com.do");
 
         foreach (var path in new[] { "/admin/members", "/admin/projects", "/admin/sprints" })
         {
             var response = await client.GetAsync(path);
             response.StatusCode.Should().Be(HttpStatusCode.OK, $"{path} debe responder 200 para Admin");
         }
+    }
+
+    [Fact]
+    public async Task Culture_Switch_PersistsSpanishCulture()
+    {
+        if (!_factory.Enabled) return;
+
+        using var client = _factory.CreateAnonymousClient();
+        var loginHtml = await client.GetStringAsync("/login");
+        var token = System.Text.RegularExpressions.Regex
+            .Match(loginHtml, "name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"")
+            .Groups[1].Value;
+
+        var form = new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            ["culture"] = "es",
+            ["returnUrl"] = "/login",
+            ["__RequestVerificationToken"] = token
+        });
+        var response = await client.PostAsync("/culture", form);
+        response.StatusCode.Should().Be(HttpStatusCode.Redirect);
+
+        var spanish = await client.GetStringAsync("/login");
+        spanish.Should().Contain("lang=\"es\"");
+        spanish.Should().Contain("Correo", "la cookie plexa.culture debe aplicar la cultura española");
     }
 
     [Fact]

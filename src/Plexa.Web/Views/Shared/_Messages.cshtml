@@ -10,11 +10,11 @@
         {
             <article class="flex gap-3 @(message.IsMine ? "flex-row-reverse" : "")">
                 @await Component.InvokeAsync("Avatar", new { name = message.Author.FullName, path = message.Author.AvatarPath, size = 32 })
-                <div class="max-w-[75%]">
+                <div class="max-w-[75%] min-w-0">
                     <p class="mb-1 text-[11px] text-ink-400 @(message.IsMine ? "text-right" : "")">
                         <span class="font-medium text-ink-600">@message.Author.FullName</span> · @message.TimeLabel
                     </p>
-                    <div class="rounded-2xl px-3.5 py-2 text-sm leading-relaxed @(message.IsMine ? "bg-brand-600 text-white" : "bg-ink-100 text-ink-900")">
+                    <div class="break-words rounded-2xl px-3.5 py-2 text-sm leading-relaxed @(message.IsMine ? "bg-brand-600 text-white" : "bg-ink-100 text-ink-900")">
                         @message.Body
                     </div>
                 </div>

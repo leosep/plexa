@@ -8,7 +8,7 @@
     }
     else
     {
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto [contain:paint]">
             <table class="plx-table min-w-[52rem]">
                 <caption class="sr-only">@L["Projects.Title"]</caption>
                 <thead>
@@ -51,7 +51,7 @@
                                 }
                             </td>
                             <td>
-                                <span class="plx-chip @(project.Status == ProjectStatus.AtRisk ? "bg-danger-100 text-danger-500" : project.Status == ProjectStatus.Completed ? "bg-brand-50 text-brand-700" : "bg-ink-100 text-ink-600")">@project.StatusLabel</span>
+                                <span class="plx-chip @(project.Status == ProjectStatus.AtRisk ? "bg-danger-100 text-danger-500" : project.Status == ProjectStatus.Completed ? "bg-brand-50 text-brand-700" : "bg-ink-100 text-ink-600")">@L.Label(project.StatusLabel)</span>
                             </td>
                             <td class="w-40">
                                 <div class="flex items-center gap-2">

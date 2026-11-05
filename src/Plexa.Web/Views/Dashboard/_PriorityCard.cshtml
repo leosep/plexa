@@ -8,7 +8,7 @@
         [TaskPriority.Low] = "#9AA3AF"
     };
     var data = string.Join(",", Model.Priorities.Select(p => p.Count));
-    var labels = string.Join(",", Model.Priorities.Select(p => $"\"{p.Label}\""));
+    var labels = string.Join(",", Model.Priorities.Select(p => $"\"{L.Label(p.Label)}\""));
     var palette = string.Join(",", Model.Priorities.Select(p => $"\"{colors[p.Priority]}\""));
 }
 <div class="mt-4 flex items-center gap-4">
@@ -28,7 +28,7 @@
             {
                 <tr>
                     <th scope="row" class="py-1 text-left font-normal">
-                        <span class="mr-1.5 inline-block size-2 rounded-full" style="background:@colors[item.Priority]" aria-hidden="true"></span>@item.Label
+                        <span class="mr-1.5 inline-block size-2 rounded-full" style="background:@colors[item.Priority]" aria-hidden="true"></span>@L.Label(item.Label)
                     </th>
                     <td class="py-1 text-right tabular-nums text-ink-600">@item.Count</td>
                 </tr>

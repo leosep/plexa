@@ -8,7 +8,7 @@
         <thead>
             <tr class="text-ink-400">
                 <th scope="col" class="w-14"></th>
-                @foreach (var day in new[] { "M", "T", "W", "T", "F", "S", "S" })
+                @foreach (var day in CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames.Skip(1).Concat(CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames.Take(1)).Select(d => d[..1]))
                 {
                     <th scope="col" class="text-center font-medium">@day</th>
                 }
@@ -18,7 +18,7 @@
             @foreach (var week in Model.Heatmap)
             {
                 <tr>
-                    <th scope="row" class="pr-1 text-right font-medium text-ink-400">@week.Label</th>
+                    <th scope="row" class="pr-1 text-right font-medium text-ink-400">@L.Label(week.Label)</th>
                     @foreach (var value in week.Days)
                     {
                         var level = max == 0 ? 0 : (int)Math.Ceiling(value * 4d / max);

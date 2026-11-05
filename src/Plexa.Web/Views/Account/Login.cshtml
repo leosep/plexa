@@ -11,7 +11,7 @@
 
 @if (TempData["Toast"] is string toast)
 {
-    <div class="mb-4 rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@toast</div>
+    <div class="mb-4 rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@L.Message(toast)</div>
 }
 
 <form method="post" action="/login" class="space-y-4" novalidate>
@@ -22,7 +22,7 @@
 
     <div>
         <label asp-for="Email" class="plx-label">@L["Login.Email"]</label>
-        <input asp-for="Email" type="email" autocomplete="email" placeholder="user@company.com" class="plx-input" autofocus />
+        <input asp-for="Email" type="email" autocomplete="email" placeholder="@L["Login.EmailPlaceholder"]" class="plx-input" autofocus />
         <span asp-validation-for="Email" class="mt-1 block text-xs text-danger-500"></span>
     </div>
 
@@ -34,7 +34,7 @@
         <div class="relative">
             <input asp-for="Password" :type="show ? 'text' : 'password'" autocomplete="current-password" placeholder="••••••••" class="plx-input pr-10" />
             <button type="button" @@click="show = !show" class="absolute right-1.5 top-1.5 grid size-7 place-items-center rounded-lg text-ink-400 hover:bg-ink-100 hover:text-ink-900"
-                    :aria-label="show ? '@L["Login.HidePassword"]' : '@L["Login.ShowPassword"]'" :aria-pressed="show">
+                    aria-label="@L["Login.ShowPassword"]" :aria-label="show ? '@L["Login.HidePassword"]' : '@L["Login.ShowPassword"]'" :aria-pressed="show">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="size-4" aria-hidden="true">
                     <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
                     <circle cx="12" cy="12" r="3" />
@@ -53,5 +53,10 @@
 </form>
 
 <p class="mt-6 text-center text-xs text-ink-400">
-    @L["Login.DemoHint"] <span class="font-medium text-ink-600">lsepulveda@dwn.com.do</span> · <span class="font-medium text-ink-600">Plexa123$</span>
+    @L["Login.DemoHint"] <span class="font-medium text-ink-600">marta.gomez@dwn.com.do</span> · <span class="font-medium text-ink-600">Plexa123$</span>
+</p>
+
+<p class="mt-2 text-center text-xs text-ink-600">
+    @L["Login.NoAccount"]
+    <a href="/invitations" class="font-medium text-brand-700 hover:underline">@L["Login.Invitation"]</a>
 </p>

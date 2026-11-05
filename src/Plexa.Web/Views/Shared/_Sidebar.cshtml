@@ -1,6 +1,8 @@
+@inject IWorkspaceService Workspace
 @{
     var path = Context.Request.Path.Value ?? "/";
     string Active(string prefix) => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ? "is-active" : string.Empty;
+    var workspace = await Workspace.GetSidebarAsync(Context.RequestAborted);
     var items = new (string Href, string Key, string Icon)[]
     {
         ("/dashboard", "Nav.Dashboard", "grid"),
@@ -18,7 +20,7 @@
     <div class="flex h-16 items-center gap-2 border-b border-ink-200 px-4">
         <img src="/img/logo.svg" alt="" class="size-8" />
         <div class="min-w-0">
-            <p class="truncate text-sm font-semibold leading-4">Grupo Dominican Watchman</p>
+            <p class="truncate text-sm font-semibold leading-4">@workspace.Name</p>
             <p class="text-[11px] text-ink-400">@L["Nav.Workspace"]</p>
         </div>
     </div>
@@ -40,11 +42,27 @@
         <div>
             <p class="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-ink-400">@L["Nav.ActiveSprint"]</p>
             <div class="rounded-xl bg-ink-100 p-3">
-                <p class="text-sm font-medium text-ink-600">@L["Nav.NoActiveSprint"]</p>
-                <p class="mt-1 text-xs text-ink-400">@L["Nav.SprintHint"]</p>
-                @if (User.IsInRole("Admin"))
+                @if (workspace.HasSprint)
                 {
-                    <a href="/admin/sprints" class="mt-2 inline-flex text-xs font-medium text-brand-700 hover:underline">@L["Nav.ManageSprints"]</a>
+                    <p class="text-sm font-medium text-ink-900">@workspace.SprintName</p>
+                    <p class="mt-0.5 text-xs text-ink-400">@workspace.SprintRange</p>
+                    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-white" role="img"
+                         aria-label="@($"{workspace.CommittedPoints}/{workspace.CapacityPoints}")">
+                        @{
+                            var pct = workspace.CapacityPoints <= 0 ? 0 : Math.Min(100, (int)Math.Round(workspace.CommittedPoints * 100d / workspace.CapacityPoints));
+                        }
+                        <div class="h-full rounded-full bg-brand-600" style="width:@(pct)%"></div>
+                    </div>
+                    <p class="mt-1.5 text-[11px] text-ink-400">@string.Format(L["Nav.SprintPoints"].Value, workspace.CommittedPoints, workspace.CapacityPoints) · @string.Format(L["Nav.SprintDaysLeft"].Value, workspace.DaysLeft)</p>
+                }
+                else
+                {
+                    <p class="text-sm font-medium text-ink-600">@L["Nav.NoActiveSprint"]</p>
+                    <p class="mt-1 text-xs text-ink-400">@L["Nav.SprintHint"]</p>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a href="/admin/sprints" class="mt-2 inline-flex text-xs font-medium text-brand-700 hover:underline">@L["Nav.ManageSprints"]</a>
+                    }
                 }
             </div>
         </div>

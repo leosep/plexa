@@ -18,11 +18,11 @@
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <div>
             <p class="plx-label">@L["Task.Status"]</p>
-            <p class="text-sm font-medium">@Model.StatusLabel</p>
+            <p class="text-sm font-medium">@L.Label(Model.StatusLabel)</p>
         </div>
         <div>
             <p class="plx-label">@L["Task.Priority"]</p>
-            <p class="text-sm font-medium">@Model.PriorityLabel</p>
+            <p class="text-sm font-medium">@L.Label(Model.PriorityLabel)</p>
         </div>
         <div>
             <p class="plx-label">@L["Task.Estimate"]</p>
@@ -55,7 +55,7 @@
             <span class="font-medium">@L["Task.Progress"]</span>
             <span class="tabular-nums text-ink-600">@Model.ProgressPct%</span>
         </div>
-        <div class="h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@($"{Model.ProgressPct}% complete")">
+        <div class="h-2 overflow-hidden rounded-full bg-ink-100" role="img" aria-label="@string.Format(L["Task.ProgressAria"].Value, Model.ProgressPct)">
             <div class="h-full rounded-full bg-brand-500" style="width:@Model.ProgressPct%"></div>
         </div>
         @if (Model.EstimateHours > 0)
@@ -188,7 +188,7 @@
                                     <select id="subtask-move-@subtask.Id" name="status" class="rounded-lg bg-ink-100 px-2 py-1 text-xs font-medium text-ink-600">
                                         @foreach (var status in statuses)
                                         {
-                                            <option value="@status" selected="@(status == subtask.Status)">@StatusLabels.Of(status)</option>
+                                            <option value="@status" selected="@(status == subtask.Status)">@L.Label(StatusLabels.Of(status))</option>
                                         }
                                     </select>
                                 </form>

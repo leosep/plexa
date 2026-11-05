@@ -14,7 +14,7 @@ public sealed record PrioritySlice(TaskPriority Priority, string Label, int Coun
 
 public sealed record DashboardDto(
     string Greeting,
-    string ContextLine,
+    IReadOnlyList<string> ContextItems,
     IReadOnlyList<KpiCard> Kpis,
     IReadOnlyList<StatusSlice> StatusDistribution,
     int BacklogCount,

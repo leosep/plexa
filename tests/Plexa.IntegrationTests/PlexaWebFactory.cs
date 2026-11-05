@@ -69,7 +69,7 @@ public sealed class PlexaWebFactory : WebApplicationFactory<Program>, IAsyncLife
         CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
     public async Task<HttpClient> CreateAuthenticatedClientAsync(
-        string email = "lsepulveda@dwn.com.do",
+        string email = "marta.gomez@dwn.com.do",
         bool allowAutoRedirect = false)
     {
         var client = CreateClient(new WebApplicationFactoryClientOptions

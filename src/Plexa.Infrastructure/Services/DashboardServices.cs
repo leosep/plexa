@@ -239,12 +239,12 @@ public sealed class DashboardService : ServiceBase, IDashboardService
 
         var trend = closedPrevWeek <= 0
             ? (closedThisWeek > 0 ? "▲ +100% vs prev. week" : "— vs prev. week")
-            : $"{(closedThisWeek >= closedPrevWeek ? "▲ +" : "▼ ")}{Math.Round((closedThisWeek - closedPrevWeek) * 100m / closedPrevWeek, 0)}% vs prev. week";
+            : $"{(closedThisWeek >= closedPrevWeek ? "▲ +" : "▼ ")}{{0}}% vs prev. week|{Math.Round((closedThisWeek - closedPrevWeek) * 100m / closedPrevWeek, 0)}";
 
         var kpis = new List<KpiCard>
         {
-            KpiCard.Neutral("Active tasks", activeTasks.ToString(), $"{dueToday} due today"),
-            KpiCard.Success("Completed this sprint", $"{completed} / {tasks.Count}", tasks.Count == 0 ? "0% of sprint" : $"{Math.Round(completed * 100d / tasks.Count)}% of sprint"),
+            KpiCard.Neutral("Active tasks", activeTasks.ToString(), $"{{0}} due today|{dueToday}"),
+            KpiCard.Success("Completed this sprint", $"{completed} / {tasks.Count}", $"{{0}}% of sprint|{Math.Round(completed * 100d / tasks.Count)}"),
             KpiCard.Neutral("Hours closed (7d)", DurationFormatter.FormatShort(TimeSpan.FromHours((double)closedThisWeek)), null, trend),
             overdue > 0 ? KpiCard.Danger("Overdue", overdue.ToString(), "Needs attention") : KpiCard.Success("Overdue", "0", "On track")
         };
@@ -272,18 +272,18 @@ public sealed class DashboardService : ServiceBase, IDashboardService
         var greeting = GreetingFor(Clock.UtcNow.ToLocalTime().Hour, User.FullName);
         var context = new List<string>
         {
-            activeSprint is null ? "No active sprint." : $"Sprint “{activeSprint.Name}” is active."
+            activeSprint is null ? "No active sprint." : $"Sprint “{{0}}” is active.|{activeSprint.Name}"
         };
         if (overdue > 0)
         {
-            context.Add($"{overdue} tasks are past their deadline.");
+            context.Add($"{{0}} tasks are past their deadline.|{overdue}");
         }
 
-        context.Add(today.ToString("ddd dd MMM", System.Globalization.CultureInfo.GetCultureInfo("en-US")));
+        context.Add(today.ToString("ddd dd MMM", System.Globalization.CultureInfo.CurrentCulture));
 
         return new DashboardDto(
             greeting,
-            string.Join(" ", context),
+            context,
             kpis,
             distribution,
             tasks.Count,
@@ -293,7 +293,7 @@ public sealed class DashboardService : ServiceBase, IDashboardService
             openTasks.Count,
             tracked,
             workload,
-            today.ToString("ddd dd MMM", System.Globalization.CultureInfo.GetCultureInfo("en-US")));
+            today.ToString("ddd dd MMM", System.Globalization.CultureInfo.CurrentCulture));
     }
 
     private async Task<IReadOnlyList<HeatmapWeek>> BuildHeatmapAsync(CancellationToken ct)
@@ -330,6 +330,6 @@ public sealed class DashboardService : ServiceBase, IDashboardService
     private static string GreetingFor(int hour, string fullName)
     {
         var part = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
-        return $"{part}, {fullName}";
+        return $"{part}, {{0}}|{fullName}";
     }
 }

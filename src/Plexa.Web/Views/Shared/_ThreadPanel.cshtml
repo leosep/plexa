@@ -2,7 +2,7 @@
 @{
     var thread = Model.Thread;
 }
-<section id="thread-panel" class="plx-card flex min-h-[70vh] flex-col" aria-labelledby="thread-title">
+<section id="thread-panel" class="plx-card flex min-h-[70vh] min-w-0 flex-col" aria-labelledby="thread-title">
     @if (thread is null)
     {
         <div class="grid flex-1 place-items-center p-8 text-center">
@@ -18,7 +18,7 @@
             <div class="min-w-0">
                 <h2 id="thread-title" class="truncate text-base font-semibold">@thread.Title</h2>
                 <p class="truncate text-xs text-ink-400">
-                    @thread.ScopeLabel
+                    @L.Label(thread.ScopeLabel)
                     @if (!string.IsNullOrWhiteSpace(thread.ProjectLabel))
                     {
                         <span>· @thread.ProjectLabel</span>
@@ -36,7 +36,7 @@
                 @Html.AntiForgeryToken()
                 <label for="message-body" class="sr-only">@L["Messages.WriteMessage"]</label>
                 <div class="flex items-end gap-2">
-                    <textarea id="message-body" name="body" rows="2" required maxlength="4000" class="plx-input resize-y"
+                    <textarea id="message-body" name="body" rows="2" required maxlength="4000" class="plx-input min-w-0 flex-1 resize-y"
                               placeholder="@L["Messages.WriteMessage"]"></textarea>
                     <button type="submit" class="plx-btn-primary">@L["Messages.Send"]</button>
                 </div>

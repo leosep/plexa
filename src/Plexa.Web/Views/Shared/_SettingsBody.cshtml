@@ -8,11 +8,11 @@
 <div id="settings-body" class="space-y-4">
     @if (!string.IsNullOrWhiteSpace(Model.Success))
     {
-        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@Model.Success</div>
+        <div class="rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-700" role="status">@L.Message(Model.Success)</div>
     }
     @if (!string.IsNullOrWhiteSpace(Model.Error))
     {
-        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@Model.Error</div>
+        <div class="rounded-xl bg-danger-100 px-3 py-2 text-sm text-danger-500" role="alert">@L.Message(Model.Error)</div>
     }
 
     @if (Model.Section == "preferences")
@@ -70,7 +70,7 @@
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div>
                         <label for="mailbox-host" class="plx-label">@L["Settings.SmtpHost"]</label>
-                        <input id="mailbox-host" name="SmtpHost" value="@Model.Mailbox.SmtpHost" class="plx-input" placeholder="smtp.office365.com" />
+                        <input id="mailbox-host" name="SmtpHost" value="@Model.Mailbox.SmtpHost" class="plx-input" placeholder="@L["Settings.SmtpHostPlaceholder"]" />
                     </div>
                     <div>
                         <label for="mailbox-port" class="plx-label">@L["Settings.SmtpPort"]</label>

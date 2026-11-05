@@ -306,11 +306,6 @@ public sealed class BoardController : Controller
 
     private async Task<IActionResult> FormErrorAsync(TaskFormModel form, string? error, CancellationToken ct)
     {
-        if (!string.IsNullOrWhiteSpace(error))
-        {
-            ModelState.AddModelError(string.Empty, error);
-        }
-
         var options = await _tasks.GetFormOptionsAsync(form.Id, form.ProjectId, ct);
         Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
         return PartialView("_TaskFormModal", new TaskFormViewModel

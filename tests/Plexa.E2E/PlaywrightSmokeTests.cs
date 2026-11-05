@@ -10,7 +10,7 @@ namespace Plexa.E2E;
 /// </summary>
 public sealed class PlaywrightSmokeTests : IAsyncLifetime
 {
-    private const string DemoEmail = "lsepulveda@dwn.com.do";
+    private const string DemoEmail = "marta.gomez@dwn.com.do";
     private const string DemoPassword = "Plexa123$";
 
     private readonly string? _baseUrl = Environment.GetEnvironmentVariable("E2E__BaseUrl");

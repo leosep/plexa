@@ -3,6 +3,8 @@
   "use strict";
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const i18n = window.plexaI18n || {};
+  const t = (key, fallback) => i18n[key] || fallback;
 
   /* ---------------------------------- Toasts --------------------------------- */
   function toastContainer() {
@@ -31,8 +33,8 @@
     el.innerHTML = `
       <span class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-ink-100 text-xs font-semibold">${icons[type] || "i"}</span>
       <p class="flex-1 text-sm">${escapeHtml(message)}</p>
-      ${undoUrl ? `<a href="${undoUrl}" class="text-sm font-medium text-brand-700 underline">Undo</a>` : ""}
-      <button type="button" class="text-ink-400 hover:text-ink-900" aria-label="Dismiss">×</button>`;
+      ${undoUrl ? `<a href="${undoUrl}" class="text-sm font-medium text-brand-700 underline">${escapeHtml(t("undo", "Undo"))}</a>` : ""}
+      <button type="button" class="text-ink-400 hover:text-ink-900" aria-label="${escapeHtml(t("dismiss", "Dismiss"))}">×</button>`;
     el.querySelector("button").addEventListener("click", () => el.remove());
     toastContainer().appendChild(el);
     window.setTimeout(() => {
@@ -130,7 +132,7 @@
       }
     } else if (event.key === "?") {
       event.preventDefault();
-      showToast("info", "Shortcuts: / search · N new task · Esc close · ? help");
+      showToast("info", t("shortcuts", "Shortcuts: / search · N new task · Esc close · ? help"));
     }
   });
 
@@ -202,14 +204,14 @@
           if (this.running) {
             this.seconds = 0;
             this.startTicking();
-            showToast("success", "Timer started");
+            showToast("success", t("timerStarted", "Timer started"));
           } else {
             this.stopTicking();
-            showToast("success", "Timer stopped");
+            showToast("success", t("timerStopped", "Timer stopped"));
           }
           document.body.dispatchEvent(new CustomEvent("task:changed"));
         } catch (_) {
-          showToast("error", "The timer could not be updated.");
+          showToast("error", t("timerError", "The timer could not be updated."));
         } finally {
           this.busy = false;
         }
@@ -235,8 +237,33 @@
 
   document.body.addEventListener("notifications:changed", () => {
     const badge = document.getElementById("notification-badge");
-    if (badge) badge.remove();
+    if (badge) {
+      badge.textContent = "";
+      badge.hidden = true;
+    }
   });
+
+  document.body.addEventListener("calendar:changed", () => {
+    const body = document.getElementById("calendar-body");
+    if (body && window.htmx) {
+      htmx.ajax("GET", window.location.pathname + window.location.search, { target: "#calendar-body", swap: "outerHTML" });
+    }
+  });
+
+  /* ------------------------- Mensajes: autoscroll ---------------------------- */
+  function scrollMessagesToEnd() {
+    const list = document.getElementById("messages-list");
+    if (list) list.scrollTop = list.scrollHeight;
+  }
+
+  document.body.addEventListener("htmx:afterSwap", (event) => {
+    const target = event.detail.target;
+    if (target && (target.id === "thread-panel" || target.id === "messages-list")) {
+      scrollMessagesToEnd();
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", scrollMessagesToEnd);
 
   /* ------------------------------ Sondeo suave ------------------------------- */
   function poll() {

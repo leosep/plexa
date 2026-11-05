@@ -15,12 +15,12 @@
         @foreach (var kpi in Model.Kpis)
         {
             <article class="plx-card p-5">
-                <p class="text-xs font-medium uppercase tracking-wide text-ink-400">@kpi.Label</p>
+                <p class="text-xs font-medium uppercase tracking-wide text-ink-400">@L.Label(kpi.Label)</p>
                 <p class="mt-2 text-3xl font-semibold tabular-nums">@kpi.Value</p>
-                <p class="mt-1 text-xs font-medium @(kpi.Positive ? "text-brand-700" : "text-ink-600")">@kpi.Delta</p>
+                <p class="mt-1 text-xs font-medium @(kpi.Positive ? "text-brand-700" : "text-ink-600")">@L.Message(kpi.Delta)</p>
                 @if (!string.IsNullOrWhiteSpace(kpi.Hint))
                 {
-                    <p class="mt-1 text-[11px] text-ink-400">@kpi.Hint</p>
+                    <p class="mt-1 text-[11px] text-ink-400">@L.Label(kpi.Hint)</p>
                 }
             </article>
         }
@@ -42,7 +42,7 @@
                     };
                     <li class="flex items-center gap-1.5">
                         <span class="size-2 rounded-full @dot" aria-hidden="true"></span>
-                        <span class="text-ink-600">@share.Label</span>
+                        <span class="text-ink-600">@L.Label(share.Label)</span>
                         <span class="font-semibold tabular-nums">@share.Percent%</span>
                     </li>
                 }
@@ -60,7 +60,7 @@
                         WorkTaskStatus.Review => "bg-status-review",
                         _ => "bg-status-done"
                     };
-                    <div class="@bar" style="width:@share.Percent%" title="@share.Label @share.Percent%"></div>
+                    <div class="@bar" style="width:@share.Percent%" title="@L.Label(share.Label) @share.Percent%"></div>
                 }
             </div>
         </section>
@@ -100,7 +100,7 @@
                     <li class="flex items-center gap-3">
                         <span class="grid shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 font-semibold text-white"
                               style="width:@(size)px;height:@(size)px;font-size:@(Math.Max(10, size / 3))px"
-                              aria-label="@($"{member.Name}: {member.ActiveTasks} active tasks")">@member.Initials</span>
+                              aria-label="@string.Format(L["Analytics.LoadAria"].Value, member.Name, member.ActiveTasks)">@member.Initials</span>
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-medium">@member.Name</p>
                             <p class="text-xs text-ink-400">@member.ActiveTasks @L["Team.Active"]</p>
@@ -130,7 +130,7 @@
                     @foreach (var origin in Model.ReworkOrigin.Origins)
                     {
                         <li class="flex items-center justify-between gap-2">
-                            <span class="truncate text-ink-600">@origin.Label</span>
+                            <span class="truncate text-ink-600">@L.Label(origin.Label)</span>
                             <span class="tabular-nums font-medium">@origin.Count</span>
                         </li>
                     }
@@ -161,13 +161,13 @@
 
 @section Scripts {
     <script>
-        (function () {
+        document.addEventListener("DOMContentLoaded", function () {
             if (typeof Chart === "undefined") return;
             const palette = window.plexaCharts ? window.plexaCharts.palette : {};
             const flow = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
             {
                 labels = Model.CumulativeFlow.Labels,
-                series = Model.CumulativeFlow.Series.Select(s => new { label = s.Label, values = s.Values }),
+                series = Model.CumulativeFlow.Series.Select(s => new { label = L.Label(s.Label), values = s.Values }),
                 colors = Model.CumulativeFlow.Series.Select(s => s.Label switch
                 {
                     "To do" => "#C9CED6",
@@ -189,7 +189,7 @@
             }));
             const rework = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
             {
-                labels = Model.ReworkOrigin.Origins.Select(o => o.Label),
+                labels = Model.ReworkOrigin.Origins.Select(o => L.Label(o.Label)),
                 values = Model.ReworkOrigin.Origins.Select(o => o.Count)
             }));
             const velocity = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
@@ -278,6 +278,6 @@
                     options: Object.assign({}, base, { scales: { y: { beginAtZero: true } } })
                 });
             }
-        })();
+        });
     </script>
 }

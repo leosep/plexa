@@ -1,3 +1,4 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 @{
     var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
     var title = ViewData["Title"] as string ?? L["App.Name"].Value;
@@ -8,15 +9,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0AA58A" />
-    <meta name="csrf-token" content="@Html.AntiForgeryToken()" />
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
     <title>@title · @L["App.Name"]</title>
     <link rel="icon" href="/img/logo.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/Jost-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+    <script>
+        window.plexaI18n = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new Dictionary<string, string>
+        {
+            ["dismiss"] = L["Common.Dismiss"],
+            ["undo"] = L["Common.Undo"],
+            ["shortcuts"] = L["Common.Shortcuts"],
+            ["timerStarted"] = L["Toast.TimerStarted"],
+            ["timerStopped"] = L["Toast.TimerStopped"],
+            ["timerError"] = L["Error.TimerUpdate"]
+        }));
+    </script>
     <script src="/lib/htmx.min.js" defer></script>
-    <script src="/lib/alpine.min.js" defer></script>
     <script src="/lib/chart.umd.min.js" defer></script>
     <script src="/js/app.js" defer></script>
+    <script src="/lib/alpine.min.js" defer></script>
 </head>
 <body class="h-full">
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white">@L["Common.SkipToContent"]</a>

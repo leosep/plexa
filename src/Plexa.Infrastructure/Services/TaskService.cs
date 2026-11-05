@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using Plexa.Application.Abstractions;
 using Plexa.Application.Dtos;
@@ -11,8 +12,11 @@ namespace Plexa.Infrastructure.Services;
 
 public sealed class TaskService : ServiceBase, ITaskService
 {
-    public TaskService(PlexaDbContext db, IUserContext user, IClock clock) : base(db, user, clock)
+    private readonly ITranslator _t;
+
+    public TaskService(PlexaDbContext db, IUserContext user, IClock clock, ITranslator translator) : base(db, user, clock)
     {
+        _t = translator;
     }
 
     public async Task<BoardDto> GetBoardAsync(BoardQuery query, CancellationToken ct = default)
@@ -86,13 +90,13 @@ public sealed class TaskService : ServiceBase, ITaskService
         var people = users.Values.OrderBy(u => u.FullName).Select(u => u.ToPerson()).ToList();
 
         var projectLabel = query.ProjectId.HasValue
-            ? projects.FirstOrDefault(p => p.Id == query.ProjectId.Value)?.Label ?? "Project"
-            : query.LooseOnly ? "Loose tasks" : "All projects";
+            ? projects.FirstOrDefault(p => p.Id == query.ProjectId.Value)?.Label ?? _t["Project"]
+            : query.LooseOnly ? _t["Loose tasks"] : _t["All projects"];
 
-        var subtitle = $"{projectLabel} · Backlog · {tasks.Count} tasks";
+        var subtitle = _t.Format("{0} · Backlog · {1} tasks", projectLabel, tasks.Count);
         if (searching)
         {
-            subtitle += $" · matching “{query.Q!.Trim()}”";
+            subtitle += " " + _t.Format("· matching “{0}”", query.Q!.Trim());
         }
 
         var hasActiveSprint = await Db.Sprints.AnyAsync(s => s.WorkspaceId == WorkspaceId && s.Status == SprintStatus.Active, ct);
@@ -167,8 +171,8 @@ public sealed class TaskService : ServiceBase, ITaskService
             BuildSubtaskLines(task, users),
             ProgressCalculator.UnallocatedHours(task.EstimateHours, weights),
             blockers.Count > 0,
-            blockers.Select(b => $"{b.TaskTitle} · {BlockingRule.StatusLabel(b.Status)}").ToList(),
-            blockers.Count > 0 ? $"It cannot start yet; it waits for: {BlockingRule.Describe(task.Dependencies.Select(d => new Blocker(d.DependsOnTask?.Title ?? "?", d.DependsOnTask?.Status ?? WorkTaskStatus.ToDo, d.DependsOnTask?.ApprovedAt)))}" : null,
+            blockers.Select(b => $"{b.TaskTitle} · {_t[BlockingRule.StatusLabel(b.Status)]}").ToList(),
+            blockers.Count > 0 ? _t.Format("It cannot start yet; it waits for: {0}", DescribeBlockers(blockers)) : null,
             activeTimer?.TaskId == task.Id,
             activeTimer?.TaskId == task.Id ? activeTimer.StartedAt : null,
             task.Status == WorkTaskStatus.Completed && task.ApprovedAt is null,
@@ -401,7 +405,7 @@ public sealed class TaskService : ServiceBase, ITaskService
 
         if (blockers.Count > 0 && TaskTransitions.RequiresUnblocked(status))
         {
-            var message = $"It cannot start yet; it waits for: {BlockingRule.Describe(task.Dependencies.Select(d => new Blocker(d.DependsOnTask?.Title ?? "?", d.DependsOnTask?.Status ?? WorkTaskStatus.ToDo, d.DependsOnTask?.ApprovedAt)))}";
+            var message = _t.Format("It cannot start yet; it waits for: {0}", DescribeBlockers(blockers));
             return new MoveTaskResult(false, message, null, null, null);
         }
 
@@ -438,7 +442,7 @@ public sealed class TaskService : ServiceBase, ITaskService
 
         await Db.SaveChangesAsync(ct);
         var card = await GetCardAsync(taskId, ct);
-        return new MoveTaskResult(true, null, card, null, status == WorkTaskStatus.Completed ? "Task marked as completed" : $"Task moved to {StatusLabels.Of(status)}");
+        return new MoveTaskResult(true, null, card, null, status == WorkTaskStatus.Completed ? _t["Task marked as completed"] : _t.Format("Task moved to {0}", _t[StatusLabels.Of(status)]));
     }
 
     public async Task<MoveTaskResult> ApproveAsync(Guid taskId, Guid actorId, CancellationToken ct = default)
@@ -579,7 +583,11 @@ public sealed class TaskService : ServiceBase, ITaskService
 
         if (booked + hours > capacity)
         {
-            return new AvailabilityWarning($"{user.FullName} has {capacity:0.#}h free in that range and already has {booked:0.#}h booked.");
+            return new AvailabilityWarning(_t.Format(
+                "{0} has {1}h free in that range and already has {2}h booked.",
+                user.FullName,
+                capacity.ToString("0.#", CultureInfo.CurrentCulture),
+                booked.ToString("0.#", CultureInfo.CurrentCulture)));
         }
 
         return null;
@@ -661,7 +669,7 @@ public sealed class TaskService : ServiceBase, ITaskService
             task.DueDate,
             overdue,
             blockers.Count > 0,
-            blockers.Select(b => $"{b.TaskTitle} · {BlockingRule.StatusLabel(b.Status)}").ToList(),
+            blockers.Select(b => $"{b.TaskTitle} · {_t[BlockingRule.StatusLabel(b.Status)]}").ToList(),
             ProgressCalculator.Calculate(task.ProgressMode, weights, task.Status == WorkTaskStatus.Completed),
             task.Subtasks.Count(s => s.Status == WorkTaskStatus.Completed),
             task.Subtasks.Count,
@@ -712,6 +720,9 @@ public sealed class TaskService : ServiceBase, ITaskService
 
         return ids.Select(id => PersonOf(users, id)).Where(p => p is not null).Select(p => p!).ToList();
     }
+
+    private string DescribeBlockers(IReadOnlyList<Blocker> blockers) =>
+        string.Join(" · ", blockers.Select(b => $"{b.TaskTitle} · {_t[BlockingRule.StatusLabel(b.Status)]}"));
 
     private async Task<IReadOnlyList<TaskDependencyOption>> BuildDependencyOptionsAsync(Guid? taskId, IReadOnlyList<Guid> exclude, CancellationToken ct)
     {

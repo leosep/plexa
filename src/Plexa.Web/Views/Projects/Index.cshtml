@@ -34,7 +34,7 @@
                 <a href="/projects?status=@chip.Status&q=@Model.Query"
                    class="plx-chip ring-1 @(chip.Active ? "bg-brand-600 text-white ring-brand-600" : "bg-white text-ink-600 ring-ink-200 hover:bg-ink-100")"
                    aria-current="@(chip.Active ? "page" : null)">
-                    @chip.Label <span class="tabular-nums opacity-70">@chip.Count</span>
+                    @L.Label(chip.Label) <span class="tabular-nums opacity-70">@chip.Count</span>
                 </a>
             }
         </div>

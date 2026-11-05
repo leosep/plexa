@@ -10,8 +10,11 @@ namespace Plexa.Infrastructure.Services;
 
 public sealed class AnalyticsService : ServiceBase, IAnalyticsService
 {
-    public AnalyticsService(PlexaDbContext db, IUserContext user, IClock clock) : base(db, user, clock)
+    private readonly ITranslator _t;
+
+    public AnalyticsService(PlexaDbContext db, IUserContext user, IClock clock, ITranslator translator) : base(db, user, clock)
     {
+        _t = translator;
     }
 
     public async Task<AnalyticsDto> GetAsync(CancellationToken ct = default)
@@ -65,9 +68,9 @@ public sealed class AnalyticsService : ServiceBase, IAnalyticsService
         var cycleDelta = closedPrev.Count == 0 ? 0d : cycleThis - cyclePrev;
         var kpis = new List<AnalyticsKpiDto>
         {
-            new("Tasks closed", closedThis.Count.ToString(CultureInfo.InvariantCulture), $"{(closedThis.Count >= closedPrev.Count ? "▲ +" : "▼ ")}{closedDelta} vs prev. 8w", closedThis.Count >= closedPrev.Count),
-            new("Avg cycle time", $"{cycleThis:0.0}d", $"{(cycleDelta <= 0 ? "▼" : "▲")} {cycleDelta:+0.0;-0.0;0.0}d vs prev.", cycleDelta <= 0),
-            new("Rework", $"{reworkPercent}%", $"▲ +{reopened} pts", reopened == 0),
+            new("Tasks closed", closedThis.Count.ToString(CultureInfo.InvariantCulture), $"{(closedThis.Count >= closedPrev.Count ? "\u25B2 +" : "\u25BC ")}{{0}} vs prev. 8w|{closedDelta}", closedThis.Count >= closedPrev.Count),
+            new("Avg cycle time", $"{cycleThis:0.0}d", $"{(cycleDelta <= 0 ? "\u25BC" : "\u25B2")} {{0}}d vs prev.|{cycleDelta:+0.0;-0.0;0.0}", cycleDelta <= 0),
+            new("Rework", $"{reworkPercent}%", $"\u25B2 +{{0}} pts|{reopened}", reopened == 0),
             delivery,
             reliability
         };
@@ -127,7 +130,7 @@ public sealed class AnalyticsService : ServiceBase, IAnalyticsService
             }).ToList());
 
         var accuracyGroups = withBoth
-            .GroupBy(t => t.Tag ?? "None")
+            .GroupBy(t => t.Tag ?? _t["None"])
             .OrderBy(g => g.Key)
             .ToList();
 
@@ -150,7 +153,7 @@ public sealed class AnalyticsService : ServiceBase, IAnalyticsService
 
         var reworkOrigin = new ReworkOriginDto(
             reopenedQuarter.Count,
-            reopenedQuarter.GroupBy(t => t.Tag ?? "None").Select(g => (g.Key, g.Count())).ToList());
+            reopenedQuarter.GroupBy(t => t.Tag ?? _t["None"]).Select(g => (g.Key, g.Count())).ToList());
 
         var velocity = closedSprints.Count == 0
             ? new SprintVelocityDto([], [], [], true)
@@ -200,8 +203,11 @@ public sealed class AnalyticsService : ServiceBase, IAnalyticsService
 
 public sealed class CalendarService : ServiceBase, ICalendarService
 {
-    public CalendarService(PlexaDbContext db, IUserContext user, IClock clock) : base(db, user, clock)
+    private readonly ITranslator _t;
+
+    public CalendarService(PlexaDbContext db, IUserContext user, IClock clock, ITranslator translator) : base(db, user, clock)
     {
+        _t = translator;
     }
 
     public async Task<CalendarDto> GetAsync(string view, DateOnly? anchor, CancellationToken ct = default)
@@ -247,7 +253,7 @@ public sealed class CalendarService : ServiceBase, ICalendarService
         }
 
         var count = events.Count;
-        var rangeLabel = $"{start:dd MMM} – {end:dd MMM} · {count} {(count == 1 ? "event" : "events")}";
+        var rangeLabel = $"{start:dd MMM} – {end:dd MMM}";
 
         var step = normalized == "month" ? 1 : normalized == "2weeks" ? 14 : 7;
         var nextAnchor = normalized == "month" ? baseDate.AddMonths(1) : baseDate.AddDays(step);
@@ -391,7 +397,7 @@ public sealed class CalendarService : ServiceBase, ICalendarService
         return entity.Members.Any(m => m.UserId == User.UserId);
     }
 
-    private static CalendarEventDto ToDto(
+    private CalendarEventDto ToDto(
         Domain.Entities.CalendarEvent entity,
         Dictionary<Guid, Identity.ApplicationUser> users,
         Dictionary<Guid, string> departments,
@@ -407,10 +413,10 @@ public sealed class CalendarService : ServiceBase, ICalendarService
             entity.Place,
             entity.ProjectId,
             projectLabel,
-            entity.Members.Select(m => users.TryGetValue(m.UserId, out var u) ? u.FullName : "Member").ToList(),
-            entity.Departments.Select(d => departments.TryGetValue(d.DepartmentId, out var name) ? name : "Department").ToList(),
+            entity.Members.Select(m => users.TryGetValue(m.UserId, out var u) ? u.FullName : _t["Member"]).ToList(),
+            entity.Departments.Select(d => departments.TryGetValue(d.DepartmentId, out var name) ? name : _t["Department"]).ToList(),
             $"{entity.StartsAt:HH:mm} – {entity.EndsAt:HH:mm}",
-            entity.Date.ToString("dd MMM", CultureInfo.GetCultureInfo("en-US")));
+            entity.Date.ToString("dd MMM", CultureInfo.CurrentCulture));
 
     private static DateOnly StartOfWeek(DateOnly date) => date.AddDays(-(((int)date.DayOfWeek + 6) % 7));
 

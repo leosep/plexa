@@ -16,11 +16,34 @@ public static class HtmxExtensions
 
     public static void Toast(this HttpResponse response, string type, string message, string? undoUrl = null)
     {
-        var payload = JsonSerializer.Serialize(new
+        var text = response.HttpContext.Message(message);
+        var payload = new Dictionary<string, JsonElement>
         {
-            toast = new { type, message, undoUrl }
-        });
-        response.Headers["HX-Trigger"] = payload;
+            ["toast"] = JsonSerializer.SerializeToElement(new { type, message = text, undoUrl })
+        };
+
+        // Se conserva cualquier evento ya encolado (task:changed, closeModal, …): htmx solo lee una cabecera.
+        var existing = response.Headers["HX-Trigger"].ToString();
+        if (!string.IsNullOrWhiteSpace(existing))
+        {
+            try
+            {
+                var previous = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(existing);
+                if (previous is not null)
+                {
+                    foreach (var pair in previous)
+                    {
+                        payload[pair.Key] = pair.Value;
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+                // Cabecera no JSON: se descarta para no romper el toast.
+            }
+        }
+
+        response.Headers["HX-Trigger"] = JsonSerializer.Serialize(payload);
     }
 
     public static void Trigger(this HttpResponse response, string eventName, object? payload = null)

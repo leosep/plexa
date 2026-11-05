@@ -21,7 +21,7 @@
 
             <div>
                 <label for="event-title" class="plx-label">@L["Calendar.Field.Title"]</label>
-                <input id="event-title" name="Title" value="@form.Title" class="plx-input" required maxlength="160" autofocus placeholder="Client demo" />
+                <input id="event-title" name="Title" value="@form.Title" class="plx-input" required maxlength="160" autofocus placeholder="@L["Calendar.Placeholder"]" />
             </div>
 
             <div class="grid gap-4 sm:grid-cols-3">
@@ -46,7 +46,7 @@
                     <select id="event-kind" name="Kind" class="plx-input">
                         @foreach (var kind in kinds)
                         {
-                            <option value="@kind" selected="@(form.Kind == kind)">@StatusLabels.Of(kind)</option>
+                            <option value="@kind" selected="@(form.Kind == kind)">@L.Label(StatusLabels.Of(kind))</option>
                         }
                     </select>
                 </div>
@@ -55,7 +55,7 @@
                     <select id="event-place" name="Place" class="plx-input">
                         @foreach (var place in places)
                         {
-                            <option value="@(place == "No place" ? string.Empty : place)" selected="@(form.Place == place || (place == "No place" && string.IsNullOrWhiteSpace(form.Place)))">@place</option>
+                            <option value="@(place == "No place" ? string.Empty : place)" selected="@(form.Place == place || (place == "No place" && string.IsNullOrWhiteSpace(form.Place)))">@L.Label(place)</option>
                         }
                     </select>
                 </div>

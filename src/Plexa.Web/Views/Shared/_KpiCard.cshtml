@@ -14,14 +14,14 @@
     };
 }
 <article class="plx-card p-5 ring-1 @ring">
-    <p class="text-xs font-medium uppercase tracking-wide text-ink-400">@Model.Label</p>
+    <p class="text-xs font-medium uppercase tracking-wide text-ink-400">@L.Label(Model.Label)</p>
     <p class="mt-2 text-3xl font-semibold tabular-nums @tone">@Model.Value</p>
     @if (!string.IsNullOrWhiteSpace(Model.Context))
     {
-        <p class="mt-1 text-sm text-ink-600">@Model.Context</p>
+        <p class="mt-1 text-sm text-ink-600">@L.Message(Model.Context)</p>
     }
     @if (!string.IsNullOrWhiteSpace(Model.Trend))
     {
-        <p class="mt-2 text-xs font-medium @tone">@Model.Trend</p>
+        <p class="mt-2 text-xs font-medium @tone">@L.Message(Model.Trend)</p>
     }
 </article>

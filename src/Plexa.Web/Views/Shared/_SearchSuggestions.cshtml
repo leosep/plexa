@@ -14,10 +14,10 @@ else
                         <span class="block truncate font-medium">@hit.Title</span>
                         @if (!string.IsNullOrWhiteSpace(hit.Context))
                         {
-                            <span class="block truncate text-xs text-ink-400">@hit.Context</span>
+                            <span class="block truncate text-xs text-ink-400">@L.Label(hit.Context)</span>
                         }
                     </span>
-                    <span class="plx-chip shrink-0 bg-ink-100 text-[10px] uppercase tracking-wide text-ink-600">@hit.Type</span>
+                    <span class="plx-chip shrink-0 bg-ink-100 text-[10px] uppercase tracking-wide text-ink-600">@L.Label(hit.Type)</span>
                 </a>
             </li>
         }
