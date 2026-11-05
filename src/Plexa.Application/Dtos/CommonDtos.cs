@@ -106,6 +106,6 @@ public static class Tags
 {
     public static readonly IReadOnlyList<string> All =
     [
-        "Backend", "Base de datos", "Diseño", "Frontend", "Investigación", "QA", "Rendimiento"
+        "Backend", "Database", "Design", "Frontend", "Research", "QA", "Performance"
     ];
 }
